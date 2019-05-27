@@ -5,7 +5,7 @@ const api = {
   role: '/role',
   service: '/service',
   permission: '/permission',
-  permissionNoPager: '/permission/no-pager',
+  permissionAll: '/permission/all',
   orgTree: '/org/tree'
 }
 
@@ -13,7 +13,7 @@ export default api
 
 export function getUserList (parameter) {
   return axios({
-    url: api.user,
+    url: api.user + '/list',
     method: 'get',
     params: parameter
   })
@@ -21,9 +21,15 @@ export function getUserList (parameter) {
 
 export function getRoleList (parameter) {
   return axios({
-    url: api.role,
+    url: api.role + '/list',
     method: 'get',
     params: parameter
+  })
+}
+export function getRoleAll () {
+  return axios({
+    url: api.role + '/all',
+    method: 'get'
   })
 }
 
@@ -35,9 +41,16 @@ export function getServiceList (parameter) {
   })
 }
 
+export function getPermissionAll (parameter) {
+  return axios({
+    url: api.permissionAll,
+    method: 'get',
+    params: parameter
+  })
+}
 export function getPermissions (parameter) {
   return axios({
-    url: api.permissionNoPager,
+    url: api.permission + '/list',
     method: 'get',
     params: parameter
   })

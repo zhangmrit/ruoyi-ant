@@ -5,7 +5,6 @@ import store from './store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import notification from 'ant-design-vue/es/notification'
-import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -14,7 +13,7 @@ const whiteList = ['login', 'register', 'registerResult'] // no redirect whiteli
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
+
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
     if (to.path === '/user/login') {
@@ -22,13 +21,12 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
-        store
-          .dispatch('GetInfo')
-          .then(res => {
-            const roles = res.result && res.result.role
-            store.dispatch('GenerateRoutes', { roles }).then(() => {
-              // 根据roles权限生成可访问的路由表
-              // 动态添加可访问路由表
+        store.dispatch('GetInfo')
+          .then(() => {
+            console.log('getinfo')
+            // 调用 vuex 的 从后端获取用户的路由菜单，动态添加可访问路由表
+            store.dispatch('GenerateRoutes').then(() => {
+              // 把已获取到的路由菜单加入到路由表中
               router.addRoutes(store.getters.addRouters)
               const redirect = decodeURIComponent(from.query.redirect || to.path)
               if (to.path === redirect) {
@@ -67,3 +65,38 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   NProgress.done() // finish progress bar
 })
+
+/**
+ * has 权限指令
+ * 指令用法：参看shiro
+ *    <a-button v-has="'user:add'" >添加用户</a-button>
+ *    <a-button v-has="'user:edit'">删除用户</a-button>
+ *    <a v-has="'user:del'" @click="edit(record)">修改</a>
+ */
+const has = Vue.directive('has', {
+  bind: function (el, binding, vnode) {
+    if (!Vue.prototype.$_has(binding.value)) {
+      el.parentNode && el.parentNode.removeChild(el) || (el.style.display = 'none')
+    }
+  }
+})
+// 权限检查方法
+Vue.prototype.$_has = function (value) {
+  // 获取用户按钮权限
+  let isExist = false
+  const dynamicButtons = store.getters.buttons
+  if (dynamicButtons === undefined || dynamicButtons === null || dynamicButtons.length < 1) {
+    return isExist
+  }
+  dynamicButtons.forEach(button => {
+    if (button === value) {
+      isExist = true
+      return isExist
+    }
+  })
+  // return isExist
+  return true
+}
+export {
+  has
+}

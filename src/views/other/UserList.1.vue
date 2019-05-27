@@ -27,18 +27,16 @@
       </a-form>
     </div>
     <div class="table-operator">
-      <!-- <a-button type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
-      <a-dropdown v-if="selectedRowKeys.length > 0"> -->
-      <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
-      <a-dropdown v-has="'user:edit'" v-if="selectedRowKeys.length > 0">
-        <!-- <a-menu slot="overlay">
+      <a-button type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
+      <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
+        <a-menu slot="overlay">
           <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+          <!-- lock | unlock -->
           <a-menu-item key="2"><a-icon type="lock" />禁用</a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
           批量操作 <a-icon type="down" />
-        </a-button> -->
-        <a-button type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
+        </a-button>
       </a-dropdown>
     </div>
     <s-table
@@ -49,28 +47,93 @@
       :columns="columns"
       :data="loadData"
     >
-      <span slot="status" slot-scope="text,record">
-        <a-switch :checked="record.status==1" @change="onChangeStatus(record)"/>
-      </span>
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a @click="delByIds(record.id)">删除</a>
+        <a @click="handleEdit(record)">禁用</a>
+        <a-divider type="vertical" />
+        <a @click="handleEdit(record)">删除</a>
       </span>
     </s-table>
-    <user-modal ref="modal" @ok="handleOk" />
+    <a-modal
+      title="操作"
+      style="top: 20px;"
+      :width="900"
+      v-model="visible"
+      @ok="handleOk"
+    >
+      <a-form :form="form">
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="用户名"
+        >
+          <a-input placeholder="用户名" v-decorator="['username']" id="no" disabled="disabled" />
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="昵称"
+        >
+          <a-input
+            v-decorator="[
+              'nickname',
+              {
+                rules: [{ required: true, message: '请输入昵称' }]
+              }
+            ]"
+            placeholder="起一个名字"/>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="状态"
+        >
+          <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
+            <a-select-option :value="1">正常</a-select-option>
+            <a-select-option :value="2">禁用</a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="描述"
+        >
+          <a-textarea :rows="5" placeholder="..." v-decorator="['describe', {rules: [{ required: true }]}]"/>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="拥有角色"
+          hasFeedback
+        >
+          <a-select
+            style="width: 100%"
+            mode="multiple"
+            v-decorator="['roles', {rules: [{ required: true, message: '请选择角色' }]}]"
+            :allowClear="true"
+          >
+            <a-select-option v-for="(action) in roleAll" :key="action.id" >{{ action.name }}</a-select-option>
+          </a-select>
+        </a-form-item>
+
+      </a-form>
+    </a-modal>
   </a-card>
 </template>
 
 <script>
 import { STable } from '@/components'
-import { getUserList } from '@/api/manage'
-import UserModal from './modules/UserModal'
+import { getUserList, getRoleAll } from '@/api/manage'
 export default {
   name: 'TableList',
   components: {
-    STable,
-    UserModal
+    STable
   },
   data () {
     return {
@@ -85,6 +148,7 @@ export default {
         sm: { span: 16 }
       },
       mdl: {},
+      form: this.$form.createForm(this),
       // 高级搜索 展开/关闭
       advanced: false,
       // 查询参数
@@ -101,8 +165,7 @@ export default {
         },
         {
           title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' }
+          dataIndex: 'status'
         },
         {
           title: '创建时间',
@@ -128,33 +191,42 @@ export default {
     }
   },
   created () {
+    this.loadRoleAll()
   },
   methods: {
     onSelectChange (selectedRowKeys) {
       console.log('selectedRowKeys changed: ', selectedRowKeys)
       this.selectedRowKeys = selectedRowKeys
     },
-    handleEdit (record) {
-      this.$refs.modal.edit(record)
-    },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    handleOk () {
-      this.$refs.table.refresh()
-      console.log('handleSaveOk')
+    handleAdd () {
+      this.handleEdit({ id: 0 })
     },
-    del () {
-      this.delByIds(this.selectedRowKeys)
+    handleEdit (record) {
+      this.mdl = Object.assign({}, record)
+      this.visible = true
+      this.$nextTick(() => {
+        this.form.setFieldsValue({ ...record })
+      })
     },
-    delByIds (ids) {
-      this.$message.success(`${ids} 删除成功`)
-      this.handleOk()
+    loadRoleAll () {
+      getRoleAll().then(res => {
+        this.roleAll = res.rows
+        console.log('roleALl', this.roleAll)
+      })
     },
-    onChangeStatus (record) {
-      record.status = record.status === 1 ? 2 : 1
-      // 发送状态到服务器
+    handleOk (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+          this.visible = false
+          // this.$refs.table.refresh(true)
+        }
+      })
     }
   },
   watch: {
