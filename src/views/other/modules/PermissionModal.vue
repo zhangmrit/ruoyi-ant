@@ -13,7 +13,6 @@
         :wrapperCol="wrapperCol"
         label="上级权限"
       >
-        <!-- <a-input placeholder="用户名" v-decorator="['username']" id="no" disabled="disabled" /> -->
         <a-tree-select
           v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级权限' }]}]"
           :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
@@ -29,7 +28,7 @@
         :wrapperCol="wrapperCol"
         label="菜单类型"
       >
-        <a-select v-decorator="['menuType', {rules: [{ required: true, message: '请选择类型' }]}]">
+        <a-select v-decorator="['menuType', {initialValue:'M',rules: [{ required: true, message: '请选择类型' }]}]">
           <a-select-option :value="'M'">目录</a-select-option>
           <a-select-option :value="'C'">菜单</a-select-option>
           <a-select-option :value="'F'">按钮</a-select-option>
@@ -62,7 +61,7 @@
         label="权限标识"
       >
         <a-input
-          v-decorator="['perms',{rules: [{ required: true, message: '请输入权限标识' }]}]"
+          v-decorator="['perms']"
           placeholder="权限标识"/>
       </a-form-item>
 
@@ -128,7 +127,8 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
+        this.form.getFieldDecorator('menuId')
+        this.form.setFieldsValue(pick(this.mdl, 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
       })
     },
@@ -156,7 +156,6 @@ export default {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.id = this.mdl.id
           console.log('Received values of form: ', values)
           this.visible = false
           this.$emit('ok')
