@@ -11,24 +11,69 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="用户名"
+        label="上级权限"
       >
-        <a-input placeholder="用户名" v-decorator="['username']" id="no" disabled="disabled" />
+        <!-- <a-input placeholder="用户名" v-decorator="['username']" id="no" disabled="disabled" /> -->
+        <a-tree-select
+          v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级权限' }]}]"
+          :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+          :treeData="permissions"
+          placeholder="上级权限"
+          treeDefaultExpandAll
+        >
+        </a-tree-select>
       </a-form-item>
 
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="昵称"
+        label="菜单类型"
+      >
+        <a-select v-decorator="['menuType', {rules: [{ required: true, message: '请选择类型' }]}]">
+          <a-select-option :value="'M'">目录</a-select-option>
+          <a-select-option :value="'C'">菜单</a-select-option>
+          <a-select-option :value="'F'">按钮</a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="权限名称"
       >
         <a-input
-          v-decorator="[
-            'nickname',
-            {
-              rules: [{ required: true, message: '请输入昵称' }]
-            }
-          ]"
+          v-decorator="['menuName',{rules: [{ required: true, message: '请输入权限名称' }]}]"
           placeholder="起一个名字"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="请求地址"
+      >
+        <a-input
+          v-decorator="['url',{rules: [{ required: true, message: '请输入地址' }]}]"
+          placeholder="请求地址"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="权限标识"
+      >
+        <a-input
+          v-decorator="['perms',{rules: [{ required: true, message: '请输入权限标识' }]}]"
+          placeholder="权限标识"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="显示顺序"
+      >
+        <a-input
+          v-decorator="['orderNum',{rules: [{ required: true, message: '请输入顺序' }]}]"
+          placeholder="显示顺序"/>
       </a-form-item>
 
       <a-form-item
@@ -36,33 +81,9 @@
         :wrapperCol="wrapperCol"
         label="状态"
       >
-        <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
-          <a-select-option :value="1">正常</a-select-option>
-          <a-select-option :value="2">禁用</a-select-option>
-        </a-select>
-      </a-form-item>
-
-      <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        label="描述"
-      >
-        <a-textarea :rows="5" placeholder="..." v-decorator="['describe', {rules: [{ required: true }]}]"/>
-      </a-form-item>
-
-      <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        label="拥有角色"
-        hasFeedback
-      >
-        <a-select
-          style="width: 100%"
-          mode="multiple"
-          v-decorator="['roles', {rules: [{ required: true, message: '请选择角色' }]}]"
-          :allowClear="true"
-        >
-          <a-select-option v-for="(action) in roleAll" :key="action.id" >{{ action.name }}</a-select-option>
+        <a-select v-decorator="['visible', {rules: [{ required: true, message: '请选择状态' }]}]">
+          <a-select-option :value="'0'">显示</a-select-option>
+          <a-select-option :value="'1'">隐藏</a-select-option>
         </a-select>
       </a-form-item>
 
@@ -70,7 +91,7 @@
   </a-modal>
 </template>
 <script>
-import { getRoleAll } from '@/api/manage'
+import { getPermissions } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   name: 'UserModal',
@@ -88,7 +109,7 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
-      roleAll: [],
+      permissions: [{ key: 0, value: '0', title: '无' }],
       mdl: {},
       form: this.$form.createForm(this)
     }
@@ -96,25 +117,39 @@ export default {
   beforeCreate () {
   },
   created () {
-    this.loadRoleAll()
+    this.loadPermissions()
   },
   methods: {
-    add () {
+    add (parentId) {
       this.form.resetFields()
-      this.edit({})
+      this.edit({ parentId: parentId })
     },
     edit (record) {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'username', 'nickname', 'status', 'roles', 'describe'))
+        this.form.setFieldsValue(pick(this.mdl, 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
       })
     },
-    loadRoleAll () {
-      getRoleAll().then(res => {
-        this.roleAll = res.rows
-        console.log('roleALl', this.roleAll)
+    loadPermissions () {
+      getPermissions().then(res => {
+        this.buildtree(res.rows, this.permissions, 0)
+      })
+      console.log(this.permissions)
+    },
+    buildtree (list, arr, parentId) {
+      list.forEach(item => {
+        if (item.parentId === parentId) {
+          var child = {
+            key: item.menuId,
+            value: item.menuId + '',
+            title: item.menuName,
+            children: []
+          }
+          this.buildtree(list, child.children, item.menuId)
+          arr.push(child)
+        }
       })
     },
     handleSubmit (e) {

@@ -184,8 +184,13 @@ export default {
       })
       return array
     },
-    swap () {
-
+    delByIds (ids) {
+      this.$message.success(`${ids} 删除成功`)
+      this.handleOk()
+    },
+    onChangeStatus (record) {
+      record.status = record.status === 1 ? 2 : 1
+      // 发送状态到服务器
     }
   },
   watch: {
