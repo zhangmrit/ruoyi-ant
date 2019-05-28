@@ -53,7 +53,7 @@
       </span>
     </s-table>
 
-    <dept-modal ref="modal" @ok="handleOk" :deptList="deptList"/>
+    <dept-modal ref="modal" @ok="handleOk"/>
   </a-card>
 </template>
 
@@ -112,13 +112,10 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      // deptList: [],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getDeptList(Object.assign(parameter, this.queryParam)
         ).then(res => {
-          // this.deptList = JSON.parse(JSON.stringify(res.rows))
-          // console.log('deptList', this.deptList)
           res.rows = this.buildtree(res.rows, 0)
           return res
         })
