@@ -61,6 +61,7 @@
 import { STable } from '@/components'
 import { getDeptList } from '@/api/manage'
 import DeptModal from './modules/DeptModal.vue'
+import { treeData } from '@/utils/treeutil'
 export default {
   name: 'TableList',
   components: {
@@ -116,7 +117,9 @@ export default {
       loadData: parameter => {
         return getDeptList(Object.assign(parameter, this.queryParam)
         ).then(res => {
-          res.rows = this.buildtree(res.rows, 0)
+          res.rows = treeData(res.rows, 'deptId')
+          console.log(res.rows)
+
           return res
         })
       },
@@ -145,9 +148,6 @@ export default {
   created () {
   },
   methods: {
-    getDeptList (list) {
-      return list
-    },
     handleAdd (parentId) {
       this.$refs.modal.add(parentId)
     },
@@ -165,18 +165,26 @@ export default {
     toggleAdvanced () {
       this.advanced = !this.advanced
     },
-    buildtree (arr, parentId) {
-      const array = []
-      arr.forEach(item => {
-        if (item.parentId === parentId) {
-          item.parentId += ''
-          item.children = this.buildtree(arr, item.deptId)
-          if (item.children.length === 0) { delete item.children }
-          array.push(item)
-        }
-      })
-      return array
-    },
+    // buildtree (arr, parentId) {
+    //   const array = []
+    //   arr.forEach(item => {
+    //     if (item.parentId === parentId) {
+    //       item.parentId += ''
+    //       item.children = this.buildtree(arr, item.deptId)
+    //       if (item.children.length === 0) { delete item.children }
+    //       array.push(item)
+    //     }
+    //   })
+    //   return array
+    // },
+    // buildtree (list) {
+    //   const cloneData = JSON.parse(JSON.stringify(list)) // 对源数据深度克隆
+    //   return cloneData.filter(father => {
+    //     const branchArr = cloneData.filter(child => father.deptId === child.parentId) // 返回每一项的子级数组
+    //     if (branchArr.length > 0) father.children = branchArr // 如果存在子级，则给父级添加一个children属性，并赋值
+    //     return father.parentId === 0 // 返回第一层
+    //   })
+    // },
     delByIds (ids) {
       this.$message.success(`${ids} 删除成功`)
       this.handleOk()

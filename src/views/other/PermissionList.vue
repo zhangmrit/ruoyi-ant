@@ -60,6 +60,7 @@
 <script>
 import { STable } from '@/components'
 import PermissionModal from './modules/PermissionModal.vue'
+import { treeData } from '../../utils/treeutil'
 export default {
   name: 'TableList',
   components: {
@@ -128,7 +129,7 @@ export default {
         return this.$http.get('/permission/list', {
           params: Object.assign(parameter, this.queryParam)
         }).then(res => {
-          res.rows = this.buildtree(res.rows, 0)
+          res.rows = treeData(res.rows, 'menuId')
           return res
         })
       },
@@ -173,18 +174,6 @@ export default {
     },
     toggleAdvanced () {
       this.advanced = !this.advanced
-    },
-    buildtree (arr, parentId) {
-      const array = []
-      arr.forEach(item => {
-        if (item.parentId === parentId) {
-          item.parentId += ''
-          item.children = this.buildtree(arr, item.menuId)
-          if (item.children.length === 0) { delete item.children }
-          array.push(item)
-        }
-      })
-      return array
     },
     delByIds (ids) {
       this.$message.success(`${ids} 删除成功`)

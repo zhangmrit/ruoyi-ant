@@ -89,12 +89,6 @@ import { getDeptList } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   name: 'DeptModal',
-  props: {
-    deptList: {
-      type: Array,
-      required: true
-    }
-  },
   components: {
   },
   data () {
@@ -130,6 +124,7 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
+        this.mdl.parentId += ''
         this.form.getFieldDecorator('deptId')
         this.form.setFieldsValue(pick(this.mdl, 'deptId', 'parentId', 'leader', 'phone', 'status', 'email', 'orderNum', 'deptName'))
         // this.form.setFieldsValue({ ...record })

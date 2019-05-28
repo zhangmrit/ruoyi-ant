@@ -127,6 +127,7 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
+        this.mdl.parentId += ''
         this.form.getFieldDecorator('menuId')
         this.form.setFieldsValue(pick(this.mdl, 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
