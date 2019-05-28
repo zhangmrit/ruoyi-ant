@@ -30,6 +30,7 @@
       <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
     </div>
     <s-table
+      ref="table"
       rowKey="menuId"
       showPagination="false"
       :columns="columns"
@@ -163,7 +164,8 @@ export default {
       this.$refs.modal.edit(record)
     },
     handleOk () {
-
+      this.$refs.table.refresh()
+      console.log('handleSaveOk')
     },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
