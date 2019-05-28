@@ -112,15 +112,13 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      deptList: [],
-      // 向后端拉取可以用的操作列表
-      permissionList: null,
+      // deptList: [],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getDeptList(Object.assign(parameter, this.queryParam)
         ).then(res => {
-          this.deptList = res.rows
-          console.log(this.deptList)
+          // this.deptList = JSON.parse(JSON.stringify(res.rows))
+          // console.log('deptList', this.deptList)
           res.rows = this.buildtree(res.rows, 0)
           return res
         })
@@ -150,6 +148,9 @@ export default {
   created () {
   },
   methods: {
+    getDeptList (list) {
+      return list
+    },
     handleAdd (parentId) {
       this.$refs.modal.add(parentId)
     },

@@ -11,13 +11,13 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="上级权限"
+        label="上级部门"
       >
         <a-tree-select
-          v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级权限' }]}]"
+          v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级部门' }]}]"
           :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
           :treeData="depts"
-          placeholder="上级权限"
+          placeholder="上级部门"
           treeDefaultExpandAll
         >
         </a-tree-select>
@@ -85,7 +85,7 @@
   </a-modal>
 </template>
 <script>
-import { getPermissions } from '@/api/manage'
+import { getDeptList } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   name: 'DeptModal',
@@ -109,7 +109,7 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
-      depts: [{ key: 0, value: '0', title: '无' }],
+      depts: [{ key: '0', value: '0', title: '无' }],
       mdl: {},
       form: this.$form.createForm(this)
     }
@@ -117,9 +117,9 @@ export default {
   beforeCreate () {
   },
   created () {
-    console.log(this.deptList)
-    // this.loadPermissions()
-    this.buildtree(this.deptList, this.depts, 0)
+    getDeptList().then(res => {
+      this.buildtree(res.rows, this.depts, 0)
+    })
   },
   methods: {
     add (parentId) {
@@ -134,12 +134,6 @@ export default {
         this.form.setFieldsValue(pick(this.mdl, 'deptId', 'parentId', 'leader', 'phone', 'status', 'email', 'orderNum', 'deptName'))
         // this.form.setFieldsValue({ ...record })
       })
-    },
-    loadPermissions () {
-      getPermissions().then(res => {
-        this.buildtree(res.rows, this.permissions, 0)
-      })
-      console.log(this.permissions)
     },
     buildtree (list, arr, parentId) {
       list.forEach(item => {
