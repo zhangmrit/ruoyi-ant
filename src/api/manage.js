@@ -6,7 +6,8 @@ const api = {
   service: '/service',
   permission: '/permission',
   permissionAll: '/permission/all',
-  orgTree: '/org/tree'
+  orgTree: '/org/tree',
+  dept: 'dept'
 }
 
 export default api
@@ -51,6 +52,13 @@ export function getPermissionAll (parameter) {
 export function getPermissions (parameter) {
   return axios({
     url: api.permission + '/list',
+    method: 'get',
+    params: parameter
+  })
+}
+export function getDeptList (parameter) {
+  return axios({
+    url: api.dept + '/list',
     method: 'get',
     params: parameter
   })

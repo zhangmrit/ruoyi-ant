@@ -26,7 +26,8 @@ const constantRouterComponents = {
   resultErr: () => import('@/views/result/Error'),
   userList: () => import('@/views/other/UserList'),
   roleList: () => import('@/views/other/RoleList'),
-  permissionList: () => import('@/views/other/PermissionList')
+  permissionList: () => import('@/views/other/PermissionList'),
+  deptList: () => import('@/views/other/DeptList')
   // ...more
 }
 

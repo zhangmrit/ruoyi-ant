@@ -1,0 +1,185 @@
+<template>
+  <a-modal
+    title="操作"
+    style="top: 20px;"
+    :width="800"
+    v-model="visible"
+    @ok="handleSubmit"
+  >
+    <a-form :form="form">
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="上级权限"
+      >
+        <a-tree-select
+          v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级权限' }]}]"
+          :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+          :treeData="depts"
+          placeholder="上级权限"
+          treeDefaultExpandAll
+        >
+        </a-tree-select>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="部门名称"
+      >
+        <a-input
+          v-decorator="['deptName',{rules: [{ required: true, message: '请输入部门名称' }]}]"
+          placeholder="起一个名字"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="显示顺序"
+      >
+        <a-input
+          v-decorator="['orderNum',{rules: [{ required: true, message: '请输入显示顺序' }]}]"
+          placeholder="显示顺序"/>
+      </a-form-item>
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="负责人"
+      >
+        <a-input
+          v-decorator="['leader',{rules: [{ required: true, message: '请输入负责人' }]}]"
+          placeholder="负责人"/>
+      </a-form-item>
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="电话"
+      >
+        <a-input
+          v-decorator="['phone',{rules: [{ required: true, message: '请输入电话' }]}]"
+          placeholder="电话"/>
+      </a-form-item>
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="邮箱"
+      >
+        <a-input
+          v-decorator="['email',{rules: [{ required: true, message: '请输入邮箱' }]}]"
+          placeholder="邮箱"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="状态"
+      >
+        <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
+          <a-select-option :value="'0'">正常</a-select-option>
+          <a-select-option :value="'1'">停用</a-select-option>
+        </a-select>
+      </a-form-item>
+
+    </a-form>
+  </a-modal>
+</template>
+<script>
+import { getPermissions } from '@/api/manage'
+import pick from 'lodash.pick'
+export default {
+  name: 'DeptModal',
+  props: {
+    deptList: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+  },
+  data () {
+    return {
+      description: '列表使用场景：后台管理中的权限管理以及角色管理，可用于基于 RBAC 设计的角色权限控制，颗粒度细到每一个操作类型。',
+      visible: false,
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      },
+      depts: [{ key: 0, value: '0', title: '无' }],
+      mdl: {},
+      form: this.$form.createForm(this)
+    }
+  },
+  beforeCreate () {
+  },
+  created () {
+    console.log(this.deptList)
+    // this.loadPermissions()
+    this.buildtree(this.deptList, this.depts, 0)
+  },
+  methods: {
+    add (parentId) {
+      this.form.resetFields()
+      this.edit({ parentId: parentId })
+    },
+    edit (record) {
+      this.mdl = Object.assign({}, record)
+      this.visible = true
+      this.$nextTick(() => {
+        this.form.getFieldDecorator('deptId')
+        this.form.setFieldsValue(pick(this.mdl, 'deptId', 'parentId', 'leader', 'phone', 'status', 'email', 'orderNum', 'deptName'))
+        // this.form.setFieldsValue({ ...record })
+      })
+    },
+    loadPermissions () {
+      getPermissions().then(res => {
+        this.buildtree(res.rows, this.permissions, 0)
+      })
+      console.log(this.permissions)
+    },
+    buildtree (list, arr, parentId) {
+      list.forEach(item => {
+        if (item.parentId === parentId) {
+          var child = {
+            key: item.deptId,
+            value: item.deptId + '',
+            title: item.deptName,
+            children: []
+          }
+          this.buildtree(list, child.children, item.deptId)
+          arr.push(child)
+        }
+      })
+    },
+    handleSubmit (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+          this.visible = false
+          this.$emit('ok')
+          // this.$refs.table.refresh(true)
+        }
+      })
+    }
+  },
+  watch: {
+    /*
+      'selectedRows': function (selectedRows) {
+        this.needTotalList = this.needTotalList.map(item => {
+          return {
+            ...item,
+            total: selectedRows.reduce( (sum, val) => {
+              return sum + val[item.dataIndex]
+            }, 0)
+          }
+        })
+      }
+      */
+  }
+}
+</script>
