@@ -45,6 +45,21 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        label="部门"
+      >
+        <a-tree-select
+          v-decorator="['deptId', {rules: [{ required: true, message: '请选择部门' }]}]"
+          :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+          :treeData="deptTree"
+          placeholder="部门"
+          treeDefaultExpandAll
+        >
+        </a-tree-select>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
         label="描述"
       >
         <a-textarea :rows="5" placeholder="..." v-decorator="['remark', {rules: [{ required: true }]}]"/>
@@ -74,6 +89,12 @@ import { getRoleAll } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   name: 'UserModal',
+  props: {
+    deptTree: {
+      type: Array,
+      required: true
+    }
+  },
   components: {
   },
   data () {
@@ -107,7 +128,8 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roles', 'remark'))
+        this.mdl.deptId += ''
+        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roles', 'remark', 'deptId'))
         // this.form.setFieldsValue({ ...record })
       })
     },

@@ -53,7 +53,7 @@
         <s-table
           size="default"
           ref="table"
-          rowKey="id"
+          rowKey="userId"
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
           :columns="columns"
           :data="loadData"
@@ -69,7 +69,7 @@
         </s-table>
       </a-col>
     </a-row>
-    <user-modal ref="modal" @ok="handleOk" />
+    <user-modal ref="modal" @ok="handleOk" :deptTree="deptTree"/>
   </a-card>
 </template>
 
@@ -145,7 +145,6 @@ export default {
   created () {
     getDeptList().then(res => {
       this.buildtree(res.rows, this.deptTree, 0)
-      console.log(this.deptTree)
     })
   },
   methods: {
@@ -180,6 +179,7 @@ export default {
         if (item.parentId === parentId) {
           var child = {
             key: item.deptId + '',
+            value: item.deptId + '',
             title: item.deptName,
             children: []
           }
