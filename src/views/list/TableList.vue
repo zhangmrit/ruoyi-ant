@@ -64,7 +64,7 @@
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="$refs.createModal.add()">新建</a-button>
       <a-button type="dashed" @click="tableOption">{{ optionAlertShow && '关闭' || '开启' }} alert</a-button>
-      <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
+      <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
           <!-- lock | unlock -->
@@ -110,7 +110,7 @@ import moment from 'moment'
 import { STable } from '@/components'
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
-import { getRoleList, getServiceList } from '@/api/manage'
+import { getRoleList, getServiceList } from '@/api/test'
 
 const statusMap = {
   0: {
@@ -188,6 +188,8 @@ export default {
         console.log('loadData.parameter', parameter)
         return getServiceList(Object.assign(parameter, this.queryParam))
           .then(res => {
+            console.log(res)
+
             return res.result
           })
       },

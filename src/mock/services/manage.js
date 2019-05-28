@@ -32,13 +32,13 @@ const serverList = (options) => {
     pageNo: pageNo,
     totalCount: totalCount,
     totalPage: totalPage,
-    data: result
+    rows: result
   })
 }
 
 const projects = () => {
   return builder({
-    'data': [{
+    'rows': [{
       id: 1,
       cover: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
       title: 'Alipay',
@@ -245,7 +245,7 @@ const radar = () => {
   ])
 }
 
-Mock.mock(/\/service/, 'get', serverList)
+Mock.mock(/\/test\/service/, 'get', serverList)
 Mock.mock(/\/list\/search\/projects/, 'get', projects)
 Mock.mock(/\/workplace\/activity/, 'get', activity)
 Mock.mock(/\/workplace\/teams/, 'get', teams)

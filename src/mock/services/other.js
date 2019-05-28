@@ -82,7 +82,7 @@ const orgTree = () => {
 
 const role = () => {
   return builder({
-    'data': [{
+    'rows': [{
       'id': 'admin',
       'name': '管理员',
       'describe': '拥有所有权限',
@@ -817,7 +817,7 @@ const permissionNoPager = () => {
 
 const permissions = () => {
   return builder({
-    'data': [{
+    'rows': [{
       'id': 'marketing',
       'name': '营销管理',
       'describe': null,
@@ -968,7 +968,7 @@ const permissions = () => {
   })
 }
 
-Mock.mock(/\/org\/tree/, 'get', orgTree)
-Mock.mock(/\/role/, 'get', role)
-Mock.mock(/\/permission\/no-pager/, 'get', permissionNoPager)
-Mock.mock(/\/permission/, 'get', permissions)
+Mock.mock(/\/test\/org\/tree/, 'get', orgTree)
+Mock.mock(/\/test\/role/, 'get', role)
+Mock.mock(/\/test\/permission\/no-pager/, 'get', permissionNoPager)
+Mock.mock(/\/test\/permission/, 'get', permissions)

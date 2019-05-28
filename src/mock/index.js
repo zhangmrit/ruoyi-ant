@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'tr
   // require('./services/auth')
   // require('./services/user')
   require('./services/manage')
-  // require('./services/other')
+  require('./services/other')
   require('./services/tagCloud')
   require('./services/article')
 

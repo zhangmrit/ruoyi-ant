@@ -13,7 +13,7 @@
         :wrapperCol="wrapperCol"
         label="用户名"
       >
-        <a-input placeholder="用户名" v-decorator="['username']" id="no" disabled="disabled" />
+        <a-input placeholder="用户名" v-decorator="['loginName']" id="no" disabled="disabled" />
       </a-form-item>
 
       <a-form-item
@@ -23,7 +23,7 @@
       >
         <a-input
           v-decorator="[
-            'nickname',
+            'userName',
             {
               rules: [{ required: true, message: '请输入昵称' }]
             }
@@ -37,8 +37,8 @@
         label="状态"
       >
         <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
-          <a-select-option :value="1">正常</a-select-option>
-          <a-select-option :value="2">禁用</a-select-option>
+          <a-select-option :value="'0'">正常</a-select-option>
+          <a-select-option :value="'1'">禁用</a-select-option>
         </a-select>
       </a-form-item>
 
@@ -47,7 +47,7 @@
         :wrapperCol="wrapperCol"
         label="描述"
       >
-        <a-textarea :rows="5" placeholder="..." v-decorator="['describe', {rules: [{ required: true }]}]"/>
+        <a-textarea :rows="5" placeholder="..." v-decorator="['remark', {rules: [{ required: true }]}]"/>
       </a-form-item>
 
       <a-form-item
@@ -107,7 +107,7 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'username', 'nickname', 'status', 'roles', 'describe'))
+        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roles', 'remark'))
         // this.form.setFieldsValue({ ...record })
       })
     },
