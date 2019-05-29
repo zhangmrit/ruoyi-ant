@@ -13,7 +13,7 @@
         :wrapperCol="wrapperCol"
         label="用户名"
       >
-        <a-input placeholder="用户名" v-decorator="['loginName']" id="no" disabled="disabled" />
+        <a-input placeholder="用户名" v-decorator="['loginName', {rules: [{ required: true, message: '请输入用户名' }]}]" />
       </a-form-item>
 
       <a-form-item
@@ -74,10 +74,10 @@
         <a-select
           style="width: 100%"
           mode="multiple"
-          v-decorator="['roles', {rules: [{ required: true, message: '请选择角色' }]}]"
+          v-decorator="['roleIds', {rules: [{ required: true, message: '请选择角色' }]}]"
           :allowClear="true"
         >
-          <a-select-option v-for="(action) in roleAll" :key="action.id" >{{ action.name }}</a-select-option>
+          <a-select-option v-for="(action) in roleAll" :key="action.roleId" >{{ action.roleName }}</a-select-option>
         </a-select>
       </a-form-item>
 
@@ -122,14 +122,15 @@ export default {
   methods: {
     add () {
       this.form.resetFields()
-      this.edit({})
+      this.edit({ userId: 0, deptId: '' })
     },
     edit (record) {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
+        this.form.getFieldDecorator('userId')
         this.mdl.deptId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roles', 'remark', 'deptId'))
+        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roleIds', 'remark', 'deptId'))
         // this.form.setFieldsValue({ ...record })
       })
     },
@@ -143,7 +144,6 @@ export default {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.id = this.mdl.id
           console.log('Received values of form: ', values)
           this.visible = false
           this.$emit('ok')

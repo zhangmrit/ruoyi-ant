@@ -42,7 +42,7 @@ const notFoundRouter = {
  */
 export const getRouterByUser = () => {
   return axios({
-    url: '/menu',
+    url: '/system/menu/user',
     method: 'get',
     dataType: 'json'
     /* headers: {
@@ -64,7 +64,7 @@ export const generatorDynamicRouter = () => {
   return new Promise((resolve, reject) => {
     // ajax
     getRouterByUser().then(res => {
-      const result = res.result
+      const result = buildmenu(res)
       const routers = generator(result)
       routers.push(notFoundRouter)
       resolve(routers)
@@ -103,5 +103,143 @@ export const generator = (routerMap, parent) => {
       currentRouter.children = generator(item.children, currentRouter)
     }
     return currentRouter
+  })
+}
+
+export function buildmenu (rows) {
+  const menus = [
+    {
+      'title': '首页',
+      'key': '',
+      'name': 'index',
+      'component': 'BasicLayout',
+      'redirect': '/dashboard/workplace',
+      'children': [
+        {
+          'title': '仪表盘',
+          'key': 'dashboard',
+          'component': 'RouteView',
+          'icon': 'dashboard',
+          'children': [{
+            'title': '分析页',
+            'key': 'analysis',
+            'icon': ''
+          },
+          {
+            'title': '监控页',
+            'key': 'monitor',
+            'icon': ''
+          },
+          {
+            'title': '工作台',
+            'key': 'workplace',
+            'icon': ''
+          }
+          ]
+        },
+        {
+          'title': '表单页',
+          'key': 'form',
+          'component': 'PageView',
+          'icon': 'form',
+          'children': [{
+            'title': '基础表单',
+            'key': 'baseForm',
+            'icon': ''
+          },
+          {
+            'title': '分步表单',
+            'key': 'stepForm',
+            'icon': ''
+          },
+          {
+            'title': '高级表单',
+            'key': 'advancedForm',
+            'icon': ''
+          }
+          ]
+        },
+        {
+          'title': '列表页',
+          'key': 'list',
+          'component': 'PageView',
+          'icon': 'table',
+          'children': [{
+            'title': '查询表格',
+            'key': 'tableList',
+            'icon': ''
+          },
+          {
+            'title': '标准列表',
+            'key': 'standardList',
+            'icon': ''
+          },
+          {
+            'title': '卡片列表',
+            'key': 'cardList',
+            'icon': ''
+          }
+          ]
+        },
+        {
+          'title': '详情页',
+          'key': 'profile',
+          'component': 'PageView',
+          'icon': 'profile',
+          'children': [{
+            'title': '基础详情页',
+            'key': 'profileBasic',
+            'icon': ''
+          },
+          {
+            'title': '高级详情页',
+            'key': 'profileAdvanced',
+            'icon': ''
+          }
+          ]
+        },
+        {
+          'title': '结果页',
+          'key': 'result',
+          'component': 'PageView',
+          'icon': 'check-circle-o',
+          'children': [{
+            'title': '成功',
+            'key': 'resultSucc',
+            'icon': ''
+          },
+          {
+            'title': '失败',
+            'key': 'resultErr',
+            'icon': ''
+          }
+          ]
+        }]
+    }
+  ]
+  const arr = []
+  buildtree(rows, arr, 0)
+  arr.forEach(row => {
+    menus[0].children.push(row)
+  })
+  return menus
+}
+export function buildtree (list, arr, parentId) {
+  list.forEach(item => {
+    if (item.parentId === parentId) {
+      var child = {
+        title: item.menuName,
+        key: item.menuKey,
+        icon: item.icon,
+        component: 'PageView',
+        children: []
+      }
+      buildtree(list, child.children, item.menuId)
+      if (child.children.length === 0) {
+        delete child.children
+        delete child.component
+      }
+      arr.push(child)
+    }
   })
 }

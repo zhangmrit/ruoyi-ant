@@ -59,6 +59,7 @@
 
 <script>
 import { STable } from '@/components'
+import { getPermissions } from '../../api/manage'
 import PermissionModal from './modules/PermissionModal.vue'
 import { treeData } from '../../utils/treeutil'
 export default {
@@ -126,9 +127,7 @@ export default {
       permissionList: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return this.$http.get('/permission/list', {
-          params: Object.assign(parameter, this.queryParam)
-        }).then(res => {
+        return getPermissions(Object.assign(parameter, this.queryParam)).then(res => {
           res.rows = treeData(res.rows, 'menuId')
           return res
         })

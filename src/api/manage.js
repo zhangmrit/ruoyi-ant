@@ -1,13 +1,12 @@
 import { axios } from '@/utils/request'
 
 const api = {
-  user: '/user',
-  role: '/role',
+  user: '/system/user',
+  role: '/system/role',
   service: '/service',
-  permission: '/permission',
-  permissionAll: '/permission/all',
+  permission: '/system/menu',
   orgTree: '/org/tree',
-  dept: 'dept'
+  dept: '/system/dept'
 }
 
 export default api
@@ -44,7 +43,7 @@ export function getServiceList (parameter) {
 
 export function getPermissionAll (parameter) {
   return axios({
-    url: api.permissionAll,
+    url: api.permission + '/all',
     method: 'get',
     params: parameter
   })
