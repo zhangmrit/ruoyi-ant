@@ -11,9 +11,9 @@
           <a-col :md="5" :sm="15">
             <a-form-item label="状态">
               <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
-                <a-select-option :value="0">全部</a-select-option>
-                <a-select-option :value="1">正常</a-select-option>
-                <a-select-option :value="2">禁用</a-select-option>
+                <a-select-option :value="''">全部</a-select-option>
+                <a-select-option :value="0">正常</a-select-option>
+                <a-select-option :value="1">禁用</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -73,7 +73,7 @@
       <span slot="action" slot-scope="text, record">
         <a v-has="'user:edit'" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a v-has="'user:del'" @click="delByIds(record.roleId)">删除</a>
+        <a v-has="'user:del'" @click="delByIds([record.roleId])">删除</a>
       </span>
     </s-table>
     <role-modal ref="modal" @ok="handleOk" />
@@ -82,8 +82,9 @@
 
 <script>
 import { STable } from '@/components'
-import { getRoleList } from '@/api/manage'
+import { getRoleList, delRole, changRoleStatus } from '@/api/system'
 import RoleModal from './modules/RoleModal.vue'
+import pick from 'lodash.pick'
 export default {
   name: 'TableList',
   components: {
@@ -169,15 +170,25 @@ export default {
       this.selectedRows = selectedRows
     },
     handleOk () {
-      this.$refs.table.refresh()
+      this.$refs.table.refresh(true)
       console.log('handleSaveOk')
     },
     delByIds (ids) {
-      this.$message.success(`${ids} 删除成功`)
-      this.handleOk()
+      delRole({ ids: ids.join(',') }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(`删除成功`)
+          this.handleOk()
+        } else {
+          this.$message.error(res.msg)
+        }
+        // const difference = new Set(this.selectedRowKeys.filter(x => !new Set(ids).has(x)))
+        // this.selectedRowKeys = Array.from(difference)
+        this.selectedRowKeys = []
+      })
     },
     onChangeStatus (record) {
       record.status = record.status === '0' ? '1' : '0'
+      changRoleStatus(pick(record, 'roleId', 'status'))
       // 发送状态到服务器
     }
   },

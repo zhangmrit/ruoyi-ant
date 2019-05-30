@@ -134,7 +134,7 @@ export default {
     loadData (pagination, filters, sorter) {
       this.localLoading = true
       const parameter = Object.assign({
-        pageNo: (pagination && pagination.current) ||
+        pageNum: (pagination && pagination.current) ||
             this.localPagination.current || this.pageNum,
         pageSize: (pagination && pagination.pageSize) ||
             this.localPagination.pageSize || this.pageSize
@@ -143,7 +143,7 @@ export default {
         sortField: sorter.field
       }) || {},
       (sorter && sorter.order && {
-        sortOrder: sorter.order
+        sortOrder: sorter.order.replace('end', '')
       }) || {}, {
         ...filters
       }
@@ -155,8 +155,8 @@ export default {
         result.then(r => {
           if (this.localPagination) {
             this.localPagination = Object.assign({}, this.localPagination, {
-              current: r.pageNo, // 返回结果中的当前分页数
-              total: r.totalCount, // 返回结果中的总记录数
+              current: r.pageNum, // 返回结果中的当前分页数
+              total: r.total, // 返回结果中的总记录数
               showSizeChanger: this.showSizeChanger,
               pageSize: (pagination && pagination.pageSize) ||
                 this.localPagination.pageSize
@@ -172,7 +172,7 @@ export default {
           // 这里用于判断接口是否有返回 r.totalCount 或 this.showPagination = false
           // 当情况满足时，表示数据不满足分页大小，关闭 table 分页功能
 
-          (!this.showPagination || !r.totalCount && this.showPagination === 'auto') && (this.localPagination = false)
+          (!this.showPagination || !r.total && this.showPagination === 'auto') && (this.localPagination = false)
           this.localDataSource = r.rows // 返回结果中的数组数据
           this.localLoading = false
         })

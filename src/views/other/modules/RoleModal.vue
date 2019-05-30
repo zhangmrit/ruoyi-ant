@@ -3,8 +3,10 @@
     title="操作"
     style="top: 20px;"
     :width="900"
-    v-model="visible"
+    :visible="visible"
+    :confirmLoading="confirmLoading"
     @ok="handleOk"
+    @cancel="handleCancel"
   >
     <a-form :form="form">
 
@@ -46,14 +48,13 @@
         :wrapperCol="wrapperCol"
         label="状态"
       >
-        <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
+        <a-select v-decorator="['status', {initialValue:'0',rules: [{ required: true, message: '请选择状态' }]}]">
           <a-select-option :value="'0'">正常</a-select-option>
           <a-select-option :value="'1'">禁用</a-select-option>
         </a-select>
       </a-form-item>
 
       <a-divider />
-
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -80,13 +81,13 @@
         >
         </a-tree>
       </a-form-item>
-
     </a-form>
+
   </a-modal>
 </template>
 
 <script>
-import { getPermissions } from '@/api/manage'
+import { getPermissions, getRolePermIds, saveRole } from '@/api/system'
 import pick from 'lodash.pick'
 
 export default {
@@ -108,7 +109,7 @@ export default {
       form: this.$form.createForm(this),
       permissions: [],
       autoExpandParent: true,
-      checkedKeys: [1, 109]
+      checkedKeys: []
     }
   },
   created () {
@@ -116,15 +117,15 @@ export default {
   },
   methods: {
     add () {
+      this.form.resetFields()
       this.edit({ })
     },
     edit (record) {
+      getRolePermIds({ roleId: record.roleId }).then(res => { this.checkedKeys = res || [] })
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.getFieldDecorator('roleId')
-        this.form.getFieldDecorator('perms')
-        this.form.setFieldsValue(pick(this.mdl, 'roleId', 'roleName', 'status', 'roleSort', 'roleKey'))
+        this.form.setFieldsValue(pick(this.mdl, 'roleName', 'status', 'roleSort', 'roleKey'))
         // this.form.setFieldsValue(...record)
       })
     },
@@ -155,7 +156,7 @@ export default {
       list.forEach(item => {
         if (item.parentId === parentId) {
           var child = {
-            key: item.menuId,
+            key: item.menuId + '',
             value: item.menuId + '',
             title: item.menuName,
             children: []
@@ -175,27 +176,30 @@ export default {
       this.form.validateFields((err, values) => {
         // 验证表单没错误
         if (!err) {
-          values.perms = this.checkedKeys
+          values.menuIds = this.checkedKeys
+          values.roleId = this.mdl.roleId
           console.log('form values', values)
           _this.confirmLoading = true
-          // 模拟后端请求 2000 毫秒延迟
-          new Promise((resolve) => {
-            setTimeout(() => resolve(), 2000)
-          }).then(() => {
-            // Do something
-            _this.$message.success('保存成功')
-            _this.$emit('ok')
+          saveRole(Object.assign(values)).then(res => {
+            console.log(res)
+            if (res.code === 0) {
+              _this.$message.success('保存成功')
+              _this.$emit('ok')
+              _this.visible = false
+            } else {
+              _this.$message.success(res.msg)
+            }
           }).catch(() => {
-            // Do something
+            _this.$message.error('系统错误，请稍后再试')
           }).finally(() => {
             _this.confirmLoading = false
-            _this.close()
+            // _this.close()
           })
         }
       })
     },
     handleCancel () {
-      this.close()
+      this.visible = false
     }
 
   }
