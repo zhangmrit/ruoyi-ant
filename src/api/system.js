@@ -19,7 +19,7 @@ export function getUserList (parameter) {
 }
 export function saveUser (parameter) {
   return axios({
-    url: api.user + (parameter.roleId > 0 ? '/update' : '/save'),
+    url: api.user + (parameter.userId > 0 ? '/update' : '/save'),
     method: 'post',
     data: parameter,
     headers: {

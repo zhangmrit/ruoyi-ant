@@ -4,6 +4,7 @@
     style="top: 20px;"
     :width="800"
     v-model="visible"
+    :confirmLoading="confirmLoading"
     @ok="handleSubmit"
   >
     <a-form :form="form">
@@ -36,7 +37,7 @@
         :wrapperCol="wrapperCol"
         label="状态"
       >
-        <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }]}]">
+        <a-select v-decorator="['status', {initialValue:'0',rules: [{ required: true, message: '请选择状态' }]}]">
           <a-select-option :value="'0'">正常</a-select-option>
           <a-select-option :value="'1'">禁用</a-select-option>
         </a-select>
@@ -62,7 +63,7 @@
         :wrapperCol="wrapperCol"
         label="描述"
       >
-        <a-textarea :rows="5" placeholder="..." v-decorator="['remark', {rules: [{ required: true }]}]"/>
+        <a-textarea :rows="5" placeholder="..." v-decorator="['remark', {rules: [{ required: true, message: '请输入描述' }]}]"/>
       </a-form-item>
 
       <a-form-item
@@ -85,7 +86,7 @@
   </a-modal>
 </template>
 <script>
-import { getRoleAll } from '@/api/manage'
+import { getRoleAll, saveUser } from '@/api/system'
 import pick from 'lodash.pick'
 export default {
   name: 'UserModal',
@@ -109,6 +110,7 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
+      confirmLoading: false,
       roleAll: [],
       mdl: {},
       form: this.$form.createForm(this)
@@ -130,7 +132,7 @@ export default {
       this.$nextTick(() => {
         this.form.getFieldDecorator('userId')
         this.mdl.deptId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'loginName', 'userName', 'status', 'roleIds', 'remark', 'deptId'))
+        this.form.setFieldsValue(pick(this.mdl, 'userId', 'loginName', 'userName', 'status', 'roleIds', 'remark', 'deptId'))
         // this.form.setFieldsValue({ ...record })
       })
     },
@@ -145,9 +147,21 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          this.visible = false
-          this.$emit('ok')
-          // this.$refs.table.refresh(true)
+          this.confirmLoading = true
+          saveUser(values).then(res => {
+            if (res.code === 0) {
+              this.$message.success('保存成功')
+              this.$emit('ok')
+              this.visible = false
+            } else {
+              this.$message.success(res.msg)
+            }
+          }).catch(() => {
+            this.$message.error('系统错误，请稍后再试')
+          }).finally(() => {
+            this.confirmLoading = false
+            // _this.close()
+          })
         }
       })
     }
