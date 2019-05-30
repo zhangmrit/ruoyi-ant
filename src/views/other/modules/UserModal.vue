@@ -8,7 +8,9 @@
     @ok="handleSubmit"
   >
     <a-form :form="form">
-
+      <a-form-item style="display:none">
+        <a-input v-decorator="['userId']"/>
+      </a-form-item>
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -130,7 +132,6 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.getFieldDecorator('userId')
         this.mdl.deptId += ''
         this.form.setFieldsValue(pick(this.mdl, 'userId', 'loginName', 'userName', 'status', 'roleIds', 'remark', 'deptId'))
         // this.form.setFieldsValue({ ...record })
@@ -160,7 +161,6 @@ export default {
             this.$message.error('系统错误，请稍后再试')
           }).finally(() => {
             this.confirmLoading = false
-            // _this.close()
           })
         }
       })

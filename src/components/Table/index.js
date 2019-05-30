@@ -133,20 +133,21 @@ export default {
      */
     loadData (pagination, filters, sorter) {
       this.localLoading = true
-      const parameter = Object.assign({
-        pageNum: (pagination && pagination.current) ||
+      const parameter = Object.assign(
+        ['auto', true].includes(this.showPagination) ? {
+          pageNum: (pagination && pagination.current) ||
             this.localPagination.current || this.pageNum,
-        pageSize: (pagination && pagination.pageSize) ||
+          pageSize: (pagination && pagination.pageSize) ||
             this.localPagination.pageSize || this.pageSize
-      },
-      (sorter && sorter.field && {
-        sortField: sorter.field
-      }) || {},
-      (sorter && sorter.order && {
-        sortOrder: sorter.order.replace('end', '')
-      }) || {}, {
-        ...filters
-      }
+        } : {},
+        (sorter && sorter.field && {
+          sortField: sorter.field
+        }) || {},
+        (sorter && sorter.order && {
+          sortOrder: sorter.order.replace('end', '')
+        }) || {}, {
+          ...filters
+        }
       )
       const result = this.data(parameter)
       // 对接自己的通用数据接口需要修改下方代码中的 r.pageNo, r.totalCount, r.data
@@ -171,7 +172,6 @@ export default {
 
           // 这里用于判断接口是否有返回 r.totalCount 或 this.showPagination = false
           // 当情况满足时，表示数据不满足分页大小，关闭 table 分页功能
-
           (!this.showPagination || !r.total && this.showPagination === 'auto') && (this.localPagination = false)
           this.localDataSource = r.rows // 返回结果中的数组数据
           this.localLoading = false

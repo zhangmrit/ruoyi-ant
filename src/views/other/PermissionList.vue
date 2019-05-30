@@ -4,14 +4,14 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
-            <a-form-item label="权限名称" >
-              <a-input placeholder="请输入"/>
+            <a-form-item label="权限名称">
+              <a-input placeholder="请输入" v-model="queryParam.menuName"/>
             </a-form-item>
           </a-col>
           <a-col :md="5" :sm="15">
             <a-form-item label="状态">
-              <a-select placeholder="请选择">
-                <a-select-option value="-1">全部</a-select-option>
+              <a-select placeholder="请选择" v-model="queryParam.visible">
+                <a-select-option value="">全部</a-select-option>
                 <a-select-option value="0">显示</a-select-option>
                 <a-select-option value="1">隐藏</a-select-option>
               </a-select>
@@ -19,8 +19,8 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary">查询</a-button>
-              <a-button style="margin-left: 8px">重置</a-button>
+              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -32,7 +32,7 @@
     <s-table
       ref="table"
       rowKey="menuId"
-      showPagination="false"
+      :showPagination="showPagination"
       :columns="columns"
       :data="loadData">
 
@@ -49,7 +49,7 @@
         <a-divider type="vertical" />
         <a @click="handleAdd(record.menuId+'')">新增</a>
         <a-divider type="vertical" />
-        <a @click="delByIds(record.menuId)">删除</a>
+        <a @click="delById(record.menuId)">删除</a>
       </span>
     </s-table>
 
@@ -59,7 +59,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getPermissions } from '../../api/manage'
+import { getPermissions, delPerm } from '../../api/system'
 import PermissionModal from './modules/PermissionModal.vue'
 import { treeData } from '../../utils/treeutil'
 export default {
@@ -87,6 +87,7 @@ export default {
       advanced: false,
       // 查询参数
       queryParam: {},
+      showPagination: false,
       // 表头
       columns: [
         {
@@ -174,9 +175,18 @@ export default {
     toggleAdvanced () {
       this.advanced = !this.advanced
     },
-    delByIds (ids) {
-      this.$message.success(`${ids} 删除成功`)
-      this.handleOk()
+    delById (id) {
+      delPerm(id).then(res => {
+        if (res.code === 0) {
+          this.$message.success(`删除成功`)
+          this.handleOk()
+        } else {
+          this.$message.error(res.msg)
+        }
+        // const difference = new Set(this.selectedRowKeys.filter(x => !new Set(ids).has(x)))
+        // this.selectedRowKeys = Array.from(difference)
+        this.selectedRowKeys = []
+      })
     },
     onChangeStatus (record) {
       record.status = record.status === 1 ? 2 : 1

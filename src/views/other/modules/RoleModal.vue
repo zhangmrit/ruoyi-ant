@@ -10,6 +10,10 @@
   >
     <a-form :form="form">
 
+      <a-form-item style="display:none">
+        <a-input v-decorator="['roleId']"/>
+      </a-form-item>
+
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -121,11 +125,11 @@ export default {
       this.edit({ })
     },
     edit (record) {
-      getRolePermIds({ roleId: record.roleId }).then(res => { this.checkedKeys = res || [] })
+      getRolePermIds(record.roleId).then(res => { this.checkedKeys = res || [] })
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'roleName', 'status', 'roleSort', 'roleKey'))
+        this.form.setFieldsValue(pick(this.mdl, 'roleId', 'roleName', 'status', 'roleSort', 'roleKey'))
         // this.form.setFieldsValue(...record)
       })
     },
@@ -177,7 +181,6 @@ export default {
         // 验证表单没错误
         if (!err) {
           values.menuIds = this.checkedKeys
-          values.roleId = this.mdl.roleId
           console.log('form values', values)
           _this.confirmLoading = true
           saveRole(Object.assign(values)).then(res => {
@@ -193,7 +196,6 @@ export default {
             _this.$message.error('系统错误，请稍后再试')
           }).finally(() => {
             _this.confirmLoading = false
-            // _this.close()
           })
         }
       })

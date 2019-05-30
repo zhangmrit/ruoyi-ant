@@ -7,7 +7,9 @@
     @ok="handleSubmit"
   >
     <a-form :form="form">
-
+      <a-form-item style="display:none">
+        <a-input v-decorator="['menuId']"/>
+      </a-form-item>
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -90,7 +92,7 @@
   </a-modal>
 </template>
 <script>
-import { getPermissions } from '@/api/manage'
+import { getPermissions, savePerm } from '@/api/system'
 import pick from 'lodash.pick'
 export default {
   name: 'UserModal',
@@ -121,14 +123,13 @@ export default {
   methods: {
     add (parentId) {
       this.form.resetFields()
-      this.edit({ parentId: parentId })
+      this.edit({ parentId: parentId || '0' })
     },
     edit (record) {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
         this.mdl.parentId += ''
-        this.form.getFieldDecorator('menuId')
         this.form.setFieldsValue(pick(this.mdl, 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
       })
@@ -158,9 +159,20 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          this.visible = false
-          this.$emit('ok')
-          // this.$refs.table.refresh(true)
+          this.confirmLoading = true
+          savePerm(values).then(res => {
+            if (res.code === 0) {
+              this.$message.success('保存成功')
+              this.$emit('ok')
+              this.visible = false
+            } else {
+              this.$message.success(res.msg)
+            }
+          }).catch(() => {
+            this.$message.error('系统错误，请稍后再试')
+          }).finally(() => {
+            this.confirmLoading = false
+          })
         }
       })
     }

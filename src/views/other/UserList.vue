@@ -19,7 +19,7 @@
               </a-col>
               <a-col :md="5" d:sm="15">
                 <a-form-item label="状态">
-                  <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
+                  <a-select placeholder="请选择" v-model="queryParam.status" >
                     <a-select-option :value="''">全部</a-select-option>
                     <a-select-option :value="'0'">正常</a-select-option>
                     <a-select-option :value="'1'">禁用</a-select-option>

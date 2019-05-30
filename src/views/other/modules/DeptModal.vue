@@ -4,17 +4,22 @@
     style="top: 20px;"
     :width="800"
     v-model="visible"
+    :confirmLoading="confirmLoading"
     @ok="handleSubmit"
   >
     <a-form :form="form">
+      <a-form-item style="display:none">
+        <a-input v-decorator="['deptId']"/>
+      </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
+        :labelCol="
+          labelCol"
         :wrapperCol="wrapperCol"
         label="上级部门"
       >
         <a-tree-select
-          v-decorator="['parentId', {rules: [{ required: true, message: '请选择上级部门' }]}]"
+          v-decorator="['parentId', {initialValue:'0',rules: [{ required: true, message: '请选择上级部门' }]}]"
           :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
           :treeData="depts"
           placeholder="上级部门"
@@ -85,7 +90,7 @@
   </a-modal>
 </template>
 <script>
-import { getDeptList } from '@/api/manage'
+import { getDeptList, saveDept } from '@/api/system'
 import pick from 'lodash.pick'
 export default {
   name: 'DeptModal',
@@ -105,6 +110,7 @@ export default {
       },
       depts: [{ key: '0', value: '0', title: '无' }],
       mdl: {},
+      confirmLoading: false,
       form: this.$form.createForm(this)
     }
   },
@@ -118,14 +124,13 @@ export default {
   methods: {
     add (parentId) {
       this.form.resetFields()
-      this.edit({ parentId: parentId })
+      this.edit({ parentId: parentId || 0 })
     },
     edit (record) {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
         this.mdl.parentId += ''
-        this.form.getFieldDecorator('deptId')
         this.form.setFieldsValue(pick(this.mdl, 'deptId', 'parentId', 'leader', 'phone', 'status', 'email', 'orderNum', 'deptName'))
         // this.form.setFieldsValue({ ...record })
       })
@@ -149,9 +154,22 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          this.visible = false
           this.$emit('ok')
-          // this.$refs.table.refresh(true)
+          this.visible = false
+          this.confirmLoading = true
+          saveDept(values).then(res => {
+            if (res.code === 0) {
+              this.$message.success('保存成功')
+              this.$emit('ok')
+              this.visible = false
+            } else {
+              this.$message.success(res.msg)
+            }
+          }).catch(() => {
+            this.$message.error('系统错误，请稍后再试')
+          }).finally(() => {
+            this.confirmLoading = false
+          })
         }
       })
     }

@@ -98,11 +98,28 @@ export function getPermissions (parameter) {
     params: parameter
   })
 }
-export function getRolePermIds (parameter) {
+export function getRolePermIds (roleId) {
   return axios({
-    url: api.permission + '/role',
-    method: 'get',
-    params: parameter
+    url: api.permission + '/role/' + `${roleId}`,
+    method: 'get'
+  })
+}
+
+export function savePerm (parameter) {
+  return axios({
+    url: api.permission + (parameter.menuId > 0 ? '/update' : '/save'),
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function delPerm (deptId) {
+  return axios({
+    url: api.permission + '/remove/' + `${deptId}`,
+    method: 'post'
   })
 }
 
@@ -112,5 +129,22 @@ export function getDeptList (parameter) {
     url: api.dept + '/list',
     method: 'get',
     params: parameter
+  })
+}
+export function saveDept (parameter) {
+  return axios({
+    url: api.dept + (parameter.deptId > 0 ? '/update' : '/save'),
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function delDept (deptId) {
+  return axios({
+    url: api.dept + '/remove/' + `${deptId}`,
+    method: 'post'
   })
 }

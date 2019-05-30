@@ -5,13 +5,13 @@
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
             <a-form-item label="部门名称" >
-              <a-input placeholder="请输入"/>
+              <a-input placeholder="请输入" v-model="queryParam.deptName"/>
             </a-form-item>
           </a-col>
           <a-col :md="5" :sm="15">
             <a-form-item label="状态">
-              <a-select placeholder="请选择">
-                <a-select-option value="-1">全部</a-select-option>
+              <a-select placeholder="请选择" v-model="queryParam.status">
+                <a-select-option value="">全部</a-select-option>
                 <a-select-option value="0">正常</a-select-option>
                 <a-select-option value="1">停用</a-select-option>
               </a-select>
@@ -19,8 +19,8 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary">查询</a-button>
-              <a-button style="margin-left: 8px">重置</a-button>
+              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -32,7 +32,7 @@
     <s-table
       ref="table"
       rowKey="deptId"
-      showPagination="false"
+      :showPagination="showPagination"
       :columns="columns"
       :data="loadData">
 
@@ -49,7 +49,7 @@
         <a-divider type="vertical" />
         <a @click="handleAdd(record.deptId+'')">新增</a>
         <a-divider type="vertical" />
-        <a @click="delByIds(record.deptId)">删除</a>
+        <a @click="delById(record.deptId)">删除</a>
       </span>
     </s-table>
 
@@ -59,7 +59,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getDeptList } from '@/api/manage'
+import { getDeptList, delDept } from '@/api/system'
 import DeptModal from './modules/DeptModal.vue'
 import { treeData } from '@/utils/treeutil'
 export default {
@@ -85,6 +85,7 @@ export default {
       mdl: {},
       // 高级搜索 展开/关闭
       advanced: false,
+      showPagination: false,
       // 查询参数
       queryParam: {},
       // 表头
@@ -118,12 +119,9 @@ export default {
         return getDeptList(Object.assign(parameter, this.queryParam)
         ).then(res => {
           res.rows = treeData(res.rows, 'deptId')
-          console.log(res.rows)
-
           return res
         })
       },
-
       selectedRowKeys: [],
       selectedRows: []
     }
@@ -156,7 +154,6 @@ export default {
     },
     handleOk () {
       this.$refs.table.refresh()
-      console.log('handleSaveOk')
     },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
@@ -165,33 +162,15 @@ export default {
     toggleAdvanced () {
       this.advanced = !this.advanced
     },
-    // buildtree (arr, parentId) {
-    //   const array = []
-    //   arr.forEach(item => {
-    //     if (item.parentId === parentId) {
-    //       item.parentId += ''
-    //       item.children = this.buildtree(arr, item.deptId)
-    //       if (item.children.length === 0) { delete item.children }
-    //       array.push(item)
-    //     }
-    //   })
-    //   return array
-    // },
-    // buildtree (list) {
-    //   const cloneData = JSON.parse(JSON.stringify(list)) // 对源数据深度克隆
-    //   return cloneData.filter(father => {
-    //     const branchArr = cloneData.filter(child => father.deptId === child.parentId) // 返回每一项的子级数组
-    //     if (branchArr.length > 0) father.children = branchArr // 如果存在子级，则给父级添加一个children属性，并赋值
-    //     return father.parentId === 0 // 返回第一层
-    //   })
-    // },
-    delByIds (ids) {
-      this.$message.success(`${ids} 删除成功`)
-      this.handleOk()
-    },
-    onChangeStatus (record) {
-      record.status = record.status === 1 ? 2 : 1
-      // 发送状态到服务器
+    delById (id) {
+      delDept(id).then(res => {
+        if (res.code === 0) {
+          this.$message.success(`删除成功`)
+          this.handleOk()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   },
   watch: {
