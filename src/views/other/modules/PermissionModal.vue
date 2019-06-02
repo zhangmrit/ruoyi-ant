@@ -70,7 +70,6 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        v-if="mdl.menuType!='F'"
         label="图标"
       >
         <a-input v-decorator="['icon']" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
