@@ -70,6 +70,16 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        label="图标"
+      >
+        <a-input v-decorator="['icon']" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
+          <a-icon slot="suffix" type="close-circle" @click="emitEmpty"/>
+        </a-input>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
         label="显示顺序"
       >
         <a-input
@@ -89,14 +99,17 @@
       </a-form-item>
 
     </a-form>
+    <iconSelector-modal ref="modal" @ok="setIcon" :icon="icon"/>
   </a-modal>
 </template>
 <script>
 import { getPermissions, savePerm } from '@/api/system'
 import pick from 'lodash.pick'
+import IconSelectorModal from './IconSelectorModal.vue'
 export default {
   name: 'UserModal',
   components: {
+    IconSelectorModal
   },
   data () {
     return {
@@ -112,6 +125,7 @@ export default {
       },
       permissions: [{ key: 0, value: '0', title: '无' }],
       mdl: {},
+      icon: '',
       form: this.$form.createForm(this)
     }
   },
@@ -121,6 +135,16 @@ export default {
     this.loadPermissions()
   },
   methods: {
+    emitEmpty () {
+      this.$refs.iconInput.focus()
+      this.form.setFieldsValue({ 'icon': '' })
+    },
+    iconselect () {
+      this.$refs.modal.show()
+    },
+    setIcon (icon) {
+      this.form.setFieldsValue({ 'icon': icon })
+    },
     add (parentId) {
       this.form.resetFields()
       this.edit({ parentId: parentId || '0' })
@@ -130,7 +154,7 @@ export default {
       this.visible = true
       this.$nextTick(() => {
         this.mdl.parentId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
+        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
       })
     },
@@ -153,6 +177,11 @@ export default {
           arr.push(child)
         }
       })
+    },
+    handleIconChange (icon) {
+      console.log('change Icon', icon)
+      this.iconselect = false
+      this.icon = icon
     },
     handleSubmit (e) {
       e.preventDefault()
