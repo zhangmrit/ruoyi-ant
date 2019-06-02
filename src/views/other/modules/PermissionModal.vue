@@ -30,7 +30,7 @@
         :wrapperCol="wrapperCol"
         label="菜单类型"
       >
-        <a-select v-decorator="['menuType', {initialValue:'M',rules: [{ required: true, message: '请选择类型' }]}]">
+        <a-select v-decorator="['menuType', {initialValue:'M',rules: [{ required: true, message: '请选择类型' }]}]" @select="menuTypeChange">
           <a-select-option :value="'M'">目录</a-select-option>
           <a-select-option :value="'C'">菜单</a-select-option>
           <a-select-option :value="'F'">按钮</a-select-option>
@@ -53,7 +53,7 @@
         label="请求地址"
       >
         <a-input
-          v-decorator="['url',{rules: [{ required: true, message: '请输入地址' }]}]"
+          v-decorator="['url',{initialValue:'#',rules: [{ required: true, message: '请输入地址' }]}]"
           placeholder="请求地址"/>
       </a-form-item>
 
@@ -70,6 +70,7 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        v-show="iconShow"
         label="图标"
       >
         <a-input v-decorator="['icon']" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
@@ -84,7 +85,7 @@
         label="显示顺序"
       >
         <a-input
-          v-decorator="['orderNum',{rules: [{ required: true, message: '请输入顺序' }]}]"
+          v-decorator="['orderNum',{initialValue:'1',rules: [{ required: true, message: '请输入顺序' }]}]"
           placeholder="显示顺序"/>
       </a-form-item>
 
@@ -93,7 +94,7 @@
         :wrapperCol="wrapperCol"
         label="状态"
       >
-        <a-select v-decorator="['visible', {rules: [{ required: true, message: '请选择状态' }]}]">
+        <a-select v-decorator="['visible', {initialValue:'0',rules: [{ required: true, message: '请选择状态' }]}]">
           <a-select-option :value="'0'">显示</a-select-option>
           <a-select-option :value="'1'">隐藏</a-select-option>
         </a-select>
@@ -127,6 +128,7 @@ export default {
       permissions: [{ key: 0, value: '0', title: '无' }],
       mdl: {},
       icon: 'smile',
+      iconShow: true,
       form: this.$form.createForm(this)
     }
   },
@@ -136,6 +138,9 @@ export default {
     this.loadPermissions()
   },
   methods: {
+    menuTypeChange (value) {
+      value === 'F' ? this.iconShow = false : this.iconShow = true
+    },
     emitEmpty () {
       this.$refs.iconInput.focus()
       this.form.setFieldsValue({ 'icon': '' })
