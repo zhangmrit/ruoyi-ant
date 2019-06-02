@@ -70,9 +70,11 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        v-if="mdl.menuType!='F'"
         label="图标"
       >
         <a-input v-decorator="['icon']" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
+          <a-icon slot="prefix" :type="icon" />
           <a-icon slot="suffix" type="close-circle" @click="emitEmpty"/>
         </a-input>
       </a-form-item>
@@ -125,7 +127,7 @@ export default {
       },
       permissions: [{ key: 0, value: '0', title: '无' }],
       mdl: {},
-      icon: '',
+      icon: 'smile',
       form: this.$form.createForm(this)
     }
   },
@@ -143,6 +145,7 @@ export default {
       this.$refs.modal.show()
     },
     setIcon (icon) {
+      this.icon = icon
       this.form.setFieldsValue({ 'icon': icon })
     },
     add (parentId) {
@@ -153,6 +156,7 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
+        this.mdl.icon ? this.icon = this.mdl.icon : this.icon = 'smile'
         this.mdl.parentId += ''
         this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
         // this.form.setFieldsValue({ ...record })
@@ -177,11 +181,6 @@ export default {
           arr.push(child)
         }
       })
-    },
-    handleIconChange (icon) {
-      console.log('change Icon', icon)
-      this.iconselect = false
-      this.icon = icon
     },
     handleSubmit (e) {
       e.preventDefault()
