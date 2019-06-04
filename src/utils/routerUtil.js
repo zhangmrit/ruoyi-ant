@@ -24,10 +24,13 @@ const constantRouterComponents = {
   profileAdvanced: () => import('@/views/profile/advanced/Advanced'),
   resultSucc: () => import('@/views/result/Success'),
   resultErr: () => import('@/views/result/Error'),
+  // system
   userList: () => import('@/views/system/UserList'),
   roleList: () => import('@/views/system/RoleList'),
   permissionList: () => import('@/views/system/PermissionList'),
-  deptList: () => import('@/views/system/DeptList')
+  deptList: () => import('@/views/system/DeptList'),
+  // monitor
+  operLogList: () => import('@/views/monitor/OperLogList')
   // ...more
 }
 
