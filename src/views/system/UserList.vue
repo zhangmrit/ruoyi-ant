@@ -179,7 +179,13 @@ export default {
     },
     onChangeStatus (record) {
       record.status = record.status === '0' ? '1' : '0'
-      changUserStatus(pick(record, 'userId', 'status'))
+      changUserStatus(pick(record, 'userId', 'status')).then(res => {
+        if (res.code === 0) {
+          this.$message.success('保存成功')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
       // 发送状态到服务器
     },
     buildtree (list, arr, parentId) {
