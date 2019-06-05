@@ -64,7 +64,7 @@
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="$refs.createModal.add()">新建</a-button>
       <a-button type="dashed" @click="tableOption">{{ optionAlertShow && '关闭' || '开启' }} alert</a-button>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
+      <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
           <!-- lock | unlock -->
@@ -84,12 +84,16 @@
       :data="loadData"
       :alert="options.alert"
       :rowSelection="options.rowSelection"
+      :show-pagination="false"
     >
       <span slot="serial" slot-scope="text, record, index">
         {{ index + 1 }}
       </span>
       <span slot="status" slot-scope="text">
         <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
+      </span>
+      <span slot="description" slot-scope="text">
+        <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
       </span>
 
       <span slot="action" slot-scope="text, record">
@@ -107,10 +111,10 @@
 
 <script>
 import moment from 'moment'
-import { STable } from '@/components'
+import { STable, Ellipsis } from '@/components'
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
-import { getRoleList, getServiceList } from '@/api/test'
+import { getRoleList, getServiceList } from '@/api/manage'
 
 const statusMap = {
   0: {
@@ -135,6 +139,7 @@ export default {
   name: 'TableList',
   components: {
     STable,
+    Ellipsis,
     CreateForm,
     StepByStepModal
   },
@@ -157,7 +162,8 @@ export default {
         },
         {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          scopedSlots: { customRender: 'description' }
         },
         {
           title: '服务调用次数',
@@ -188,8 +194,6 @@ export default {
         console.log('loadData.parameter', parameter)
         return getServiceList(Object.assign(parameter, this.queryParam))
           .then(res => {
-            console.log(res)
-
             return res.result
           })
       },
@@ -226,7 +230,13 @@ export default {
           alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
           rowSelection: {
             selectedRowKeys: this.selectedRowKeys,
-            onChange: this.onSelectChange
+            onChange: this.onSelectChange,
+            getCheckboxProps: record => ({
+              props: {
+                disabled: record.no === 'No 2', // Column configuration not to be checked
+                name: record.no
+              }
+            })
           }
         }
         this.optionAlertShow = true

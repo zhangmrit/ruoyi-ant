@@ -17,7 +17,6 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/dashboard/workplace',
         component: RouteView,
-        hideChildrenInMenu: true,
         meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
         children: [
           {
@@ -269,7 +268,7 @@ export const asyncRouterMap = [
           {
             path: '/other/icon-selector',
             name: 'TestIconSelect',
-            component: () => import('@/views/system/IconSelectorView'),
+            component: () => import('@/views/other/IconSelectorView'),
             meta: { title: 'IconSelector', icon: 'tool', keepAlive: true, permission: [ 'dashboard' ] }
           },
           {
@@ -281,25 +280,25 @@ export const asyncRouterMap = [
               {
                 path: '/other/list/tree-list',
                 name: 'TreeList',
-                component: () => import('@/views/system/TreeList'),
+                component: () => import('@/views/other/TreeList'),
                 meta: { title: '树目录表格', keepAlive: true }
               },
               {
                 path: '/other/list/edit-table',
                 name: 'EditList',
-                component: () => import('@/views/system/TableInnerEditList'),
+                component: () => import('@/views/other/TableInnerEditList'),
                 meta: { title: '内联编辑表格', keepAlive: true }
               },
               {
                 path: '/other/list/user-list',
                 name: 'UserList',
-                component: () => import('@/views/system/UserList'),
+                component: () => import('@/views/other/UserList'),
                 meta: { title: '用户列表', keepAlive: true }
               },
               {
                 path: '/other/list/role-list',
                 name: 'RoleList',
-                component: () => import('@/views/system/RoleList'),
+                component: () => import('@/views/other/RoleList'),
                 meta: { title: '角色列表', keepAlive: true }
               },
               {
@@ -311,7 +310,7 @@ export const asyncRouterMap = [
               {
                 path: '/other/list/permission-list',
                 name: 'PermissionList',
-                component: () => import('@/views/system/PermissionList'),
+                component: () => import('@/views/other/PermissionList'),
                 meta: { title: '权限列表', keepAlive: true }
               }
             ]
