@@ -4,12 +4,12 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
-            <a-form-item label="角色名称">
+            <a-form-item label="操作人员">
               <a-input placeholder="请输入" v-model="queryParam.roleName"/>
             </a-form-item>
           </a-col>
-          <a-col :md="5" :sm="15">
-            <a-form-item label="状态">
+          <a-col :md="4" :sm="12">
+            <a-form-item label="操作类型">
               <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
                 <a-select-option :value="''">全部</a-select-option>
                 <a-select-option :value="0">正常</a-select-option>
@@ -17,7 +17,21 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="4" :sm="12">
+            <a-form-item label="操作状态">
+              <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
+                <a-select-option :value="''">全部</a-select-option>
+                <a-select-option :value="0">正常</a-select-option>
+                <a-select-option :value="1">禁用</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="6" :sm="18">
+            <a-form-item label="操作时间">
+              <a-range-picker @change="onChangedate" v-model="rang"/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="15">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
@@ -27,7 +41,10 @@
       </a-form>
     </div>
     <div class="table-operator">
-      <a-button type="danger" ghost @click="$refs.modal.add()" icon="close">清空</a-button>
+      <a-popconfirm title="确认清空吗？" @confirm="clean">
+        <a-icon slot="icon" type="question-circle-o" style="color: red" />
+        <a-button type="danger" ghost icon="close">清空</a-button>
+      </a-popconfirm>
       <a-dropdown v-has="'role:del'" v-if="selectedRowKeys.length > 0">
         <a-button type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
       </a-dropdown>
@@ -53,7 +70,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getOperLogList, delOperLog } from '@/api/monitor'
+import { getOperLogList, delOperLog, cleanOperLog } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
 export default {
   name: 'TableList',
@@ -121,12 +138,19 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
+      rang: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
+        if (this.queryParam.rang) {
+          this.queryParam.startTime = this.queryParam.rang[0].format('YYYY-MM-DD')
+          this.queryParam.endtTime = this.queryParam.rang[1].format('YYYY-MM-DD')
+          this.queryParam.rang = null
+        }
         return getOperLogList(Object.assign(parameter, this.queryParam))
       },
       selectedRowKeys: [],
       selectedRows: []
+
     }
   },
   filters: {
@@ -151,9 +175,12 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
+    onChangedate (date, dateString) {
+      console.log(date, dateString)
+      console.log(this.queryParam.rang)
+    },
     handleOk () {
       this.$refs.table.refresh(true)
-      console.log('handleSaveOk')
     },
     delByIds (ids) {
       delOperLog({ ids: ids.join(',') }).then(res => {
@@ -164,6 +191,11 @@ export default {
           this.$message.error(res.msg)
         }
         this.selectedRowKeys = []
+      })
+    },
+    clean () {
+      cleanOperLog().then(res => {
+        this.handleOk()
       })
     }
   },
