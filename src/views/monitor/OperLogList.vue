@@ -12,7 +12,7 @@
             <a-form-item label="操作类型">
               <a-select placeholder="请选择" v-model="queryParam.businessType" default-value="0">
                 <a-select-option :value="''">全部</a-select-option>
-                <a-select-option v-for="(b, index) in businessTypes" :key="index" :value="b.code">{{ b.label }}</a-select-option>
+                <a-select-option v-for="(b, index) in businessTypes" :key="index" :value="b.dictValue">{{ b.dictLabel }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -76,8 +76,8 @@
 import { STable } from '@/components'
 import { getOperLogList, delOperLog, cleanOperLog } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
-import { getDictMap } from '../../utils/dict'
-let operTypeMap
+import { getDictArray } from '../../utils/dict'
+const operTypeMap = {}
 export default {
   name: 'TableList',
   components: {
@@ -159,8 +159,7 @@ export default {
   },
   filters: {
     operTypeFilter (type) {
-      type += ''
-      return operTypeMap.get(type)
+      return operTypeMap[type].text
     },
     statusFilter (status) {
       const statusMap = {
@@ -174,11 +173,17 @@ export default {
 
   },
   async created () {
-    operTypeMap = await getDictMap('sys_oper_type')
-    this.operTypeMap = operTypeMap
-    this.operTypeMap.forEach((value, key, mymap) => {
-      this.businessTypes.push({ code: key, label: value })
+    // 字典两种用法，各有优缺点
+    // operTypeMap = await getDictMap('sys_oper_type')
+    // this.operTypeMap = operTypeMap
+    // this.operTypeMap.forEach((value, key, mymap) => {
+    //   this.businessTypes.push({ code: key, label: value })
+    // })
+    this.businessTypes = await getDictArray('sys_oper_type')
+    this.businessTypes.map(d => {
+      operTypeMap[d.dictValue] = { text: d.dictLabel }
     })
+    this.operTypeMap = operTypeMap
   },
   methods: {
     onSelectChange (selectedRowKeys, selectedRows) {

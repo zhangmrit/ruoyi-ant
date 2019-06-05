@@ -8,7 +8,7 @@
   >
     <a-card :bordered="false">
       <detail-list size="small" :col="2" >
-        <detail-list-item term="操作模块">{{ mdl.title }}/{{ operTypeMap.get(mdl.businessType+'') }}</detail-list-item>
+        <detail-list-item term="操作模块" >{{ mdl.title }}/{{ mdl.operType }}</detail-list-item>
         <detail-list-item term="登陆信息">{{ mdl.operName }}/{{ mdl.operIp }}/{{ mdl.operLocation }}</detail-list-item>
       </detail-list>
       <detail-list title="" size="small" :col="1">
@@ -39,7 +39,7 @@ export default {
   },
   props: {
     operTypeMap: {
-      type: Map,
+      type: Object,
       required: true
     }
   },
@@ -62,6 +62,7 @@ export default {
   methods: {
     detail (record) {
       this.mdl = Object.assign({}, record)
+      this.mdl.operType = this.operTypeMap[this.mdl.businessType].text
       this.visible = true
     }
   }
