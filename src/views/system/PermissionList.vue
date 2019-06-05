@@ -19,7 +19,7 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button type="primary" @click="this.fetch">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
             </span>
           </a-col>
@@ -29,12 +29,13 @@
     <div class="table-operator">
       <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
     </div>
-    <s-table
+    <a-table
       ref="table"
       rowKey="menuId"
-      :showPagination="showPagination"
+      :pagination="pagination"
+      :loading="loading"
       :columns="columns"
-      :data="loadData">
+      :dataSource="data">
 
       <span slot="menuType" slot-scope="text">
         {{ text | menuTypeFilter }}
@@ -51,21 +52,21 @@
         <a-divider type="vertical" />
         <a @click="delById(record.menuId)">删除</a>
       </span>
-    </s-table>
+    </a-table>
 
     <permission-modal ref="modal" @ok="handleOk" />
   </a-card>
 </template>
 
 <script>
-import { STable } from '@/components'
+import T from 'ant-design-vue/es/table/Table'
 import { getPermissions, delPerm } from '../../api/system'
 import PermissionModal from './modules/PermissionModal.vue'
 import { treeData } from '../../utils/treeutil'
 export default {
   name: 'TableList',
   components: {
-    STable,
+    T,
     PermissionModal
   },
   data () {
@@ -87,7 +88,7 @@ export default {
       advanced: false,
       // 查询参数
       queryParam: {},
-      showPagination: false,
+
       // 表头
       columns: [
         {
@@ -123,19 +124,9 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      preList: null,
-      // 向后端拉取可以用的操作列表
-      permissionList: null,
-      // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        return getPermissions(Object.assign(parameter, this.queryParam)).then(res => {
-          res.rows = treeData(res.rows, 'menuId')
-          return res
-        })
-      },
-
-      selectedRowKeys: [],
-      selectedRows: []
+      data: [],
+      pagination: false,
+      loading: false
     }
   },
   filters: {
@@ -156,6 +147,7 @@ export default {
     }
   },
   created () {
+    this.fetch()
   },
   methods: {
     handleAdd (parentId) {
@@ -165,15 +157,9 @@ export default {
       this.$refs.modal.edit(record)
     },
     handleOk () {
-      this.$refs.table.refresh()
+      // this.$refs.table.refresh()
+      this.fetch()
       console.log('handleSaveOk')
-    },
-    onChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
     },
     delById (id) {
       delPerm(id).then(res => {
@@ -183,14 +169,14 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
-        // const difference = new Set(this.selectedRowKeys.filter(x => !new Set(ids).has(x)))
-        // this.selectedRowKeys = Array.from(difference)
-        this.selectedRowKeys = []
       })
     },
-    onChangeStatus (record) {
-      record.status = record.status === 1 ? 2 : 1
-      // 发送状态到服务器
+    fetch () {
+      this.loading = true
+      getPermissions(Object.assign(this.queryParam)).then(res => {
+        this.data = treeData(res.rows, 'menuId')
+        this.loading = false
+      })
     }
   },
   watch: {

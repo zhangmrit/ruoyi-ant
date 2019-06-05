@@ -19,7 +19,7 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button type="primary" @click="this.fetch">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
             </span>
           </a-col>
@@ -29,12 +29,13 @@
     <div class="table-operator">
       <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
     </div>
-    <s-table
+    <a-table
       ref="table"
       rowKey="deptId"
-      :showPagination="showPagination"
+      :pagination="pagination"
+      :loading="loading"
       :columns="columns"
-      :data="loadData">
+      :dataSource="data">
 
       <span slot="menuType" slot-scope="text">
         {{ text | menuTypeFilter }}
@@ -51,21 +52,21 @@
         <a-divider type="vertical" />
         <a @click="delById(record.deptId)">删除</a>
       </span>
-    </s-table>
+    </a-table>
 
     <dept-modal ref="modal" @ok="handleOk"/>
   </a-card>
 </template>
 
 <script>
-import { STable } from '@/components'
+import T from 'ant-design-vue/es/table/Table'
 import { getDeptList, delDept } from '@/api/system'
 import DeptModal from './modules/DeptModal.vue'
 import { treeData } from '@/utils/treeutil'
 export default {
   name: 'TableList',
   components: {
-    STable,
+    T,
     DeptModal
   },
   data () {
@@ -85,7 +86,6 @@ export default {
       mdl: {},
       // 高级搜索 展开/关闭
       advanced: false,
-      showPagination: false,
       // 查询参数
       queryParam: {},
       // 表头
@@ -114,16 +114,9 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        return getDeptList(Object.assign(parameter, this.queryParam)
-        ).then(res => {
-          res.rows = treeData(res.rows, 'deptId')
-          return res
-        })
-      },
-      selectedRowKeys: [],
-      selectedRows: []
+      data: [],
+      pagination: false,
+      loading: false
     }
   },
   filters: {
@@ -144,6 +137,7 @@ export default {
     }
   },
   created () {
+    this.fetch()
   },
   methods: {
     handleAdd (parentId) {
@@ -153,14 +147,7 @@ export default {
       this.$refs.modal.edit(record)
     },
     handleOk () {
-      this.$refs.table.refresh()
-    },
-    onChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
+      this.fetch()
     },
     delById (id) {
       delDept(id).then(res => {
@@ -170,6 +157,14 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
+      })
+    },
+    fetch () {
+      this.loading = true
+      getDeptList(Object.assign(this.queryParam)).then(res => {
+        this.data = treeData(res.rows, 'deptId')
+        this.loading = false
+        console.log(this.data)
       })
     }
   },
