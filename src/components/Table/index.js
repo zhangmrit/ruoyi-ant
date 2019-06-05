@@ -12,6 +12,7 @@ export default {
       localLoading: false,
       localDataSource: [],
       localPagination: Object.assign({}, this.pagination)
+
     }
   },
   props: Object.assign({}, T.props, {
@@ -74,6 +75,10 @@ export default {
     pageURI: {
       type: Boolean,
       default: false
+    },
+    rangPicker: {
+      type: Array,
+      default: null
     }
   }),
   watch: {
@@ -133,12 +138,17 @@ export default {
      */
     loadData (pagination, filters, sorter) {
       this.localLoading = true
+      // console.log('rangPicker', this.rangPicker)
       const parameter = Object.assign({
         pageNo: (pagination && pagination.current) ||
           this.showPagination && this.localPagination.current || this.pageNum,
         pageSize: (pagination && pagination.pageSize) ||
           this.showPagination && this.localPagination.pageSize || this.pageSize
       },
+      (this.rangPicker && this.rangPicker.length === 2 && {
+        beginTime: this.rangPicker[0].format('YYYY-MM-DD'),
+        endTime: this.rangPicker[1].format('YYYY-MM-DD')
+      }) || {},
       (sorter && sorter.field && {
         sortField: sorter.field
       }) || {},
@@ -166,7 +176,7 @@ export default {
             this.loadData()
             return
           }
-          console.log('localPagination', this.localPagination)
+          // console.log('localPagination', this.localPagination)
           // 这里用于判断接口是否有返回 r.totalCount 且 this.showPagination = true 且 pageNo 和 pageSize 存在 且 totalCount 小于等于 pageNo * pageSize 的大小
           // 当情况满足时，表示数据不满足分页大小，关闭 table 分页功能
           try {

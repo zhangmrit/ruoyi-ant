@@ -8,7 +8,7 @@
   >
     <a-card :bordered="false">
       <detail-list size="small" :col="2" >
-        <detail-list-item term="操作模块">{{ mdl.title }}/{{ mdl.businessType }}</detail-list-item>
+        <detail-list-item term="操作模块">{{ mdl.title }}/{{ operTypeMap.get(mdl.businessType+'') }}</detail-list-item>
         <detail-list-item term="登陆信息">{{ mdl.operName }}/{{ mdl.operIp }}/{{ mdl.operLocation }}</detail-list-item>
       </detail-list>
       <detail-list title="" size="small" :col="1">
@@ -16,7 +16,7 @@
       </detail-list>
       <detail-list size="small" :col="2" >
         <detail-list-item term="请求地址">{{ mdl.operUrl }}</detail-list-item>
-        <detail-list-item term="状态">{{ mdl.status }}</detail-list-item>
+        <detail-list-item term="状态">{{ mdl.status===0?'成功':'失败' }}</detail-list-item>
       </detail-list>
       <a-divider style="margin-bottom: 32px"/>
       <detail-list title="参数" size="small" >
@@ -36,6 +36,12 @@ export default {
   components: {
     DetailList,
     DetailListItem
+  },
+  props: {
+    operTypeMap: {
+      type: Map,
+      required: true
+    }
   },
   data () {
     return {

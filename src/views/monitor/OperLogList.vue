@@ -5,15 +5,14 @@
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
             <a-form-item label="操作人员">
-              <a-input placeholder="请输入" v-model="queryParam.roleName"/>
+              <a-input placeholder="请输入" v-model="queryParam.operName"/>
             </a-form-item>
           </a-col>
           <a-col :md="4" :sm="12">
             <a-form-item label="操作类型">
-              <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
+              <a-select placeholder="请选择" v-model="queryParam.businessType" default-value="0">
                 <a-select-option :value="''">全部</a-select-option>
-                <a-select-option :value="0">正常</a-select-option>
-                <a-select-option :value="1">禁用</a-select-option>
+                <a-select-option v-for="(b, index) in businessTypes" :key="index" :value="b.code">{{ b.label }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -21,14 +20,14 @@
             <a-form-item label="操作状态">
               <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
                 <a-select-option :value="''">全部</a-select-option>
-                <a-select-option :value="0">正常</a-select-option>
-                <a-select-option :value="1">禁用</a-select-option>
+                <a-select-option :value="0">成功</a-select-option>
+                <a-select-option :value="1">失败</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="18">
             <a-form-item label="操作时间">
-              <a-range-picker @change="onChangedate" v-model="rang"/>
+              <a-range-picker v-model="range"/>
             </a-form-item>
           </a-col>
           <a-col :md="5" :sm="15">
@@ -56,7 +55,12 @@
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
       :data="loadData"
+      :rangPicker="range"
+      v-if="operTypeMap"
     >
+      <span slot="businessType" slot-scope="text">
+        {{ text | operTypeFilter }}
+      </span>
       <span slot="status" slot-scope="text">
         {{ text | statusFilter }}
       </span>
@@ -64,7 +68,7 @@
         <a v-has="'user:edit'" @click="handleDetail(record)">详细</a>
       </span>
     </s-table>
-    <operLog-modal ref="modal"/>
+    <operLog-modal ref="modal" :operTypeMap="operTypeMap" v-if="operTypeMap"/>
   </a-card>
 </template>
 
@@ -72,6 +76,8 @@
 import { STable } from '@/components'
 import { getOperLogList, delOperLog, cleanOperLog } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
+import { getDictMap } from '../../utils/dict'
+let operTypeMap
 export default {
   name: 'TableList',
   components: {
@@ -108,7 +114,8 @@ export default {
         },
         {
           title: '操作类型',
-          dataIndex: 'businessType'
+          dataIndex: 'businessType',
+          scopedSlots: { customRender: 'businessType' }
         },
         {
           title: '操作人员',
@@ -138,22 +145,23 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      rang: null,
+      range: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        if (this.queryParam.rang) {
-          this.queryParam.startTime = this.queryParam.rang[0].format('YYYY-MM-DD')
-          this.queryParam.endtTime = this.queryParam.rang[1].format('YYYY-MM-DD')
-          this.queryParam.rang = null
-        }
         return getOperLogList(Object.assign(parameter, this.queryParam))
       },
+      operTypeMap: null,
+      businessTypes: [],
       selectedRowKeys: [],
       selectedRows: []
 
     }
   },
   filters: {
+    operTypeFilter (type) {
+      type += ''
+      return operTypeMap.get(type)
+    },
     statusFilter (status) {
       const statusMap = {
         '1': '失败',
@@ -162,22 +170,25 @@ export default {
       return statusMap[status]
     }
   },
-  created () {
+  beforeCreate () {
+
+  },
+  async created () {
+    operTypeMap = await getDictMap('sys_oper_type')
+    this.operTypeMap = operTypeMap
+    this.operTypeMap.forEach((value, key, mymap) => {
+      this.businessTypes.push({ code: key, label: value })
+    })
   },
   methods: {
-    onSelectChange (selectedRowKeys) {
+    onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+      console.log(this.selectedRowKeys)
+      console.log(this.selectedRows)
     },
     handleDetail (record) {
       this.$refs.modal.detail(record)
-    },
-    onChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    onChangedate (date, dateString) {
-      console.log(date, dateString)
-      console.log(this.queryParam.rang)
     },
     handleOk () {
       this.$refs.table.refresh(true)
