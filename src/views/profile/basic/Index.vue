@@ -98,7 +98,7 @@ export default {
       loadGoodsData: () => {
         return new Promise(resolve => {
           resolve({
-            data: [
+            rows: [
               {
                 id: '1234561',
                 name: '矿泉水 550ml',
@@ -173,7 +173,7 @@ export default {
       loadScheduleData: () => {
         return new Promise(resolve => {
           resolve({
-            data: [
+            rows: [
               {
                 key: '1',
                 time: '2017-10-01 14:10',

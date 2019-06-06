@@ -814,7 +814,6 @@ const permissionNoPager = () => {
   }
   ])
 }
-
 const permissions = () => {
   return builder({
     'rows': [{
@@ -968,7 +967,7 @@ const permissions = () => {
   })
 }
 
-Mock.mock(/\/test\/org\/tree/, 'get', orgTree)
-Mock.mock(/\/test\/role/, 'get', role)
-Mock.mock(/\/test\/permission\/no-pager/, 'get', permissionNoPager)
-Mock.mock(/\/test\/permission/, 'get', permissions)
+Mock.mock(/\/org\/tree/, 'get', orgTree)
+Mock.mock(/\/mock\/role/, 'get', role)
+Mock.mock(/\/permission\/no-pager/, 'get', permissionNoPager)
+Mock.mock(/\/permission/, 'get', permissions)
