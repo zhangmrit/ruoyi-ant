@@ -20,7 +20,7 @@
               placeholder="账户: admin"
               v-decorator="[
                 'username',
-                {rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+                {initialValue:'admin',rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
               ]"
             >
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -32,10 +32,10 @@
               size="large"
               type="password"
               autocomplete="false"
-              placeholder="密码: admin or ant.design"
+              placeholder="密码: admin123"
               v-decorator="[
                 'password',
-                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+                { initialValue:'admin123',rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
               ]"
             >
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -115,10 +115,12 @@
 </template>
 
 <script>
-// import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
+// eslint-disable-next-line no-unused-vars
+import md5 from 'md5'
+// eslint-disable-next-line no-unused-vars
 import { getSmsCaptcha, get2step } from '@/api/login'
 
 export default {
@@ -144,13 +146,13 @@ export default {
     }
   },
   created () {
-    get2step({ })
-      .then(res => {
-        this.requiredTwoStepCaptcha = res.result.stepCode
-      })
-      .catch(() => {
-        this.requiredTwoStepCaptcha = false
-      })
+    // get2step({ })
+    //   .then(res => {
+    //     this.requiredTwoStepCaptcha = res.result.stepCode
+    //   })
+    //   .catch(() => {
+    //     this.requiredTwoStepCaptcha = false
+    //   })
     // this.requiredTwoStepCaptcha = true
   },
   methods: {
