@@ -20,10 +20,24 @@ const constantRouterComponents = {
   tableList: () => import('@/views/list/TableList'),
   standardList: () => import('@/views/list/StandardList'),
   cardList: () => import('@/views/list/CardList'),
+  search: () => import('@/views/list/search/SearchLayout'),
+  article: () => import('@/views/list/search/Article'),
+  project: () => import('@/views/list/search/Projects'),
+  application: () => import('@/views/list/search/Applications'),
   profileBasic: () => import('@/views/profile/basic/Index'),
   profileAdvanced: () => import('@/views/profile/advanced/Advanced'),
   resultSucc: () => import('@/views/result/Success'),
   resultErr: () => import('@/views/result/Error'),
+  error403: () => import('@/views/exception/403'),
+  error404: () => import('@/views/exception/404'),
+  error500: () => import('@/views/exception/500'),
+  center: () => import('@/views/account/center/Index'),
+  settings: () => import('@/views/account/settings/Index'),
+  base: () => import('@/views/account/settings/BaseSetting'),
+  security: () => import('@/views/account/settings/Security'),
+  custom: () => import('@/views/account/settings/Custom'),
+  binding: () => import('@/views/account/settings/Binding'),
+  notification: () => import('@/views/account/settings/Notification'),
   // system
   userList: () => import('@/views/system/UserList'),
   roleList: () => import('@/views/system/RoleList'),
@@ -93,8 +107,9 @@ export const generator = (routerMap, parent) => {
       name: item.name || item.key || '',
       // 该路由对应页面的 组件
       component: constantRouterComponents[item.component || item.key],
+      hideChildrenInMenu: item.hideChildrenInMenu || false,
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
-      meta: { title: item.title, icon: item.icon || undefined, permission: item.key && [ item.key ] || null }
+      meta: { title: item.title, icon: item.icon || undefined, permission: item.key && [ item.key ] || null, hiddenHeaderContent: item.hiddenHeaderContent || false }
     }
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
     currentRouter.path = currentRouter.path.replace('//', '/')
@@ -126,11 +141,6 @@ export function buildmenu (rows) {
           'children': [{
             'title': '分析页',
             'key': 'analysis',
-            'icon': ''
-          },
-          {
-            'title': '监控页',
-            'key': 'monitor',
             'icon': ''
           },
           {
@@ -181,6 +191,25 @@ export function buildmenu (rows) {
             'title': '卡片列表',
             'key': 'cardList',
             'icon': ''
+          },
+          {
+            'title': '搜索列表',
+            'redirect': '/list/search/article',
+            'key': 'search',
+            'children': [
+              {
+                'title': '搜索列表（文章）',
+                'key': 'article'
+              },
+              {
+                'title': '搜索列表（项目）',
+                'key': 'project'
+              },
+              {
+                'title': '搜索列表（应用）',
+                'key': 'application'
+              }
+            ]
           }
           ]
         },
@@ -207,17 +236,90 @@ export function buildmenu (rows) {
           'component': 'PageView',
           'icon': 'check-circle-o',
           'children': [{
+            'hiddenHeaderContent': true,
             'title': '成功',
             'key': 'resultSucc',
             'icon': ''
           },
           {
+            'hiddenHeaderContent': true,
             'title': '失败',
             'key': 'resultErr',
             'icon': ''
           }
           ]
-        }]
+        },
+        {
+          'title': '异常页',
+          'key': 'exception',
+          'component': 'PageView',
+          'icon': 'warning',
+          'children': [
+            {
+              'hiddenHeaderContent': true,
+              'title': '403',
+              'key': 'error403'
+            },
+            {
+              'hiddenHeaderContent': true,
+              'title': '404',
+              'key': 'error404'
+            },
+            {
+              'hiddenHeaderContent': true,
+              'title': '500',
+              'key': 'error500'
+            }
+          ]
+        },
+        {
+          'title': '个人页',
+          'key': 'account',
+          'component': 'PageView',
+          'icon': 'user',
+          'children': [
+            {
+              'hiddenHeaderContent': true,
+              'title': '个人中心',
+              'key': 'center'
+            },
+            {
+              'title': '个人设置',
+              'key': 'settings',
+              'hideChildrenInMenu': true,
+              'redirect': '/account/settings/base',
+              'children': [
+                {
+                  'hiddenHeaderContent': true,
+                  'title': '基本设置',
+                  'key': 'base'
+                },
+                {
+                  'hiddenHeaderContent': true,
+                  'title': '安全设置',
+                  'key': 'security'
+                },
+                {
+                  'hiddenHeaderContent': true,
+                  'title': '个性化设置',
+                  'key': 'custom'
+                },
+                {
+                  'hiddenHeaderContent': true,
+                  'title': '账户绑定',
+                  'key': 'binding'
+                },
+                {
+                  'hiddenHeaderContent': true,
+                  'title': '新消息通知',
+                  'key': 'notification'
+                }
+              ]
+            }
+          ]
+        }
+
+      ]
     }
   ]
   const arr = []

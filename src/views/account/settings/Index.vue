@@ -11,27 +11,27 @@
             @openChange="onOpenChange"
           >
             <a-menu-item key="/account/settings/base">
-              <router-link :to="{ name: 'BaseSettings' }">
+              <router-link :to="{ name: 'base' }">
                 基本设置
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/security">
-              <router-link :to="{ name: 'SecuritySettings' }">
+              <router-link :to="{ name: 'security' }">
                 安全设置
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/custom">
-              <router-link :to="{ name: 'CustomSettings' }">
+              <router-link :to="{ name: 'custom' }">
                 个性化
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/binding">
-              <router-link :to="{ name: 'BindingSettings' }">
+              <router-link :to="{ name: 'binding' }">
                 账户绑定
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/notification">
-              <router-link :to="{ name: 'NotificationSettings' }">
+              <router-link :to="{ name: 'notification' }">
                 新消息通知
               </router-link>
             </a-menu-item>
@@ -97,6 +97,7 @@ export default {
     updateMenu () {
       const routes = this.$route.matched.concat()
       this.selectedKeys = [ routes.pop().path ]
+      console.log('selectedKeys', this.selectedKeys)
     }
   },
   watch: {
