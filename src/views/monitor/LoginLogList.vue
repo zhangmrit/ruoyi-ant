@@ -52,6 +52,7 @@
       :columns="columns"
       :data="loadData"
       :rangPicker="range"
+      defaultSort="loginTime"
     >
       <span slot="status" slot-scope="text">
         {{ text | statusFilter }}

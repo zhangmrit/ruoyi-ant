@@ -79,6 +79,14 @@ export default {
     rangPicker: {
       type: Array,
       default: null
+    },
+    defaultSort: {
+      type: String,
+      default: null
+    },
+    defaultOrder: {
+      type: String,
+      default: 'desc'
     }
   }),
   watch: {
@@ -151,10 +159,11 @@ export default {
       }) || {},
       (sorter && sorter.field && {
         sortField: sorter.field
-      }) || {},
+      }) || (this.defaultSort && this.defaultSort.length > 0 && { sortField: this.defaultSort }) || {},
       (sorter && sorter.order && {
         sortOrder: sorter.order.replace('end', '')
-      }) || {}, {
+      }) || (this.defaultSort && this.defaultSort.length > 0 && { sortOrder: this.defaultOrder }) || {},
+      {
         ...filters
       }
       )
