@@ -2,6 +2,8 @@
 
 
 - 预览: http://ruoyi.ant.zmrit.com
+- 独有的字典用法
+- 独有的自定义默认排序
 
 
 
