@@ -44,7 +44,8 @@ const constantRouterComponents = {
   permissionList: () => import('@/views/system/PermissionList'),
   deptList: () => import('@/views/system/DeptList'),
   // monitor
-  operLogList: () => import('@/views/monitor/OperLogList')
+  operLogList: () => import('@/views/monitor/OperLogList'),
+  loginLogList: () => import('@/views/monitor/LoginLogList')
   // ...more
 }
 
