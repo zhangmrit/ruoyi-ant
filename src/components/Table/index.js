@@ -140,7 +140,7 @@ export default {
       this.localLoading = true
       // console.log('rangPicker', this.rangPicker)
       const parameter = Object.assign({
-        pageNo: (pagination && pagination.current) ||
+        pageNum: (pagination && pagination.current) ||
           this.showPagination && this.localPagination.current || this.pageNum,
         pageSize: (pagination && pagination.pageSize) ||
           this.showPagination && this.localPagination.pageSize || this.pageSize

@@ -7,11 +7,11 @@ const serverList = (options) => {
   const parameters = getQueryParameters(options)
 
   const result = []
-  const pageNo = parseInt(parameters.pageNo)
+  const pageNum = parseInt(parameters.pageNum)
   const pageSize = parseInt(parameters.pageSize)
   const totalPage = Math.ceil(totalCount / pageSize)
-  const key = (pageNo - 1) * pageSize
-  const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+  const key = (pageNum - 1) * pageSize
+  const next = (pageNum >= totalPage ? (totalCount % pageSize) : pageSize) + 1
 
   for (let i = 1; i < next; i++) {
     const tmpKey = key + i
@@ -29,7 +29,7 @@ const serverList = (options) => {
 
   return builder({
     pageSize: pageSize,
-    pageNo: pageNo,
+    pageNum: pageNum,
     totalCount: totalCount,
     totalPage: totalPage,
     rows: result
@@ -88,7 +88,7 @@ const projects = () => {
     }
     ],
     'pageSize': 10,
-    'pageNo': 0,
+    'pageNum': 0,
     'totalPage': 6,
     'totalCount': 57
   })

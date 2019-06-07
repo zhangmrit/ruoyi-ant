@@ -4,33 +4,29 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
-            <a-form-item label="操作人员">
-              <a-input placeholder="请输入" v-model="queryParam.operName"/>
+            <a-form-item label="登陆地址">
+              <a-input placeholder="请输入" v-model="queryParam.ipaddr"/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="15">
+            <a-form-item label="登陆名称">
+              <a-input placeholder="请输入" v-model="queryParam.loginName"/>
             </a-form-item>
           </a-col>
           <a-col :md="4" :sm="12">
-            <a-form-item label="操作类型">
-              <a-select placeholder="请选择" v-model="queryParam.businessType" default-value="0">
+            <a-form-item label="登陆状态">
+              <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
                 <a-select-option :value="''">全部</a-select-option>
                 <a-select-option v-for="(d, index) in commonStatus" :key="index" :value="d.dictValue">{{ d.dictLabel }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="4" :sm="12">
-            <a-form-item label="操作状态">
-              <a-select placeholder="请选择" v-model="queryParam.status" default-value="0">
-                <a-select-option :value="''">全部</a-select-option>
-                <a-select-option :value="0">成功</a-select-option>
-                <a-select-option :value="1">失败</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
           <a-col :md="6" :sm="18">
-            <a-form-item label="操作时间">
+            <a-form-item label="登陆时间">
               <a-range-picker v-model="range"/>
             </a-form-item>
           </a-col>
-          <a-col :md="5" :sm="15">
+          <a-col :md="4" :sm="12">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
