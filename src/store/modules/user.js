@@ -77,11 +77,12 @@ const user = {
     // 登出
     Logout ({ commit, state }) {
       return new Promise((resolve) => {
+        // 优化退出逻辑，先复制token，本地先执行退出
+        const token = state.token
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         Vue.ls.remove(ACCESS_TOKEN)
-
-        logout(state.token).then(() => {
+        logout(token).then(() => {
           resolve()
         }).catch(() => {
           resolve()

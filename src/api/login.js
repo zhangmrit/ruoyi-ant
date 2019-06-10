@@ -38,12 +38,13 @@ export function getInfo () {
   })
 }
 
-export function logout () {
+export function logout (token) {
   return axios({
     url: '/auth/logout',
     method: 'post',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json;charset=UTF-8',
+      'token': token
     }
   })
 }
