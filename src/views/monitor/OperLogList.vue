@@ -56,6 +56,7 @@
       :columns="columns"
       :data="loadData"
       :rangPicker="range"
+      defaultSort="operTime"
       v-if="operTypeMap"
     >
       <span slot="businessType" slot-scope="text">
