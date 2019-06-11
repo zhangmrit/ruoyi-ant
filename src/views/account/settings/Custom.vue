@@ -1,5 +1,42 @@
+<template>
+
+  <a-list itemLayout="horizontal">
+    <a-list-item>
+      <a-list-item-meta>
+        <a slot="title">风格配色</a>
+        <span slot="description">
+          整体风格配色设置
+        </span>
+      </a-list-item-meta>
+      <div slot="actions">
+        <a-switch checkedChildren="暗色" unCheckedChildren="白色" :defaultChecked="navTheme=== 'dark'" @change="onChange" />
+      </div>
+    </a-list-item>
+    <a-list-item>
+      <a-list-item-meta>
+        <a slot="title">主题色</a>
+        <span slot="description">
+          页面风格配色： <a>{{ this.colorFilter(this.primaryColor) }}</a>
+        </span>
+      </a-list-item-meta>
+      <div style="height: 20px">
+        <a-tooltip class="setting-drawer-theme-color-colorBlock" v-for="(item, index) in colorList" :key="index">
+          <template slot="title">
+            {{ item.key }}
+          </template>
+          <a-tag :color="item.color" @click="changeColor(item.color)">
+            <a-icon type="check" v-if="item.color === primaryColor"></a-icon>
+          </a-tag>
+        </a-tooltip>
+      </div>
+
+    </a-list-item>
+  </a-list>
+
+</template>
+
 <script>
-import { colorList } from '@/components/SettingDrawer/settingConfig'
+import { updateTheme, colorList } from '@/components/SettingDrawer/settingConfig'
 import ASwitch from 'ant-design-vue/es/switch'
 import AList from 'ant-design-vue/es/list'
 import AListItem from 'ant-design-vue/es/list/Item'
@@ -17,6 +54,7 @@ export default {
   mixins: [mixin],
   data () {
     return {
+      colorList
     }
   },
   filters: {
@@ -35,41 +73,41 @@ export default {
     },
 
     onChange (checked) {
+      console.log('ddddd')
       if (checked) {
         this.$store.dispatch('ToggleTheme', 'dark')
       } else {
         this.$store.dispatch('ToggleTheme', 'light')
       }
+    },
+    changeColor (color) {
+      if (this.primaryColor !== color) {
+        this.$store.dispatch('ToggleColor', color)
+        updateTheme(color)
+      }
     }
-  },
-  render () {
-    return (
-      <AList itemLayout="horizontal">
-        <AListItem>
-          <Meta>
-            <a slot="title">风格配色</a>
-            <span slot="description">
-                整体风格配色设置
-            </span>
-          </Meta>
-          <div slot="actions">
-            <ASwitch checkedChildren="暗色" unCheckedChildren="白色" defaultChecked={this.navTheme === 'dark' && true || false} onChange={this.onChange} />
-          </div>
-        </AListItem>
-        <AListItem>
-          <Meta>
-            <a slot="title">主题色</a>
-            <span slot="description">
-                页面风格配色： <a domPropsInnerHTML={ this.colorFilter(this.primaryColor) }/>
-            </span>
-          </Meta>
-        </AListItem>
-      </AList>
-    )
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+    .setting-drawer-theme-color-colorBlock {
+      width: 20px;
+      height: 20px;
+      border-radius: 2px;
+      float: left;
+      cursor: pointer;
+      margin-right: 8px;
+      padding-left: 0px;
+      padding-right: 0px;
+      text-align: center;
+      color: #fff;
+      font-weight: 700;
+
+      i {
+        font-size: 14px;
+      }
+    }
 
 </style>
