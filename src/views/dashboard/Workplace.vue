@@ -208,7 +208,7 @@ export default {
     getProjects () {
       this.$http.get('/list/search/projects')
         .then(res => {
-          this.projects = res.result && res.result.data
+          this.projects = res.result && res.result.rows
           this.loading = false
         })
     },

@@ -133,9 +133,9 @@ export default {
               }
             ],
             pageSize: 10,
-            pageNo: 1,
+            pageNum: 1,
             totalPage: 1,
-            totalCount: 10
+            total: 10
           })
         }).then(res => {
           return res
@@ -216,9 +216,9 @@ export default {
               }
             ],
             pageSize: 10,
-            pageNo: 1,
+            pageNum: 1,
             totalPage: 1,
-            totalCount: 10
+            total: 10
           })
         }).then(res => {
           return res

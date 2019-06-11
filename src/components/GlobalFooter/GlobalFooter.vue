@@ -11,12 +11,12 @@
       >
         <a-icon type="github" />
       </a>
-      <a href="https://ant.design/">Ant Design</a>
-      <a href="https://vue.ant.design/">Vue Antd</a>
+      <a href="https://gitee.com/zhangmrit/ruoyi-cloud">RuoYi Cloud</a>
+      <a href="https://gitee.com/zhangmrit/ruoyi-ant">RuoYi Ant</a>
     </div>
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2018 <span>白鹭学园技术组出品</span>
+      <a-icon type="copyright" /> 2019 <span>RuoYi</span>
     </div>
   </div>
 </template>

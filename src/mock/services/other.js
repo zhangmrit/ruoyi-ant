@@ -662,9 +662,9 @@ const role = () => {
     }
     ],
     'pageSize': 10,
-    'pageNo': 0,
+    'pageNum': 0,
     'totalPage': 1,
-    'totalCount': 5
+    'total': 5
   })
 }
 
@@ -961,9 +961,9 @@ const permissions = () => {
     }
     ],
     'pageSize': 10,
-    'pageNo': 0,
+    'pageNum': 0,
     'totalPage': 1,
-    'totalCount': 5
+    'total': 5
   })
 }
 
