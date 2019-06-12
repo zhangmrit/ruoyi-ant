@@ -23,7 +23,6 @@ router.beforeEach((to, from, next) => {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo')
           .then(() => {
-            console.log('getinfo')
             // 调用 vuex 的 从后端获取用户的路由菜单，动态添加可访问路由表
             store.dispatch('GenerateRoutes').then(() => {
               // 把已获取到的路由菜单加入到路由表中

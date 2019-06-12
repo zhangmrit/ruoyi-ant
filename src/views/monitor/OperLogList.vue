@@ -66,7 +66,7 @@
         {{ text | statusFilter }}
       </span>
       <span slot="action" slot-scope="text, record">
-        <a v-has="'user:edit'" @click="handleDetail(record)">详细</a>
+        <a @click="handleDetail(record)">详细</a>
       </span>
     </s-table>
     <operLog-modal ref="modal" :operTypeMap="operTypeMap" v-if="operTypeMap"/>
