@@ -14,7 +14,6 @@ import bootstrap from './core/bootstrap'
 import './core/use'
 import './permission' // permission control
 import './utils/filter' // global filter
-import './utils/dict' // global dict
 
 Vue.config.productionTip = false
 

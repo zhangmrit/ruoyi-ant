@@ -38,8 +38,8 @@
         <div class="table-operator">
           <!-- <a-button type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
       <a-dropdown v-if="selectedRowKeys.length > 0"> -->
-          <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
-          <a-dropdown v-has="'user:edit'" v-if="selectedRowKeys.length > 0">
+          <a-button v-if="addEnable" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
+          <a-dropdown v-if="removeEnable&& selectedRowKeys.length > 0">
             <!-- <a-menu slot="overlay">
           <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
           <a-menu-item key="2"><a-icon type="lock" />禁用</a-menu-item>
@@ -62,9 +62,9 @@
             <a-switch :checked="record.status=='0'" @change="onChangeStatus(record)"/>
           </span>
           <span slot="action" slot-scope="text, record">
-            <a @click="handleEdit(record)">编辑</a>
+            <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" />
-            <a @click="delByIds([record.userId])">删除</a>
+            <a v-if="removeEnable" @click="delByIds([record.userId])">删除</a>
           </span>
         </s-table>
       </a-col>
@@ -79,6 +79,7 @@ import { STable } from '@/components'
 import { getUserList, getDeptList, delUser, changUserStatus } from '@/api/system'
 import UserModal from './modules/UserModal'
 import pick from 'lodash.pick'
+import { checkPermission } from '@/utils/permissions'
 export default {
   name: 'TableList',
   components: {
@@ -140,7 +141,10 @@ export default {
       openKeys: ['100'],
       deptTree: [],
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      addEnable: checkPermission('system:user:add'),
+      editEnabel: checkPermission('system:user:edit'),
+      removeEnable: checkPermission('system:user:remove')
     }
   },
   created () {

@@ -27,7 +27,7 @@
       </a-form>
     </div>
     <div class="table-operator">
-      <a-button v-has="'user:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
+      <a-button v-if="addEnable" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
     </div>
     <a-table
       ref="table"
@@ -46,11 +46,11 @@
       </span>
 
       <span slot="action" slot-scope="text, record">
-        <a @click="handleEdit(record)">编辑</a>
+        <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a @click="handleAdd(record.deptId+'')">新增</a>
+        <a v-if="addEnable" @click="handleAdd(record.deptId+'')">新增</a>
         <a-divider type="vertical" />
-        <a @click="delById(record.deptId)">删除</a>
+        <a v-if="removeEnable" @click="delById(record.deptId)">删除</a>
       </span>
     </a-table>
 
@@ -63,6 +63,7 @@ import T from 'ant-design-vue/es/table/Table'
 import { getDeptList, delDept } from '@/api/system'
 import DeptModal from './modules/DeptModal.vue'
 import { treeData } from '@/utils/treeutil'
+import { checkPermission } from '@/utils/permissions'
 export default {
   name: 'TableList',
   components: {
@@ -116,7 +117,10 @@ export default {
       ],
       data: [],
       pagination: false,
-      loading: false
+      loading: false,
+      addEnable: checkPermission('system:dept:add'),
+      editEnabel: checkPermission('system:dept:edit'),
+      removeEnable: checkPermission('system:dept:remove')
     }
   },
   filters: {

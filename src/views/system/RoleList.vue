@@ -29,8 +29,8 @@
     <div class="table-operator">
       <!-- <a-button type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
       <a-dropdown v-if="selectedRowKeys.length > 0"> -->
-      <a-button v-has="'role:add'" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
-      <a-dropdown v-has="'role:del'" v-if="selectedRowKeys.length > 0">
+      <a-button v-if="addEnable" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
+      <a-dropdown v-if="removeEnable&&selectedRowKeys.length > 0">
         <!-- <a-menu slot="overlay">
           <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
           <a-menu-item key="2"><a-icon type="lock" />禁用</a-menu-item>
@@ -71,9 +71,9 @@
         <a-switch :checked="record.status==0" @change="onChangeStatus(record)"/>
       </span>
       <span slot="action" slot-scope="text, record">
-        <a v-has="'user:edit'" @click="handleEdit(record)">编辑</a>
+        <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a v-has="'user:del'" @click="delByIds([record.roleId])">删除</a>
+        <a v-if="removeEnable" @click="delByIds([record.roleId])">删除</a>
       </span>
     </s-table>
     <role-modal ref="modal" @ok="handleOk" />
@@ -85,6 +85,7 @@ import { STable } from '@/components'
 import { getRoleList, delRole, changRoleStatus } from '@/api/system'
 import RoleModal from './modules/RoleModal.vue'
 import pick from 'lodash.pick'
+import { checkPermission } from '@/utils/permissions'
 export default {
   name: 'TableList',
   components: {
@@ -149,7 +150,10 @@ export default {
         return getRoleList(Object.assign(parameter, this.queryParam))
       },
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      addEnable: checkPermission('system:role:add'),
+      editEnabel: checkPermission('system:role:edit'),
+      removeEnable: checkPermission('system:role:remove')
     }
   },
   created () {

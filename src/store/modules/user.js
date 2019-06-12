@@ -42,7 +42,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response
-          Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
+          Vue.ls.set(ACCESS_TOKEN, result.token, 12 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
         }).catch(error => {
@@ -56,10 +56,8 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response
-          result.buttons = ['user:add']
-          result.roles = ['admin']
-          if (result.roles && result.buttons.length > 0) {
-            commit('SET_ROLES', result.roles)
+          if (result.roleIds && result.buttons.length > 0) {
+            commit('SET_ROLES', result.roleIds)
             commit('SET_BUTTONS', result.buttons)
             commit('SET_INFO', result)
           } else {
@@ -81,6 +79,7 @@ const user = {
         const token = state.token
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_INFO', {})
         Vue.ls.remove(ACCESS_TOKEN)
         logout(token).then(() => {
           resolve()
