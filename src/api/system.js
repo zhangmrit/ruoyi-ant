@@ -6,7 +6,8 @@ const api = {
   permission: '/system/menu',
   dept: '/system/dept',
   dictType: '/system/dict/type',
-  dictData: '/system/dict/data'
+  dictData: '/system/dict/data',
+  dist: '/system/districts'
 }
 
 export default api
@@ -197,6 +198,31 @@ export function saveDictData (parameter) {
 export function delDictData (parameter) {
   return axios({
     url: api.dictData + '/remove',
+    method: 'post',
+    params: parameter
+  })
+}
+// dist 地区
+export function getDistList (parameter) {
+  return axios({
+    url: api.dist + '/list',
+    method: 'get',
+    params: parameter
+  })
+}
+export function saveDist (parameter) {
+  return axios({
+    url: api.dist + (parameter.id > 0 ? '/update' : '/save'),
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+export function delDist (parameter) {
+  return axios({
+    url: api.dist + '/remove',
     method: 'post',
     params: parameter
   })
