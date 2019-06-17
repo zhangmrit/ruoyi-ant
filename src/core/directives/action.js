@@ -10,7 +10,6 @@ import { checkPermission } from '@/utils/permissions'
  */
 const has = Vue.directive('has', {
   bind: function (el, binding, vnode) {
-    console.log('checkPermission', binding.value)
     if (!checkPermission(binding.value)) {
       el.parentNode && el.parentNode.removeChild(el) || (el.style.display = 'none')
     }
