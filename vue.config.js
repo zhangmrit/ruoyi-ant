@@ -14,6 +14,9 @@ module.exports = {
       // key表示包名(import foo from 'xx' 里的xx)
       // value表示window下的全局变量名(库暴露出来的namespace,可查lib对应的webpack配置里的library字段)
       'vue': 'Vue',
+      'axios': 'axios',
+      'vue-router': 'VueRouter',
+      'vuex': 'Vuex',
       'moment': 'moment',
       'ant-design-vue': 'antd'
     },

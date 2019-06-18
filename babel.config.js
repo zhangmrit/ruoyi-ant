@@ -7,8 +7,9 @@ module.exports = {
         'useBuiltIns': 'entry'
       }
     ]
-  ], // if your use import on Demand, Use this code
-
+  ]
+  // if your use import on Demand, Use this code
+  // ,
   // plugins: [
   //   [ 'import', {
   //     'libraryName': 'ant-design-vue',
