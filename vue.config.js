@@ -18,6 +18,8 @@ module.exports = {
       'vue-router': 'VueRouter',
       'vuex': 'Vuex',
       'moment': 'moment',
+      '@antv/g2': 'G2',
+      '@antv/data-set': 'DataSet',
       'ant-design-vue': 'antd'
     },
     plugins: [
