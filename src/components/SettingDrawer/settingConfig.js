@@ -1,4 +1,4 @@
-import { message } from 'ant-design-vue/es'
+import { Message as message } from 'ant-design-vue'
 // import defaultSettings from '../defaultSettings';
 import themeColor from './themeColor.js'
 

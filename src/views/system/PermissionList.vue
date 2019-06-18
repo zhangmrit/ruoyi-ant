@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import T from 'ant-design-vue/es/table/Table'
+import { Table as T } from 'ant-design-vue'
 import { getPermissions, delPerm } from '@/api/system'
 import PermissionModal from './modules/PermissionModal.vue'
 import { treeData } from '@/utils/treeutil'

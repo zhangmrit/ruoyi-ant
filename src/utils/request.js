@@ -4,7 +4,7 @@ import store from '@/store'
 import {
   VueAxios
 } from './axios'
-import notification from 'ant-design-vue/es/notification'
+import { Notification as notification } from 'ant-design-vue'
 import {
   ACCESS_TOKEN
 } from '@/store/mutation-types'

@@ -1,5 +1,4 @@
-import Menu from 'ant-design-vue/es/menu'
-import Icon from 'ant-design-vue/es/icon'
+import { Menu, Icon } from 'ant-design-vue'
 
 const { Item, SubMenu } = Menu
 
