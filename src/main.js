@@ -14,6 +14,7 @@ import bootstrap from './core/bootstrap'
 import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
+import 'ant-design-vue/dist/antd.less'
 
 Vue.config.productionTip = false
 
