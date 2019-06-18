@@ -37,9 +37,10 @@
 
 <script>
 import { updateTheme, colorList } from '@/components/SettingDrawer/settingConfig'
-import { Switch as ASwitch, List as AList, ListItem as AListItem } from 'ant-design-vue'
+import { Switch as ASwitch, List as AList } from 'ant-design-vue'
 import { mixin } from '@/utils/mixin'
 
+const AListItem = AList.Item
 const Meta = AListItem.Meta
 
 export default {
