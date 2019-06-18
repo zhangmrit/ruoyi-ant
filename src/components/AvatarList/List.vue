@@ -16,7 +16,7 @@
 -->
 
 <script>
-import Avatar from 'ant-design-vue/es/avatar'
+import { Avatar } from 'ant-design-vue'
 import AvatarItem from './Item'
 import { filterEmpty } from '@/components/_util/util'
 

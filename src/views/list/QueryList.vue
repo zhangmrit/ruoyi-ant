@@ -6,8 +6,8 @@
 
 <script>
 
-import ATextarea from 'ant-design-vue/es/input/TextArea'
-import AInput from 'ant-design-vue/es/input/Input'
+import { Textarea as ATextarea } from 'ant-design-vue'
+import { Input as AInput } from 'ant-design-vue'
 // 动态切换组件
 import List from '@/views/list/table/List'
 import Edit from '@/views/list/table/Edit'

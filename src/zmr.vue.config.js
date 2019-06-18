@@ -11,8 +11,9 @@ function resolve (dir) {
 module.exports = {
   configureWebpack: {
     externals: {
-      // key表示包名(import foo from 'xx' 里的xx)
-      // value表示window下的全局变量名(库暴露出来的namespace,可查lib对应的webpack配置里的library字段)
+      'axios': 'axios',
+      'vue-router': 'VueRouter',
+      'vuex': 'Vuex',
       'vue': 'Vue',
       'moment': 'moment',
       'ant-design-vue': 'antd'
@@ -20,14 +21,14 @@ module.exports = {
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.IgnorePlugin(/moment\//),
+      new webpack.IgnorePlugin(/moment\\/),
       // 生成仅包含颜色的替换样式（主题色等）
       // TODO 需要增加根据环境不开启主题需求
       new ThemeColorReplacer({
         fileName: 'css/theme-colors.css', // TODO 需要处理的暗坑
         matchColors: getAntdSerials('#1890ff'), // 主色系列
         // 改变样式选择器，解决样式覆盖问题
-        changeSelector(selector) {
+        changeSelector (selector) {
           switch (selector) {
             case '.ant-calendar-today .ant-calendar-date':
               return ':not(.ant-calendar-selected-date)' + selector
@@ -38,7 +39,7 @@ module.exports = {
             case '.ant-menu-horizontal>.ant-menu-item-active,.ant-menu-horizontal>.ant-menu-item-open,.ant-menu-horizontal>.ant-menu-item-selected,.ant-menu-horizontal>.ant-menu-item:hover,.ant-menu-horizontal>.ant-menu-submenu-active,.ant-menu-horizontal>.ant-menu-submenu-open,.ant-menu-horizontal>.ant-menu-submenu-selected,.ant-menu-horizontal>.ant-menu-submenu:hover':
             case '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal > .ant-menu-submenu-selected,.ant-menu-horizontal > .ant-menu-submenu:hover':
               return '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover'
-            default:
+            default :
               return selector
           }
         }
@@ -46,8 +47,9 @@ module.exports = {
     ]
   },
 
-  chainWebpack: config => {
-    config.resolve.alias.set('@$', resolve('src'))
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@$', resolve('src'))
 
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
@@ -84,6 +86,7 @@ module.exports = {
       less: {
         modifyVars: {
           /* less 变量覆盖，用于自定义 ant design 主题 */
+
           /*
           'primary-color': '#F5222D',
           'link-color': '#F5222D',

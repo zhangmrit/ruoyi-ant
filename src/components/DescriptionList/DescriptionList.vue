@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Col } from 'ant-design-vue/es/grid/'
+import { Col } from 'ant-design-vue'
 
 const Item = {
   name: 'DetailListItem',

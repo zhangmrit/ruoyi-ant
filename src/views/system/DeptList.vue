@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import T from 'ant-design-vue/es/table/Table'
+import { Table as T } from 'ant-design-vue'
 import { getDeptList, delDept } from '@/api/system'
 import DeptModal from './modules/DeptModal.vue'
 import { treeData } from '@/utils/treeutil'
