@@ -1,5 +1,5 @@
 import api from './index'
-import { axios } from '@/utils/request'
+import { axios, pureAxios } from '@/utils/request'
 
 /**
  * login func
@@ -46,6 +46,14 @@ export function logout (token) {
       'Content-Type': 'application/json;charset=UTF-8',
       'token': token
     }
+  })
+}
+
+export function imgcode () {
+  return pureAxios({
+    url: '/code',
+    method: 'get',
+    responseType: 'blob'
   })
 }
 
