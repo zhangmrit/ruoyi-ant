@@ -72,7 +72,6 @@ export default {
     },
 
     onChange (checked) {
-      console.log('ddddd')
       if (checked) {
         this.$store.dispatch('ToggleTheme', 'dark')
       } else {
