@@ -273,14 +273,18 @@ export default {
       })
     },
     loginSuccess (res) {
-      this.$router.push({ name: 'dashboard' })
-      // 延迟 1 秒显示欢迎信息
-      setTimeout(() => {
-        this.$notification.success({
-          message: '欢迎',
-          description: `${timeFix()}，欢迎回来`
-        })
-      }, 1000)
+      if (res.code === 0) {
+        this.$router.push({ name: 'dashboard' })
+        // 延迟 1 秒显示欢迎信息
+        setTimeout(() => {
+          this.$notification.success({
+            message: '欢迎',
+            description: `${timeFix()}，欢迎回来`
+          })
+        }, 1000)
+      } else {
+        this.requestFailed(res)
+      }
     },
     requestFailed (err) {
       this.getImgCode()
