@@ -53,7 +53,7 @@
       </a-layout-footer>
 
       <!-- Setting Drawer (show in development mode) -->
-      <setting-drawer v-if="!production"></setting-drawer>
+      <setting-drawer></setting-drawer>
     </a-layout>
   </a-layout>
 
@@ -63,7 +63,6 @@
 import { triggerWindowResizeEvent } from '@/utils/util'
 import { mapState, mapActions } from 'vuex'
 import { mixin, mixinDevice } from '@/utils/mixin'
-import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
 import MultiTab from '@/components/MultiTab'
@@ -85,7 +84,6 @@ export default {
   },
   data () {
     return {
-      production: config.production,
       collapsed: false,
       menus: []
     }
