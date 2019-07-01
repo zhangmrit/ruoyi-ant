@@ -53,7 +53,7 @@
       </a-layout-footer>
 
       <!-- Setting Drawer (show in development mode) -->
-      <setting-drawer></setting-drawer>
+      <setting-drawer v-if="!production"></setting-drawer>
     </a-layout>
   </a-layout>
 
@@ -63,6 +63,7 @@
 import { triggerWindowResizeEvent } from '@/utils/util'
 import { mapState, mapActions } from 'vuex'
 import { mixin, mixinDevice } from '@/utils/mixin'
+import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
 import MultiTab from '@/components/MultiTab'
@@ -70,6 +71,7 @@ import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
+import { updateTheme } from '@/components/SettingDrawer/settingConfig'
 
 export default {
   name: 'BasicLayout',
@@ -84,6 +86,7 @@ export default {
   },
   data () {
     return {
+      production: config.production,
       collapsed: false,
       menus: []
     }
@@ -113,6 +116,7 @@ export default {
     this.collapsed = !this.sidebarOpened
   },
   mounted () {
+    updateTheme(this.primaryColor)
     const userAgent = navigator.userAgent
     if (userAgent.indexOf('Edge') > -1) {
       this.$nextTick(() => {
