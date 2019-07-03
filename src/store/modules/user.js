@@ -5,6 +5,7 @@ import { welcome } from '@/utils/util'
 
 const user = {
   state: {
+    userId: '',
     token: '',
     name: '',
     welcome: '',
@@ -33,6 +34,9 @@ const user = {
     },
     SET_BUTTONS: (state, buttons) => {
       state.buttons = buttons
+    },
+    SET_USERID: (state, userId) => {
+      state.userId = userId
     }
   },
 
@@ -56,9 +60,10 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response
-          if (result.roleIds && result.buttons.length > 0) {
+          if (result.roleIds) {
             commit('SET_ROLES', result.roleIds)
             commit('SET_BUTTONS', result.buttons)
+            commit('SET_USERID', result.userId)
             commit('SET_INFO', result)
           } else {
             reject(new Error('getInfo: roles must be a non-null array !'))

@@ -11,7 +11,8 @@ const getters = {
   addRouters: state => state.permission.addRouters,
   multiTab: state => state.app.multiTab,
   // 从后台获取的用户 按钮权限
-  buttons: state => state.user.buttons
+  buttons: state => state.user.buttons,
+  userId: state => state.user.userId
 }
 
 export default getters
