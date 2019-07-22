@@ -85,6 +85,13 @@ export function changRoleStatus (parameter) {
     data: parameter
   })
 }
+export function authDataScope (parameter) {
+  return axios({
+    url: api.role + '/authDataScope',
+    method: 'post',
+    data: parameter
+  })
+}
 
 // menu
 export function getPermissionAll (parameter) {
@@ -132,6 +139,12 @@ export function getDeptList (parameter) {
     url: api.dept + '/list',
     method: 'get',
     params: parameter
+  })
+}
+export function getRoleDeptIds (roleId) {
+  return axios({
+    url: api.dept + '/role/' + `${roleId}`,
+    method: 'get'
   })
 }
 export function saveDept (parameter) {

@@ -73,10 +73,13 @@
       <span slot="action" slot-scope="text, record">
         <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
+        <a v-if="editEnabel" @click="handleScope(record)">数据权限</a>
+        <a-divider type="vertical" />
         <a v-if="removeEnable" @click="delByIds([record.roleId])">删除</a>
       </span>
     </s-table>
     <role-modal ref="modal" @ok="handleOk" />
+    <role-scope-modal ref="scopemodal" @ok="handleOk" />
   </a-card>
 </template>
 
@@ -84,13 +87,15 @@
 import { STable } from '@/components'
 import { getRoleList, delRole, changRoleStatus } from '@/api/system'
 import RoleModal from './modules/RoleModal.vue'
+import RoleScopeModal from './modules/RoleScopeModal.vue'
 import pick from 'lodash.pick'
 import { checkPermission } from '@/utils/permissions'
 export default {
   name: 'TableList',
   components: {
     STable,
-    RoleModal
+    RoleModal,
+    RoleScopeModal
   },
   data () {
     return {
@@ -168,6 +173,9 @@ export default {
     },
     handleEdit (record) {
       this.$refs.modal.edit(record)
+    },
+    handleScope (record) {
+      this.$refs.scopemodal.edit(record)
     },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
