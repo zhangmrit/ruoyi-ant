@@ -61,7 +61,8 @@
 
         <a-tree
           checkable
-          defaultExpandAll
+          :autoExpandParent="autoExpandParent"
+          v-if="deptTree.length>0"
           v-model="checkedKeys"
           :treeData="deptTree"
         >
