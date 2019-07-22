@@ -80,6 +80,7 @@
         > -->
         <a-tree
           checkable
+          checkStrictly
           v-model="checkedKeys"
           :treeData="permissions"
         >
@@ -142,8 +143,8 @@ export default {
       this.expandedKeys = expandedKeys
       this.autoExpandParent = false
     },
-    onCheck (checkedKeys) {
-      console.log('onCheck', checkedKeys)
+    onCheck (checkedKeys, info) {
+      console.log('onCheck', info)
       this.checkedKeys = checkedKeys
     },
     onSelect (selectedKeys, info) {
@@ -180,8 +181,7 @@ export default {
       this.form.validateFields((err, values) => {
         // 验证表单没错误
         if (!err) {
-          values.menuIds = this.checkedKeys
-          console.log('form values', values)
+          values.menuIds = _this.checkedKeys.checked
           _this.confirmLoading = true
           saveRole(Object.assign(values)).then(res => {
             console.log(res)
