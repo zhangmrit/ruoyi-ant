@@ -54,6 +54,7 @@
           v-decorator="['deptId', {rules: [{ required: true, message: '请选择部门' }]}]"
           :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
           :treeData="deptTree"
+          @change="onChange"
           placeholder="部门"
           treeDefaultExpandAll
         >
@@ -115,6 +116,7 @@ export default {
       confirmLoading: false,
       roleAll: [],
       mdl: {},
+      deptCheck: true,
       form: this.$form.createForm(this)
     }
   },
@@ -137,6 +139,14 @@ export default {
         // this.form.setFieldsValue({ ...record })
       })
     },
+    onChange (value, label, extra) {
+      if (extra.triggerNode.$children.length > 0) {
+        this.$message.error('不能选择父节点' + `${label}`)
+        this.deptCheck = false
+      } else {
+        this.deptCheck = true
+      }
+    },
     loadRoleAll () {
       getRoleAll().then(res => {
         this.roleAll = res.rows
@@ -145,6 +155,10 @@ export default {
     },
     handleSubmit (e) {
       e.preventDefault()
+      if (!this.deptCheck) {
+        this.$message.error('不能选择父节点')
+        return
+      }
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
