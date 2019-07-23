@@ -79,7 +79,7 @@
         :wrapperCol="wrapperCol"
         label="演示demo"
       >
-        <a-cascader :options="options" :loadData="loadData" placeholder="Please select" changeOnSelect/>
+        <a-cascader :options="options" :loadData="loadData" placeholder="Please select" v-model="city" changeOnSelect/>
       </a-form-item>
     </a-form>
   </a-modal>
@@ -111,6 +111,7 @@ export default {
       confirmLoading: false,
       mdl: {},
       options: [],
+      city: [],
       form: this.$form.createForm(this)
     }
   },
@@ -149,11 +150,11 @@ export default {
     },
     handleSubmit (e) {
       e.preventDefault()
+      this.$message.success('your select dist is ' + this.city)
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
           this.confirmLoading = true
-          console.log(this.city)
           saveDist(values).then(res => {
             if (res.code === 0) {
               this.$message.success('保存成功')
