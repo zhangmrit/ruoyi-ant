@@ -65,11 +65,14 @@
             <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" />
             <a v-if="removeEnable" @click="delByIds([record.userId])">删除</a>
+            <a-divider type="vertical" />
+            <a v-if="resetPwdEnabel" @click="resetPwd(record)">重置密码</a>
           </span>
         </s-table>
       </a-col>
     </a-row>
     <user-modal ref="modal" @ok="handleOk" :deptTree="deptTree"/>
+    <user-pwd-modal ref="pwdmodal"/>
   </a-card>
 </template>
 
@@ -78,6 +81,7 @@ import STree from '@/components/Tree/Tree'
 import { STable } from '@/components'
 import { getUserList, getDeptList, delUser, changUserStatus } from '@/api/system'
 import UserModal from './modules/UserModal'
+import UserPwdModal from './modules/UserPwdModal'
 import pick from 'lodash.pick'
 import { checkPermission } from '@/utils/permissions'
 export default {
@@ -85,7 +89,8 @@ export default {
   components: {
     STree,
     STable,
-    UserModal
+    UserModal,
+    UserPwdModal
   },
   data () {
     return {
@@ -125,7 +130,7 @@ export default {
           sorter: true
         }, {
           title: '操作',
-          width: '150px',
+          width: '200px',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' }
         }
@@ -144,6 +149,7 @@ export default {
       selectedRows: [],
       addEnable: checkPermission('system:user:add'),
       editEnabel: checkPermission('system:user:edit'),
+      resetPwdEnabel: checkPermission('system:user:resetPwd'),
       removeEnable: checkPermission('system:user:remove')
     }
   },
@@ -159,6 +165,9 @@ export default {
     },
     handleEdit (record) {
       this.$refs.modal.edit(record)
+    },
+    resetPwd (record) {
+      this.$refs.pwdmodal.edit(record)
     },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys

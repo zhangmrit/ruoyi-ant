@@ -44,6 +44,13 @@ export function changUserStatus (parameter) {
     data: parameter
   })
 }
+export function resetPwd (parameter) {
+  return axios({
+    url: api.user + '/resetPwd',
+    method: 'post',
+    data: parameter
+  })
+}
 
 // role
 export function getRoleList (parameter) {
