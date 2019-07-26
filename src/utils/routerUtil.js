@@ -140,6 +140,7 @@ export function buildmenu (rows) {
           'title': '仪表盘',
           'key': 'dashboard',
           'component': 'RouteView',
+          'redirect': '/dashboard/workplace',
           'icon': 'dashboard',
           'children': [{
             'title': '分析页',
