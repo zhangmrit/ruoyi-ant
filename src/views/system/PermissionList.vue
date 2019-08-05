@@ -4,6 +4,11 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="5" :sm="15">
+            <a-form-item label="唯一键">
+              <a-input placeholder="请输入" v-model="queryParam.menuKey"/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="15">
             <a-form-item label="权限名称">
               <a-input placeholder="请输入" v-model="queryParam.menuName"/>
             </a-form-item>
@@ -72,7 +77,7 @@ export default {
   },
   data () {
     return {
-      description: '列表使用场景：后台管理中的权限管理以及角色管理，可用于基于 RBAC 设计的角色权限控制，颗粒度细到每一个操作类型。',
+      description: '菜单管理，只有menuKey(唯一)不为空才生效',
 
       visible: false,
       labelCol: {
@@ -95,6 +100,10 @@ export default {
         {
           title: '权限名称',
           dataIndex: 'menuName'
+        },
+        {
+          title: '动态菜单唯一键',
+          dataIndex: 'menuKey'
         },
         {
           title: '排序',

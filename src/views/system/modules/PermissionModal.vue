@@ -50,6 +50,16 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        label="动态菜单唯一键"
+      >
+        <a-input
+          v-decorator="['menuKey',{initialValue:'',rules: [{ required: true, message: '请输入动态菜单唯一键' }]}]"
+          placeholder="动态菜单唯一键"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
         label="请求地址"
       >
         <a-input
@@ -65,6 +75,21 @@
         <a-input
           v-decorator="['perms']"
           placeholder="权限标识"/>
+      </a-form-item>
+
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="布局类型"
+      >
+        <a-select v-decorator="['menuLay', {initialValue:'',rules: [{ message: '请选择类型' }]}]" @select="menuTypeChange">
+          <a-select-option :value="''">不选择，自动继承上级</a-select-option>
+          <a-select-option :value="'PageView'">基础布局，包含了面包屑，和中间内容区 (slot)</a-select-option>
+          <a-select-option :value="'BasicLayout'">基础页面布局，包含了头部导航，侧边栏和通知栏</a-select-option>
+          <a-select-option :value="'RouterView'">空布局，专门为了二级菜单内容区自定义</a-select-option>
+          <a-select-option :value="'BlankLayout'">空白的布局</a-select-option>
+          <a-select-option :value="'UserLayout'">登陆注册页面的通用布局</a-select-option>
+        </a-select>
       </a-form-item>
 
       <a-form-item
@@ -162,7 +187,7 @@ export default {
       this.$nextTick(() => {
         this.mdl.icon ? this.icon = this.mdl.icon : this.icon = 'smile'
         this.mdl.parentId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName'))
+        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName', 'menuKey', 'menuLay'))
         // this.form.setFieldsValue({ ...record })
       })
     },
