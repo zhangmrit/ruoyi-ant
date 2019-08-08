@@ -24,8 +24,6 @@ Vue.use(VueAxios)
 new Vue({
   router,
   store,
-  created () {
-    bootstrap()
-  },
+  created: bootstrap,
   render: h => h(App)
 }).$mount('#app')

@@ -11,7 +11,11 @@
         ></a-input>
       </a-form-item>
 
-      <a-popover placement="rightTop" trigger="click" :visible="state.passwordLevelChecked">
+      <a-popover
+        placement="rightTop"
+        :trigger="['focus']"
+        :getPopupContainer="(trigger) => trigger.parentElement"
+        v-model="state.passwordLevelChecked">
         <template slot="content">
           <div :style="{ width: '240px' }" >
             <div :class="['user-register', passwordLevelClass]">强度：<span>{{ passwordLevelName }}</span></div>
@@ -208,9 +212,10 @@ export default {
     },
 
     handleSubmit () {
-      const { form: { validateFields }, $router } = this
+      const { form: { validateFields }, state, $router } = this
       validateFields({ force: true }, (err, values) => {
         if (!err) {
+          state.passwordLevelChecked = false
           $router.push({ name: 'registerResult', params: { ...values } })
         }
       })

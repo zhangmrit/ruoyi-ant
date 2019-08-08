@@ -190,11 +190,9 @@ export default {
     this.avatar = this.userInfo.avatar
 
     getRoleList().then(res => {
-      console.log('workplace -> call getRoleList()', res)
     })
 
     getServiceList().then(res => {
-      console.log('workplace -> call getServiceList()', res)
     })
   },
   mounted () {
