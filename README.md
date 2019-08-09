@@ -1,5 +1,4 @@
-[English](./README.md) | 简体中文
-
+<h1 align="center">RuoYi Ant</h1>
 
 - 预览: http://ruoyi.ant.zmrit.com
 - 独有的字典用法
