@@ -7,7 +7,9 @@ const api = {
   dept: '/system/dept',
   dictType: '/system/dict/type',
   dictData: '/system/dict/data',
-  dist: '/system/districts'
+  dist: '/system/districts',
+  config: '/system/config',
+  oss: '/system/oss'
 }
 
 export default api
@@ -243,6 +245,69 @@ export function saveDist (parameter) {
 export function delDist (parameter) {
   return axios({
     url: api.dist + '/remove',
+    method: 'post',
+    params: parameter
+  })
+}
+// config 配置
+export function getConfigList (parameter) {
+  return axios({
+    url: api.config + '/list',
+    method: 'get',
+    params: parameter
+  })
+}
+export function saveConfig (parameter) {
+  return axios({
+    url: api.config + (parameter.id > 0 ? '/update' : '/save'),
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+export function delConfig (parameter) {
+  return axios({
+    url: api.config + '/remove',
+    method: 'post',
+    params: parameter
+  })
+}
+// oss
+export function getOssList (parameter) {
+  return axios({
+    url: api.oss + '/list',
+    method: 'get',
+    params: parameter
+  })
+}
+export function saveOss (parameter) {
+  return axios({
+    url: api.oss + (parameter.id > 0 ? '/update' : '/save'),
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+export function delOss (parameter) {
+  return axios({
+    url: api.oss + '/remove',
+    method: 'post',
+    params: parameter
+  })
+}
+export function getOssConfig () {
+  return axios({
+    url: api.oss + '/config',
+    method: 'get'
+  })
+}
+export function saveOssConfig (parameter) {
+  return axios({
+    url: api.oss + '/saveConfig',
     method: 'post',
     params: parameter
   })

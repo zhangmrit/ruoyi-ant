@@ -45,6 +45,8 @@ const constantRouterComponents = {
   deptList: () => import('@/views/system/DeptList'),
   dictList: () => import('@/views/system/DictList'),
   distList: () => import('@/views/system/DistList'),
+  configList: () => import('@/views/system/ConfigList'),
+  ossList: () => import('@/views/system/OssList'),
   // monitor
   operLogList: () => import('@/views/monitor/OperLogList'),
   loginLogList: () => import('@/views/monitor/LoginLogList')
