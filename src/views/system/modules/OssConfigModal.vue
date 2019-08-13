@@ -130,14 +130,6 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         v-show="service===3"
-        label="腾讯云AppId"
-      >
-        <a-input v-decorator="['qcloudAppId',{rules: [{ required: false, message: '请输入腾讯云AppId' }]}]" placeholder="腾讯云AppId"/>
-      </a-form-item>
-      <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        v-show="service===3"
         label="腾讯云SecretId"
       >
         <a-input v-decorator="['qcloudSecretId',{rules: [{ required: false, message: '请输入腾讯云SecretId' }]}]" placeholder="腾讯云SecretId"/>
@@ -200,7 +192,6 @@ export default {
   methods: {
     config (record) {
       getOssConfig().then(res => {
-        console.log(res)
         this.mdl = Object.assign(res)
         this.service = this.mdl.type
         this.visible = true

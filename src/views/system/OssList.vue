@@ -39,7 +39,7 @@
         :action="uploadUrl"
         :headers="headers"
         :showUploadList="false"
-        @change="handleChange"
+        @change="uploadChange"
       >
         <a-button icon="upload"> 文件上传</a-button>
       </a-upload>
@@ -47,24 +47,49 @@
     <s-table
       size="default"
       ref="table"
-      rowKey="ossId"
+      rowKey="id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
       :data="loadData"
       :rangPicker="range"
       defaultSort="createTime"
     >
+      <template v-for="col in ['fileName']" :slot="col" slot-scope="text, record">
+        <div :key="col ">
+          <a-input
+            v-if="record.editable"
+            style="margin: -5px 0"
+            :value="text"
+            @change="e => handleChange(e.target.value, record.id, col, record)"
+          />
+          <template v-else>{{ text }}</template>
+        </div>
+      </template>
       <span slot="service" slot-scope="text">
         {{ text | serviceFilter }}
       </span>
-      <img style="width:30px;heigth:30px" slot="url" slot-scope="text" :src="text" />
-      <span slot="action" slot-scope="text, record">
-        <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
-        <a-divider type="vertical" />
-        <a v-if="removeEnable" @click="delByIds([record.id])">删除</a>
-      </span>
+      <img style="width:30px;heigth:30px;cursor:pointer;" slot="url" slot-scope="text" :src="text" @click="handlePreview(text)"/>
+      <template slot="action" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span v-if="record.editable">
+            <a @click="() => save(record)">保存</a>
+            <a-divider type="vertical" />
+            <a-popconfirm title="真的放弃编辑吗?" @confirm="() => cancel(record)">
+              <a>取消</a>
+            </a-popconfirm>
+          </span>
+          <span v-else>
+            <a @click="() => edit(record)">编辑</a>
+            <a-divider type="vertical" />
+            <a v-if="removeEnable" @click="delByIds([record.id])">删除</a>
+          </span>
+        </div>
+      </template>
     </s-table>
     <oss-modal ref="modal" @ok="handleOk"/>
+    <a-modal :visible="previewVisible" :footer="null" @cancel="previewCancel">
+      <img style="width: 100%" :src="previewImage" />
+    </a-modal>
   </a-card>
 </template>
 
@@ -72,7 +97,7 @@
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { STable, Ellipsis } from '@/components'
-import { getOssList, delOss } from '@/api/system'
+import { getOssList, delOss, saveOss } from '@/api/system'
 import { checkPermission } from '@/utils/permissions'
 import OssModal from './modules/OssConfigModal'
 export default {
@@ -108,7 +133,8 @@ export default {
         },
         {
           title: '文件名',
-          dataIndex: 'fileName'
+          dataIndex: 'fileName',
+          scopedSlots: { customRender: 'fileName' }
         },
         {
           title: '文件后缀',
@@ -144,10 +170,13 @@ export default {
       range: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return getOssList(Object.assign(parameter, this.queryParam))
+        return getOssList(Object.assign(parameter, this.queryParam)).then(res => {
+          return res
+        })
       },
       selectedRowKeys: [],
       selectedRows: [],
+      previewVisible: false,
       uploadUrl: process.env.VUE_APP_API_BASE_URL + '/system/oss/upload',
       headers: {
         token: Vue.ls.get(ACCESS_TOKEN)
@@ -175,13 +204,18 @@ export default {
   created () {
   },
   methods: {
+    previewCancel () {
+      this.previewVisible = false
+    },
+    handlePreview (url) {
+      this.previewImage = url
+      this.previewVisible = true
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
-      console.log(this.selectedRowKeys)
-      console.log(this.selectedRows)
     },
-    handleChange (info) {
+    uploadChange (info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList)
       }
@@ -194,6 +228,28 @@ export default {
     },
     handleEdit (record) {
       this.$refs.modal.edit(record)
+    },
+    handleChange (value, key, column, record) {
+      console.log(value, key, column)
+      record[column] = value
+    },
+    edit (record) {
+      record.editable = true
+    },
+    cancel (record) {
+      record.editable = false
+    },
+    save (record) {
+      saveOss(record).then(res => {
+        if (res.code === 0) {
+          this.$message.success('保存成功')
+          record.editable = false
+        } else {
+          this.$message.success(res.msg)
+        }
+      }).catch(() => {
+        this.$message.error('系统错误，请稍后再试')
+      })
     },
     delByIds (ids) {
       delOss({ ids: ids.join(',') }).then(res => {
