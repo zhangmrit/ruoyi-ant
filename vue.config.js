@@ -97,10 +97,10 @@ const vueConfig = {
   transpileDependencies: []
 }
 
-// preview.pro.loacg.com only do not use in your production;
-if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
-  // add `ThemeColorReplacer` plugin to webpack plugins
-  vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
-}
+// 如果你不想在生产环境开启换肤功能，请打开下面注释
+// if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
+// add `ThemeColorReplacer` plugin to webpack plugins
+vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
+// }
 
 module.exports = vueConfig
