@@ -6,6 +6,7 @@
       @close="onClose"
       :closable="false"
       :visible="visible"
+      :handle="handle"
     >
       <div class="setting-drawer-index-content">
 
@@ -183,8 +184,9 @@ export default {
   mixins: [mixin, mixinDevice],
   data () {
     return {
-      visible: true,
-      colorList
+      visible: false,
+      colorList,
+      handle: <div/>
     }
   },
   watch: {

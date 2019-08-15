@@ -13,6 +13,7 @@
         @change="handleTabClick"
       >
         <a-tab-pane key="tab1" tab="账号密码登录">
+          <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" :message="errorMsg" />
           <a-form-item>
             <a-input
               size="large"
@@ -147,6 +148,8 @@ export default {
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
+      isLoginError: false,
+      errorMsg: '',
       requiredTwoStepCaptcha: false,
       stepCaptchaVisible: false,
       form: this.$form.createForm(this),
@@ -275,6 +278,7 @@ export default {
     loginSuccess (res) {
       if (res.code === 0) {
         this.$router.push({ name: 'dashboard' })
+        this.isLoginError = false
         // 延迟 1 秒显示欢迎信息
         setTimeout(() => {
           this.$notification.success({
@@ -287,10 +291,12 @@ export default {
       }
     },
     requestFailed (err) {
+      this.isLoginError = true
       this.getImgCode()
+      this.errorMsg = ((err.response || {}).data || {}).msg || err.msg || '请求出现错误，请稍后再试'
       this.$notification['error']({
         message: '错误',
-        description: ((err.response || {}).data || {}).msg || err.msg || '请求出现错误，请稍后再试',
+        description: this.errorMsg,
         duration: 4
       })
     }
