@@ -60,6 +60,14 @@
       >
         <span>{{ mdl.createTime }}</span>
       </a-form-item>
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        label="更新时间"
+        v-if="mdl.updateTime"
+      >
+        <span>{{ mdl.updateTime }}</span>
+      </a-form-item>
     </a-form>
   </a-modal>
 </template>

@@ -259,7 +259,7 @@ export function getConfigList (parameter) {
 }
 export function saveConfig (parameter) {
   return axios({
-    url: api.config + (parameter.id > 0 ? '/update' : '/save'),
+    url: api.config + (parameter.configId > 0 ? '/update' : '/save'),
     method: 'post',
     data: parameter,
     headers: {
