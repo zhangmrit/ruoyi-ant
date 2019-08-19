@@ -50,3 +50,5 @@ export function cleanLoginLog () {
     method: 'post'
   })
 }
+
+export const operLogExport = api.operLog + '/export'

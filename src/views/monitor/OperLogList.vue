@@ -44,6 +44,7 @@
         <a-icon slot="icon" type="question-circle-o" style="color: red" />
         <a-button type="danger" ghost icon="close">清空</a-button>
       </a-popconfirm>
+      <a-button type="primary" icon="export" @click="exportData()">导出</a-button>
       <a-dropdown v-has="'monitor:operlog:remove'" v-if="selectedRowKeys.length > 0">
         <a-button type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
       </a-dropdown>
@@ -75,9 +76,10 @@
 
 <script>
 import { STable } from '@/components'
-import { getOperLogList, delOperLog, cleanOperLog } from '@/api/monitor'
+import { getOperLogList, delOperLog, cleanOperLog, operLogExport } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
-import { getDictArray } from '../../utils/dict'
+import { getDictArray } from '@/utils/dict'
+import { exportPost } from '@/utils/download'
 const operTypeMap = {}
 export default {
   name: 'TableList',
@@ -198,6 +200,9 @@ export default {
     },
     handleOk () {
       this.$refs.table.refresh(true)
+    },
+    exportData () {
+      exportPost(operLogExport, this.queryParam)
     },
     delByIds (ids) {
       delOperLog({ ids: ids.join(',') }).then(res => {
