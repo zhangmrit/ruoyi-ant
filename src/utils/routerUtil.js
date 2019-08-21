@@ -49,13 +49,19 @@ const constantRouterComponents = {
   ossList: () => import('@/views/system/OssList'),
   // monitor
   operLogList: () => import('@/views/monitor/OperLogList'),
-  loginLogList: () => import('@/views/monitor/LoginLogList')
+  loginLogList: () => import('@/views/monitor/LoginLogList'),
+  // gen
+  genList: () => import('@/views/gen/GenList'),
+  genEdit: () => import('@/views/gen/GenEdit')
   // ...more
 }
 
 // 前端未找到页面路由（固定不用改）
 const notFoundRouter = {
   path: '*', redirect: '/404', hidden: true
+}
+const customRouter = {
+  path: '/tool/genEdit', hidden: true, component: () => import('@/views/gen/GenEdit')
 }
 
 /**
@@ -89,6 +95,7 @@ export const generatorDynamicRouter = () => {
       const result = buildmenu(res)
       const routers = generator(result)
       routers.push(notFoundRouter)
+      routers.push(customRouter)
       resolve(routers)
     }).catch(err => {
       reject(err)
