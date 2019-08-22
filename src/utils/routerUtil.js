@@ -60,9 +60,6 @@ const constantRouterComponents = {
 const notFoundRouter = {
   path: '*', redirect: '/404', hidden: true
 }
-const customRouter = {
-  path: '/tool/genEdit', hidden: true, component: () => import('@/views/gen/GenEdit')
-}
 
 /**
  * 获取后端路由信息的 axios API
@@ -95,7 +92,6 @@ export const generatorDynamicRouter = () => {
       const result = buildmenu(res)
       const routers = generator(result)
       routers.push(notFoundRouter)
-      routers.push(customRouter)
       resolve(routers)
     }).catch(err => {
       reject(err)
@@ -117,12 +113,15 @@ export const generator = (routerMap, parent) => {
       path: `${parent && parent.path || ''}/${item.key}`,
       // 路由名称，建议唯一
       name: item.name || item.key || '',
+      // 隐藏菜单
+      hidden: item.hidden || false,
       // 该路由对应页面的 组件
       component: constantRouterComponents[item.component || item.key],
       hideChildrenInMenu: item.hideChildrenInMenu || false,
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
-      meta: { title: item.title, icon: item.icon || undefined, permission: item.key && [ item.key ] || null, hiddenHeaderContent: item.hiddenHeaderContent || false }
+      meta: { title: item.title, icon: item.icon || undefined, hiddenHeaderContent: item.hiddenHeaderContent || false }
     }
+    console.log(currentRouter.name, currentRouter)
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
     currentRouter.path = currentRouter.path.replace('//', '/')
     // 重定向
@@ -349,6 +348,7 @@ export function buildtree (list, arr, parentId) {
         title: item.menuName,
         key: item.menuKey,
         icon: item.icon,
+        hidden: item.visible === '1',
         component: 'PageView',
         children: []
       }
