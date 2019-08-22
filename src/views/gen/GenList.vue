@@ -35,7 +35,7 @@
       </a-dropdown> -->
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1" @click="gen(selectedRowKeys)"><a-icon type="download" />生成代码</a-menu-item>
+          <a-menu-item key="1" @click="batchGen(selectedRowKeys)"><a-icon type="download" />生成代码</a-menu-item>
           <a-menu-item key="2" @click="delByIds(selectedRowKeys)"><a-icon type="delete" />删除</a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
@@ -57,30 +57,34 @@
         {{ index + 1 }}
       </span>
       <span slot="action" slot-scope="text, record">
-        <a v-if="editEnable" @click="handleEdit(record)">预览</a>
+        <a v-if="editEnable" @click="handlePreview(record.tableId)">预览</a>
         <a-divider type="vertical" />
         <a v-if="editEnable" @click="handleEdit(record.tableId)">编辑</a>
         <a-divider type="vertical" />
         <a v-if="removeEnable" @click="delByIds([record.tableId])">删除</a>
         <a-divider type="vertical" />
-        <a v-if="codeEnable" @click="handleScope(record)">生成代码</a>
+        <a v-if="codeEnable" @click="handleGen([record.tableName])">生成代码</a>
       </span>
     </s-table>
     <db-list-modal ref="dbmodal" @ok="handleOk" />
+    <preview-modal ref="premodal" @ok="handleOk" />
   </a-card>
 </template>
 
 <script>
 import { STable } from '@/components'
-import { getGenList, delGen } from '@/api/gen'
+import { getGenList, delGen, batchGenCode } from '@/api/gen'
 import { checkPermission } from '@/utils/permissions'
 import DbListModal from './modules/DbListModal.vue'
+import PreviewModal from './modules/PreviewModal.vue'
+import { genCodeZip } from '@/utils/download'
 const commonStatusMap = {}
 export default {
   name: 'TableList',
   components: {
     STable,
-    DbListModal
+    DbListModal,
+    PreviewModal
   },
   data () {
     return {
@@ -175,14 +179,19 @@ export default {
       this.$refs.dbmodal.show()
     },
     handleEdit (tableId) {
-      this.$router.push({ name: 'genEdit', params: { tableId: tableId } })
+      this.$router.push({ name: 'genEdit', query: { tableId: tableId } })
     },
-    gen (tables) {
-      if (tables.length > 0) {
-        this.$message.success(`代码已生成`)
-      } else {
-        this.$message.warning(`至少选择一张表`)
-      }
+    handlePreview (tableId) {
+      this.$refs.premodal.show(tableId)
+    },
+    batchGen () {
+      const tables = this.selectedRows.map(t => {
+        return t.tableName
+      })
+      this.handleGen(tables)
+    },
+    handleGen (tables) {
+      genCodeZip(batchGenCode, tables.join(','))
     },
     handleOk () {
       this.$refs.table.refresh(true)

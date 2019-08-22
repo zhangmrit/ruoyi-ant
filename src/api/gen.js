@@ -51,3 +51,11 @@ export function importTable (parameter) {
     params: parameter
   })
 }
+export function preview (tebleId) {
+  return axios({
+    url: api.gen + '/preview/' + `${tebleId}`,
+    method: 'get'
+  })
+}
+
+export const batchGenCode = api.gen + '/batchGenCode'

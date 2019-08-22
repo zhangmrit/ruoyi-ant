@@ -178,7 +178,7 @@ export default {
     }
   },
   beforeCreate () {
-    const { tableId } = this.$route.params
+    const { tableId } = this.$route.query
     if (tableId) {
       editGen({ tableId: tableId }).then(res => {
         this.data = res.rows
