@@ -12,8 +12,12 @@
         </a-form-item>
       </a-col>
       <a-col :lg="{span: 6, offset: 1}" :md="12" :sm="24">
-        <a-form-item
-          label="生成包路径">
+        <a-form-item>
+          <span slot="label">生成包路径
+            <a-tooltip title="生成在哪个java包下，例如 com.ruoyi.system">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
           <a-input
             placeholder="请输入"
             v-decorator="[
@@ -25,8 +29,12 @@
     </a-row>
     <a-row class="form-row" :gutter="24">
       <a-col :lg="{span: 6, offset: 6}" :md="12" :sm="24">
-        <a-form-item
-          label="生成模块名">
+        <a-form-item>
+          <span slot="label">生成模块名
+            <a-tooltip title="可理解为子系统名，例如 system">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
           <a-input
             placeholder="请输入生成模块名"
             v-decorator="[
@@ -36,8 +44,12 @@
         </a-form-item>
       </a-col>
       <a-col :lg="{span: 6, offset: 1}" :md="12" :sm="24">
-        <a-form-item
-          label="生成业务名">
+        <a-form-item>
+          <span slot="label">生成业务名
+            <a-tooltip title="可理解为功能英文名，例如 user">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
           <a-input
             placeholder="请输入"
             v-decorator="[
@@ -49,8 +61,12 @@
     </a-row>
     <a-row class="form-row" :gutter="24">
       <a-col :lg="{span: 6, offset: 6}" :md="12" :sm="24">
-        <a-form-item
-          label="生成功能名">
+        <a-form-item>
+          <span slot="label">生成功能名
+            <a-tooltip title="用作类描述，例如 用户">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
           <a-input
             placeholder="请输入"
             v-decorator="[
@@ -63,7 +79,12 @@
     <a-card class="card" v-if="other" title="其他信息" :bordered="false">
       <a-row class="form-row" :gutter="24">
         <a-col :lg="{span: 6, offset: 6}" :md="12" :sm="24">
-          <a-form-item label="树编码字段">
+          <a-form-item>
+            <span slot="label">树编码字段
+              <a-tooltip title="树显示的编码字段名， 如：dept_id">
+                <a-icon type="question-circle-o" />
+              </a-tooltip>
+            </span>
             <a-select v-decorator="['params[treeCode]', {initialValue:'',rules: [{ required: true, message: '请选择树编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
@@ -71,7 +92,12 @@
           </a-form-item>
         </a-col>
         <a-col :lg="{span: 6, offset: 1}" :md="12" :sm="24">
-          <a-form-item label="树父编码字段">
+          <a-form-item>
+            <span slot="label">树父编码字段
+              <a-tooltip title="树显示的父编码字段名， 如：parent_Id">
+                <a-icon type="question-circle-o" />
+              </a-tooltip>
+            </span>
             <a-select v-decorator="['params[treeParentCode]', {initialValue:'',rules: [{ required: true, message: '请选择树父编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
@@ -81,7 +107,12 @@
       </a-row>
       <a-row class="form-row" :gutter="24">
         <a-col :lg="{span: 6, offset: 6}" :md="12" :sm="24">
-          <a-form-item label="树名称字段">
+          <a-form-item>
+            <span slot="label">树名称字段
+              <a-tooltip title="树节点的显示名称字段名， 如：dept_name">
+                <a-icon type="question-circle-o" />
+              </a-tooltip>
+            </span>
             <a-select v-decorator="['params[treeName]', {initialValue:'',rules: [{ required: true, message: '请选择树名称字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
