@@ -79,9 +79,6 @@ export default {
       previews: {}
     }
   },
-  created () {
-    window.addEventListener('touchmove', function () {})
-  },
   methods: {
     edit (id) {
       this.visible = true
