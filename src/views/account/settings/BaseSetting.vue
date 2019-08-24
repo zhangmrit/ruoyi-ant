@@ -63,9 +63,8 @@
 
     </a-row>
 
-    <avatar-modal ref="modal">
+    <avatar-modal ref="modal" @ok="setavatar"/>
 
-    </avatar-modal>
   </div>
 </template>
 
@@ -98,7 +97,10 @@ export default {
     }
   },
   methods: {
-
+    setavatar (url) {
+      console.log(url)
+      this.option.img = url
+    }
   }
 }
 </script>

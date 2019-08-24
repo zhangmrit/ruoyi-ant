@@ -121,7 +121,6 @@ export const generator = (routerMap, parent) => {
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: { title: item.title, icon: item.icon || undefined, hiddenHeaderContent: item.hiddenHeaderContent || false }
     }
-    console.log(currentRouter.name, currentRouter)
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
     currentRouter.path = currentRouter.path.replace('//', '/')
     // 重定向
