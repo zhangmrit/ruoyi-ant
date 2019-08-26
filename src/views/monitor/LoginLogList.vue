@@ -63,7 +63,8 @@
 
 <script>
 import { STable } from '@/components'
-import { getLoginLogList, delLoginLog, cleanLoginLog } from '@/api/monitor'
+// import { getLoginLogList, delLoginLog, cleanLoginLog } from '@/api/monitor'
+import { getLoginLogList } from '@/api/monitor'
 import { getDictArray } from '../../utils/dict'
 const commonStatusMap = {}
 export default {
@@ -171,20 +172,22 @@ export default {
       this.$refs.table.refresh(true)
     },
     delByIds (ids) {
-      delLoginLog({ ids: ids.join(',') }).then(res => {
-        if (res.code === 0) {
-          this.$message.success(`删除成功`)
-          this.handleOk()
-        } else {
-          this.$message.error(res.msg)
-        }
-        this.selectedRowKeys = []
-      })
+      this.$message.success(`你删除了` + ids)
+      // delLoginLog({ ids: ids.join(',') }).then(res => {
+      //   if (res.code === 0) {
+      //     this.$message.success(`删除成功`)
+      //     this.handleOk()
+      //   } else {
+      //     this.$message.error(res.msg)
+      //   }
+      //   this.selectedRowKeys = []
+      // })
     },
     clean () {
-      cleanLoginLog().then(res => {
-        this.handleOk()
-      })
+      this.$message.success(`你点击了清空`)
+      // cleanLoginLog().then(res => {
+      //   this.handleOk()
+      // })
     }
   },
   watch: {
