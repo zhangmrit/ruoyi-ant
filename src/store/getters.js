@@ -10,6 +10,7 @@ const getters = {
   userInfo: state => state.user.info,
   addRouters: state => state.permission.addRouters,
   multiTab: state => state.app.multiTab,
+  lang: state => state.i18n.lang,
   // 从后台获取的用户 按钮权限
   buttons: state => state.user.buttons,
   userId: state => state.user.userId

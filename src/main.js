@@ -15,6 +15,7 @@ import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
 import 'ant-design-vue/dist/antd.less'
+import i18n from './locales'
 
 Vue.config.productionTip = false
 
@@ -24,6 +25,7 @@ Vue.use(VueAxios)
 new Vue({
   router,
   store,
+  i18n,
   created: bootstrap,
   render: h => h(App)
 }).$mount('#app')

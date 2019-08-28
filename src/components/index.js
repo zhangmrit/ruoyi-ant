@@ -19,7 +19,7 @@ export { default as FooterToolbar } from '@/components/FooterToolbar'
 export { default as NumberInfo } from '@/components/NumberInfo'
 // 兼容写法，请勿继续使用
 export { default as DescriptionList, default as DetailList } from '@/components/DescriptionList'
-export { default as Tree } from '@/components/Tree/Tree'
+export { default as STree } from '@/components/Tree/Tree'
 export { default as Trend } from '@/components/Trend'
 export { default as STable } from '@/components/Table'
 export { default as MultiTab } from '@/components/MultiTab'

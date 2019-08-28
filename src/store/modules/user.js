@@ -80,16 +80,15 @@ const user = {
     // 登出
     Logout ({ commit, state }) {
       return new Promise((resolve) => {
-        // 优化退出逻辑，先复制token，本地先执行退出
-        const token = state.token
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        commit('SET_INFO', {})
-        Vue.ls.remove(ACCESS_TOKEN)
-        logout(token).then(() => {
+        logout(state.token).then(() => {
           resolve()
         }).catch(() => {
           resolve()
+        }).finally(() => {
+          commit('SET_TOKEN', '')
+          commit('SET_ROLES', [])
+          commit('SET_INFO', {})
+          Vue.ls.remove(ACCESS_TOKEN)
         })
       })
     }
