@@ -12,6 +12,9 @@
         <detail-list-item term="登陆信息">{{ mdl.operName }}/{{ mdl.operIp }}/{{ mdl.operLocation }}</detail-list-item>
       </detail-list>
       <detail-list title="" size="small" :col="1">
+        <detail-list-item term="请求方式">{{ mdl.requestMethod }}</detail-list-item>
+      </detail-list>
+      <detail-list title="" size="small" :col="1">
         <detail-list-item term="操作方法">{{ mdl.method }}</detail-list-item>
       </detail-list>
       <detail-list size="small" :col="2" >
