@@ -7,6 +7,7 @@
         </span>
       </a>
       <notice-icon class="action"/>
+      <lang-select />
       <a-dropdown>
         <span class="action ant-dropdown-link user-dropdown-menu">
           <a-avatar class="avatar" size="small" :src="avatar"/>
@@ -38,7 +39,7 @@
           </a-menu-item>
         </a-menu>
       </a-dropdown>
-      <lang-select />
+
     </div>
   </div>
 </template>
