@@ -13,6 +13,7 @@ const constantRouterComponents = {
   // 你需要动态引入的页面组件
   analysis: () => import('@/views/dashboard/Analysis'),
   workplace: () => import('@/views/dashboard/Workplace'),
+  weclome: () => import('@/views/dashboard/Welcome'),
   monitor: () => import('@/views/dashboard/Monitor'),
   baseForm: () => import('@/views/form/BasicForm'),
   stepForm: () => import('@/views/form/stepForm/StepForm'),
@@ -141,17 +142,22 @@ export function buildmenu (rows) {
       'key': '',
       'name': 'index',
       'component': 'BasicLayout',
-      'redirect': '/dashboard/workplace',
+      'redirect': '/dashboard/weclome',
       'children': [
         {
           'title': '仪表盘',
           'key': 'dashboard',
           'component': 'RouteView',
-          'redirect': '/dashboard/workplace',
+          'redirect': '/dashboard/weclome',
           'icon': 'dashboard',
           'children': [{
             'title': '分析页',
             'key': 'analysis',
+            'icon': ''
+          },
+          {
+            'title': '欢迎页',
+            'key': 'weclome',
             'icon': ''
           },
           {
