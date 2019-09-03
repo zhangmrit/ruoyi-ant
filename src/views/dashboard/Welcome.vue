@@ -44,6 +44,7 @@
           :sm="24"
           :xs="24">
           <a-card title="捐赠" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
+            <h3 style="margin: 12px 26px">请作者喝杯咖啡或者建设演示服务器</h3>
             <img style="width:100%" src="https://gitee.com/zhangmrit/img/raw/master/contribute/donate.png"/>
           </a-card>
           <!-- <a-card title="更新日志" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
