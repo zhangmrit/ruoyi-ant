@@ -110,10 +110,6 @@ export default {
           dataIndex: 'orderNum'
         },
         {
-          title: '地址',
-          dataIndex: 'url'
-        },
-        {
           title: '按钮类型',
           dataIndex: 'menuType',
           scopedSlots: { customRender: 'menuType' }

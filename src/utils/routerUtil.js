@@ -233,7 +233,7 @@ export function buildmenu (rows) {
         {
           'title': '详情页',
           'key': 'profile',
-          'component': 'PageView',
+          'component': 'RouteView',
           'icon': 'profile',
           'children': [{
             'title': '基础详情页',
@@ -354,13 +354,13 @@ export function buildtree (list, arr, parentId) {
         key: item.menuKey,
         icon: item.icon,
         hidden: item.visible === '1',
-        component: 'PageView',
+        component: item.menuType === 'M' ? item.menuLay : undefined,
         children: []
       }
       buildtree(list, child.children, item.menuId)
       if (child.children.length === 0) {
         delete child.children
-        delete child.component
+        // delete child.component
       }
       arr.push(child)
     }

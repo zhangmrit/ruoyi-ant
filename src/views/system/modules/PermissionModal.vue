@@ -60,34 +60,25 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="请求地址"
-      >
-        <a-input
-          v-decorator="['url',{initialValue:'#',rules: [{ required: true, message: '请输入地址' }]}]"
-          placeholder="请求地址"/>
-      </a-form-item>
-
-      <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
+        v-if="menuType!='M'"
         label="权限标识"
       >
         <a-input
-          v-decorator="['perms']"
+          v-decorator="['perms',{rules: [{ required: true, message: '请输入权限标识' }]}]"
           placeholder="权限标识"/>
       </a-form-item>
 
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
+        v-if="menuType==='M'"
         label="布局类型"
       >
-        <a-select v-decorator="['menuLay', {initialValue:'',rules: [{ message: '请选择类型' }]}]" @select="menuTypeChange">
-          <a-select-option :value="''">不选择，自动继承上级</a-select-option>
+        <a-select v-decorator="['menuLay', {initialValue:'PageView',rules: [{ required: true,message: '请选择类型' }]}]">
           <a-select-option :value="'PageView'">基础布局，包含了面包屑，和中间内容区 (slot)</a-select-option>
-          <a-select-option :value="'BasicLayout'">基础页面布局，包含了头部导航，侧边栏和通知栏</a-select-option>
           <a-select-option :value="'RouterView'">空布局，专门为了二级菜单内容区自定义</a-select-option>
           <a-select-option :value="'BlankLayout'">空白的布局</a-select-option>
+          <a-select-option :value="'BasicLayout'">基础页面布局，包含了头部导航，侧边栏和通知栏</a-select-option>
           <a-select-option :value="'UserLayout'">登陆注册页面的通用布局</a-select-option>
         </a-select>
       </a-form-item>
@@ -95,10 +86,10 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        v-show="iconShow"
+        v-if="menuType==='M'"
         label="图标"
       >
-        <a-input v-decorator="['icon']" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
+        <a-input v-decorator="['icon',{rules: [{ required: true, message: '请选择图标' }]}]" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
           <a-icon slot="prefix" :type="icon" />
           <a-icon slot="suffix" type="close-circle" @click="emitEmpty"/>
         </a-input>
@@ -109,8 +100,8 @@
         :wrapperCol="wrapperCol"
         label="显示顺序"
       >
-        <a-input
-          v-decorator="['orderNum',{initialValue:'1',rules: [{ required: true, message: '请输入顺序' }]}]"
+        <a-input-number
+          v-decorator="['orderNum',{initialValue:'1',rules: [{ required: true, message: '请输入顺序数字' }]}]"
           placeholder="显示顺序"/>
       </a-form-item>
 
@@ -153,7 +144,7 @@ export default {
       permissions: [{ key: 0, value: '0', title: '无' }],
       mdl: {},
       icon: 'smile',
-      iconShow: true,
+      menuType: '',
       form: this.$form.createForm(this)
     }
   },
@@ -163,8 +154,8 @@ export default {
     this.loadPermissions()
   },
   methods: {
-    menuTypeChange (value) {
-      value === 'F' ? this.iconShow = false : this.iconShow = true
+    menuTypeChange (type) {
+      this.menuType = type
     },
     emitEmpty () {
       this.$refs.iconInput.focus()
@@ -184,10 +175,11 @@ export default {
     edit (record) {
       this.mdl = Object.assign({}, record)
       this.visible = true
+      this.menuType = this.mdl.menuType || 'M'
       this.$nextTick(() => {
         this.mdl.icon ? this.icon = this.mdl.icon : this.icon = 'smile'
         this.mdl.parentId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'url', 'visible', 'perms', 'orderNum', 'menuName', 'menuKey', 'menuLay'))
+        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'visible', 'perms', 'orderNum', 'menuName', 'menuKey', 'menuLay'))
         // this.form.setFieldsValue({ ...record })
       })
     },
