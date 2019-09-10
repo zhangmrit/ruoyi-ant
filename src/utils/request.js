@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import store from '@/store'
 import { VueAxios } from './axios'
-import { Notification as notification } from 'ant-design-vue'
+import { notification } from 'ant-design-vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 const baseURL = process.env.VUE_APP_API_BASE_URL

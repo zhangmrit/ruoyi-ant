@@ -7488,10 +7488,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
-mockjs2@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npm.taobao.org/mockjs2/download/mockjs2-1.0.5.tgz#be80f670e0468092b15454169591e936c3bd29f9"
-  integrity sha1-voD2cOBGgJKxVFQWlZHpNsO9Kfk=
+mockjs2@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npm.taobao.org/mockjs2/download/mockjs2-1.0.7.tgz#3aca24630b6a49f13b3087deb174fd00ef5a5396"
+  integrity sha1-OsokYwtqSfE7MIfesXT9AO9aU5Y=
   dependencies:
     commander "*"
 

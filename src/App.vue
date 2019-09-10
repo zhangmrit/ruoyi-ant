@@ -8,10 +8,9 @@
 
 <script>
 // import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { locales } from 'ant-design-vue'
+import { locale } from 'ant-design-vue'
 import { AppDeviceEnquire } from '@/utils/mixin'
-
-const zhCN = locales.zh_CN
+const zhCN = locale.zh_CN
 
 export default {
   mixins: [AppDeviceEnquire],

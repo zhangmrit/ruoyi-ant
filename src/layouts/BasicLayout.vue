@@ -66,7 +66,6 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
-import MultiTab from '@/components/MultiTab'
 import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
@@ -78,7 +77,6 @@ export default {
   mixins: [mixin, mixinDevice],
   components: {
     RouteView,
-    MultiTab,
     SideMenu,
     GlobalHeader,
     GlobalFooter,
