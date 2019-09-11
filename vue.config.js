@@ -91,9 +91,7 @@ const vueConfig = {
     port: 8000,
     proxy: {
       '/api': {
-        // target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
-        target: 'https://www.easy-mock.com/mock/5ce2743c2dda2d3b1365fb1b/ruoyi-cloud',
-        // target: 'http://gateway.com:9527',
+        target: 'http://gateway.com:9527',
         pathRewrite: { '^/api': '' },
         ws: false,
         changeOrigin: true

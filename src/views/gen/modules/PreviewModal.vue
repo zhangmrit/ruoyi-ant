@@ -8,7 +8,7 @@
     @ok="handleOk"
   >
     <a-tabs @change="callback" v-if="codes" tabPosition="left">
-      <a-tab-pane :tab="key" v-for="(value, key) in codes" :key="key"><pre>{{ value }}</pre></a-tab-pane>
+      <a-tab-pane :tab="key.substring(key.lastIndexOf('/')+1,key.indexOf('.vm'))" v-for="(value, key) in codes" :key="key"><pre>{{ value }}</pre></a-tab-pane>
     </a-tabs>
   </a-modal>
 </template>
