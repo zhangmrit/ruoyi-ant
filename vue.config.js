@@ -6,14 +6,6 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
-/**
- * check production or preview(pro.loacg.com only)
- * @returns {boolean}
- */
-function isProd () {
-  return process.env.NODE_ENV === 'production' || process.env.VUE_APP_PREVIEW === 'true'
-}
-
 const assetsCDN = {
   // main.js里引入了对应的less以使 webpack-theme-color-replacer工作
   // https://cdn.jsdelivr.net/npm/ant-design-vue@1.3.9/dist/antd.min.css
@@ -47,7 +39,7 @@ const prodExternals = {
 // vue.config.js
 const vueConfig = {
   configureWebpack: {
-    externals: isProd() ? prodExternals : {},
+    externals: prodExternals,
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -74,12 +66,10 @@ const vueConfig = {
         name: 'assets/[name].[hash:8].[ext]'
       })
     // assets require on cdn
-    if (isProd()) {
-      config.plugin('html').tap(args => {
-        args[0].cdn = assetsCDN
-        return args
-      })
-    }
+    config.plugin('html').tap(args => {
+      args[0].cdn = assetsCDN
+      return args
+    })
   },
 
   css: {
@@ -119,7 +109,7 @@ const vueConfig = {
 }
 
 // 如果你不想在生产环境开启换肤功能，请打开下面注释
-// if (!isProd()) {
+// if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
 // add `ThemeColorReplacer` plugin to webpack plugins
 vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
 // }

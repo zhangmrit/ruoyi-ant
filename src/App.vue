@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+// import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { AppDeviceEnquire } from '@/utils/mixin'
 // 引用cdn还可以这么写
-// import { locale } from 'ant-design-vue'
-// const zhCN = locale.zh_CN
+import { locales } from 'ant-design-vue'
+const zhCN = locales.zh_CN
 
 export default {
   mixins: [AppDeviceEnquire],

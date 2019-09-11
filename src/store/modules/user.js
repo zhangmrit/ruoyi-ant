@@ -68,7 +68,7 @@ const user = {
           } else {
             reject(new Error('getInfo: roles must be a non-null array !'))
           }
-          console.log(result)
+          // console.log(result)
           commit('SET_NAME', { name: result.userName, welcome: welcome() })
           commit('SET_AVATAR', result.avatar || '/avatar2.jpg')
           resolve(response)
