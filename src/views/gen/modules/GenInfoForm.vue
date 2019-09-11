@@ -2,7 +2,12 @@
   <a-form @submit="handleSubmit" :form="form" class="form">
     <a-row class="form-row" :gutter="24">
       <a-col :lg="{span: 6, offset: 6}" :md="12" :sm="24">
-        <a-form-item label="生成模板">
+        <a-form-item >
+          <span slot="label">生成模板
+            <a-tooltip title="树表没有分页,数据展示为树形表格">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
           <a-select
             v-decorator="['tplCategory', {initialValue:'crud',rules: [{ required: true, message: '请选择生成模板' }]}]"
             @change="tplChange">
@@ -85,7 +90,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params[treeCode]', {initialValue:'',rules: [{ required: true, message: '请选择树编码字段' }]}]">
+            <a-select v-decorator="['params.treeCode', {initialValue:'',rules: [{ required: true, message: '请选择树编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -98,7 +103,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params[treeParentCode]', {initialValue:'',rules: [{ required: true, message: '请选择树父编码字段' }]}]">
+            <a-select v-decorator="['params.treeParentCode', {initialValue:'',rules: [{ required: true, message: '请选择树父编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -113,7 +118,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params[treeName]', {initialValue:'',rules: [{ required: true, message: '请选择树名称字段' }]}]">
+            <a-select v-decorator="['params.treeName', {initialValue:'',rules: [{ required: true, message: '请选择树名称字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -151,8 +156,11 @@ export default {
   created () {
     this.mdl = Object.assign(this.info)
     this.tplChange(this.mdl.tplCategory)
+    if (this.other) {
+      this.mdl.params = JSON.parse(this.mdl.options)
+    }
     this.$nextTick(() => {
-      this.form.setFieldsValue(pick(this.mdl, 'packageName', 'tplCategory', 'moduleName', 'businessName', 'functionName'))
+      this.form.setFieldsValue(pick(this.mdl, 'packageName', 'tplCategory', 'moduleName', 'businessName', 'functionName', 'params'))
     })
   },
   methods: {
