@@ -25,6 +25,14 @@
             <p><strong>Spring Cloud</strong> 版本的若依,集成 <strong>Spring Cloud</strong> 的几大神兽: <strong>eureka,gateway,hystrix,feign,config... </strong>自定义token实现授权，直接存到redis</p>
             <p><strong>文档地址 </strong><a href="http://doc.rycloud.zmrit.com" target="_blank">http://doc.rycloud.zmrit.com</a></p>
             <p><strong>RuoYi Cloud</strong> 承诺永久开源，不会出商业版之类的东西</p>
+            <p><strong>RuoYi Cloud</strong> 是采用 MIT 许可的开源项目，使用完全免费。 但为了项目能够健康持续的发展下去，我们期望获得相应的资金支持。 你可以通过下列的方法来赞助我们的开发。</p>
+            <ul>
+              <li><h3>一次性赞助</h3></li>
+              <p>捐赠者信息将会在文档捐赠页展示</p>
+              <li><h3>周期性赞助</h3></li>
+              <p>周期性赞助可以获得额外的回报，比如你的名字会出现在 GitHub 仓库中，再比如你的公司 logo 会出现在我们的官网上</p>
+            </ul>
+            <p><strong>Spring Cloud 从零开始免费教程 </strong><a href="http://club.zmrit.com/cloud-zero/" target="_blank">http://club.zmrit.com/cloud-zero/</a></p>
           </a-card>
 
           <a-card title="更新日志" :bordered="false">
