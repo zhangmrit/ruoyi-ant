@@ -248,6 +248,7 @@ export default {
     emitEmpty () {
       this.$refs.searchInput.focus()
       this.searchValue = ''
+      this.searchDept()
     },
     getParentKey (key, tree) {
       let parentKey
@@ -264,6 +265,9 @@ export default {
       return parentKey
     },
     handleChange (e) {
+      this.searchDept()
+    },
+    searchDept () {
       const value = this.searchValue
       const expandedKeys = this.dataList.map((item) => {
         if (item.title.indexOf(value) > -1) {
