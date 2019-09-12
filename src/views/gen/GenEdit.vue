@@ -244,6 +244,7 @@ export default {
         })
         this.info = Object.assign({}, genTable)
         genTable.columns = this.data
+        genTable.params = { treeCode: genTable.treeCode, treeName: genTable.treeName, treeParentCode: genTable.treeParentCode }
         this.loading = true
         editSaveGen(genTable).then(res => {
           if (res.code === 0) {

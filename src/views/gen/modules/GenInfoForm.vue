@@ -90,7 +90,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params.treeCode', {initialValue:'',rules: [{ required: true, message: '请选择树编码字段' }]}]">
+            <a-select v-decorator="['treeCode', {initialValue:'',rules: [{ required: true, message: '请选择树编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -103,7 +103,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params.treeParentCode', {initialValue:'',rules: [{ required: true, message: '请选择树父编码字段' }]}]">
+            <a-select v-decorator="['treeParentCode', {initialValue:'',rules: [{ required: true, message: '请选择树父编码字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -118,7 +118,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-decorator="['params.treeName', {initialValue:'',rules: [{ required: true, message: '请选择树名称字段' }]}]">
+            <a-select v-decorator="['treeName', {initialValue:'',rules: [{ required: true, message: '请选择树名称字段' }]}]">
               <a-select-option value="">---请选择---</a-select-option>
               <a-select-option v-for="(c, index) in mdl.columns" :key="index" :value="c.columnName">{{ c.columnName+':'+c.columnComment }}</a-select-option>
             </a-select>
@@ -156,11 +156,8 @@ export default {
   created () {
     this.mdl = Object.assign(this.info)
     this.tplChange(this.mdl.tplCategory)
-    if (this.other) {
-      this.mdl.params = JSON.parse(this.mdl.options)
-    }
     this.$nextTick(() => {
-      this.form.setFieldsValue(pick(this.mdl, 'packageName', 'tplCategory', 'moduleName', 'businessName', 'functionName', 'params'))
+      this.form.setFieldsValue(pick(this.mdl, 'packageName', 'tplCategory', 'moduleName', 'businessName', 'functionName', 'treeCode', 'treeParentCode', 'treeName'))
     })
   },
   methods: {
