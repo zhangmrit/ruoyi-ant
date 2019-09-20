@@ -134,7 +134,6 @@ export default {
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
-        this.mdl.deptId += ''
         this.form.setFieldsValue(pick(this.mdl, 'userId', 'loginName', 'userName', 'status', 'roleIds', 'remark', 'deptId'))
         // this.form.setFieldsValue({ ...record })
       })

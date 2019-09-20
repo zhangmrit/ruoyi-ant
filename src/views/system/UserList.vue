@@ -230,6 +230,7 @@ export default {
         if (item.parentId === parentId) {
           var child = {
             key: item.deptId,
+            value: item.deptId, // value是给modal的select用的，2者属性不一样
             title: item.deptName,
             scopedSlots: { title: 'title' },
             children: []
