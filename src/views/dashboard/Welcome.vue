@@ -145,7 +145,7 @@ export default {
         { item: '引用', a: 70, b: 50, c: 40 }
       ],
       changeList: [
-        { title: '1.0.2-SNAPSHOT',
+        { title: '1.0.2-SNAPSHOT 2019-09-30',
           color: 'green',
           list: [
             '优化角色授权实现联动和半选',
