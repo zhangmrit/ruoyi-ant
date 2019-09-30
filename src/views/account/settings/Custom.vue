@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     colorFilter (color) {
-      const c = colorList.filter(o => o.color === color)[0]
+      const c = colorList.find(o => o.color === color)
       return c && c.key
     },
 

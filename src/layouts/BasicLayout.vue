@@ -142,9 +142,9 @@ export default {
       return left
     },
     menuSelect () {
-      if (!this.isDesktop()) {
-        this.collapsed = false
-      }
+      // if (!this.isDesktop()) {
+      //   this.collapsed = false
+      // }
     },
     drawerClose () {
       this.collapsed = false

@@ -9,7 +9,9 @@ export default {
     })
     // colorPalette变换得到颜色值
     const colorPalettes = generate(color)
-    return lightens.concat(colorPalettes)
+    // return lightens.concat(colorPalettes) 替换`24,144,255`这样的主题色
+    const rgb = client.varyColor.toNum3(color.replace('#', '')).join(',')
+    return lightens.concat(colorPalettes).concat(rgb)
   },
   changeColor (newColor) {
     var options = {

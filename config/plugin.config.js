@@ -7,7 +7,9 @@ const getAntdSerials = (color) => {
     return ThemeColorReplacer.varyColor.lighten(color, i / 10)
   })
   const colorPalettes = generate(color)
-  return lightens.concat(colorPalettes)
+  // return lightens.concat(colorPalettes) 替换`24,144,255`这样的主题色
+  const rgb = ThemeColorReplacer.varyColor.toNum3(color.replace('#', '')).join(',')
+  return lightens.concat(colorPalettes).concat(rgb)
 }
 
 const themePluginOption = {

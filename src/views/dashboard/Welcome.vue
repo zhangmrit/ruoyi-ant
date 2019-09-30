@@ -145,8 +145,8 @@ export default {
         { item: '引用', a: 70, b: 50, c: 40 }
       ],
       changeList: [
-        { title: '1.0.2-SNAPSHOT(即将发布)',
-          color: 'red',
+        { title: '1.0.2-SNAPSHOT',
+          color: 'green',
           list: [
             '优化角色授权实现联动和半选',
             '用户管理增加部门检索功能',
