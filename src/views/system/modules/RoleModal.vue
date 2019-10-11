@@ -125,16 +125,19 @@ export default {
   methods: {
     add () {
       this.form.resetFields()
+      this.checkedKeys = []
       this.edit({ })
     },
     edit (record) {
-      getRolePermIds(record.roleId).then(res => {
-        const pidSet = new Set(res.map(m => m.parentId).filter(id => id > 0))
-        this.pidSet = pidSet
-        // 因为antd 树插件勾选父节点会导致所有子节点选中,所以过滤所有父节点
-        this.checkedKeys = res.map(m => m.menuId).filter(id => !pidSet.has(id))
-        this.treeCheck = false
-      })
+      if (record.roleId) {
+        getRolePermIds(record.roleId).then(res => {
+          const pidSet = new Set(res.map(m => m.parentId).filter(id => id > 0))
+          this.pidSet = pidSet
+          // 因为antd 树插件勾选父节点会导致所有子节点选中,所以过滤所有父节点
+          this.checkedKeys = res.map(m => m.menuId).filter(id => !pidSet.has(id))
+          this.treeCheck = false
+        })
+      }
       this.mdl = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
