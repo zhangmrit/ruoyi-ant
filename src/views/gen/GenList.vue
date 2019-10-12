@@ -88,6 +88,7 @@ export default {
   },
   data () {
     return {
+      description: '代码生成工具，先导入，再生成',
       visible: false,
       labelCol: {
         xs: { span: 24 },
