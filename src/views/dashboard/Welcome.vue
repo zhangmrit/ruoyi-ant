@@ -28,11 +28,12 @@
             <p><strong>RuoYi Cloud</strong> 是采用 MIT 许可的开源项目，使用完全免费。 但为了项目能够健康持续的发展下去，我们期望获得相应的资金支持。 你可以通过下列的方法来赞助我们的开发。</p>
             <ul>
               <li><h3>一次性赞助</h3></li>
-              <p>捐赠者信息将会在文档捐赠页展示</p>
+              <p>捐赠者信息将会在文档捐赠页展示 <a href="http://doc.rycloud.zmrit.com/#/donate" target="_blank">捐赠名单</a></p>
               <li><h3>周期性赞助</h3></li>
               <p>周期性赞助可以获得额外的回报，比如你的名字会出现在 GitHub 仓库中，再比如你的公司 logo 会出现在我们的官网上</p>
             </ul>
             <p><strong>Spring Cloud 从零开始免费教程 </strong><a href="http://club.zmrit.com/cloud-zero/" target="_blank">http://club.zmrit.com/cloud-zero/</a></p>
+            <p> <a href="https://www.aliyun.com/1111/2019/group-buying-share?ptCode=DD361C81202FF0501CD3EF81B1BEDDD2647C88CF896EF535&userCode=p88vtdla&share_source=copy_link">阿里云双11活动，点击参加，最低低至86</a></p>
           </a-card>
 
           <a-card title="更新日志" :bordered="false">
@@ -51,9 +52,13 @@
           :md="24"
           :sm="24"
           :xs="24">
+          <a-card title="阿里云活动" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
+            <h3 style="margin: 12px 26px">阿里云服务器86元/年，双11冰点底价，错过再等1年 需要的小伙伴赶紧入手了（仅限新用户，点击下方图片参加）</h3>
+            <a href="https://www.aliyun.com/1111/2019/group-buying-share?ptCode=DD361C81202FF0501CD3EF81B1BEDDD2647C88CF896EF535&userCode=p88vtdla&share_source=copy_link"><img style="width:90%;margin-left:24px;" src="http://tva1.sinaimg.cn/large/007X8olVly1g8932lpkg1j30c204sq6o.jpg"/></a>
+          </a-card>
           <a-card title="捐赠" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <h3 style="margin: 12px 26px">请作者喝杯咖啡或者建设演示服务器</h3>
-            <img style="width:100%" src="https://gitee.com/zhangmrit/img/raw/master/contribute/donate.png"/>
+            <img style="width:100%" src="http://upload.ouliu.net/i/20191021180958e1ek5.png"/>
           </a-card>
           <!-- <a-card title="更新日志" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <a-collapse defaultActiveKey="0" accordion :bordered="false">
