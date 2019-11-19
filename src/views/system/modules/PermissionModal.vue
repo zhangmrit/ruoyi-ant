@@ -50,11 +50,11 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="动态菜单唯一键"
+        label="路由唯一键"
       >
         <a-input
           v-decorator="['menuKey',{initialValue:'',rules: [{ required: true, message: '请输入动态菜单唯一键' }]}]"
-          placeholder="动态菜单唯一键"/>
+          placeholder="路由唯一键：如'user'"/>
       </a-form-item>
 
       <a-form-item
@@ -71,16 +71,16 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        v-if="menuType==='M'"
-        label="布局类型"
+        v-if="menuType!=='F'"
       >
-        <a-select v-decorator="['menuLay', {initialValue:'PageView',rules: [{ required: true,message: '请选择类型' }]}]">
-          <a-select-option :value="'PageView'">基础布局，包含了面包屑，和中间内容区 (slot)</a-select-option>
-          <a-select-option :value="'RouterView'">空布局，专门为了二级菜单内容区自定义</a-select-option>
-          <a-select-option :value="'BlankLayout'">空白的布局</a-select-option>
-          <a-select-option :value="'BasicLayout'">基础页面布局，包含了头部导航，侧边栏和通知栏</a-select-option>
-          <a-select-option :value="'UserLayout'">登陆注册页面的通用布局</a-select-option>
-        </a-select>
+        <span slot="label">组件
+          <a-tooltip title="routerUtil中定义的组件或views文件下的路径">
+            <a-icon type="question-circle-o" />
+          </a-tooltip>
+        </span>
+        <a-input
+          v-decorator="['component',{rules: [{ required: false, message: '请输入组件' }]}]"
+          placeholder="组件"/>
       </a-form-item>
 
       <a-form-item
@@ -179,7 +179,7 @@ export default {
       this.$nextTick(() => {
         this.mdl.icon ? this.icon = this.mdl.icon : this.icon = 'smile'
         this.mdl.parentId += ''
-        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'visible', 'perms', 'orderNum', 'menuName', 'menuKey', 'menuLay'))
+        this.form.setFieldsValue(pick(this.mdl, 'icon', 'menuId', 'parentId', 'menuType', 'visible', 'perms', 'orderNum', 'menuName', 'menuKey', 'component'))
         // this.form.setFieldsValue({ ...record })
       })
     },

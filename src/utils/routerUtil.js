@@ -5,10 +5,11 @@ import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/lay
 // 前端路由表
 const constantRouterComponents = {
   // 基础页面 layout 必须引入
-  BasicLayout: BasicLayout,
-  BlankLayout: BlankLayout,
-  RouteView: RouteView,
-  PageView: PageView,
+  BasicLayout: BasicLayout, // 基础页面布局，包含了头部导航，侧边栏和通知栏
+  BlankLayout: BlankLayout, // 空白的布局
+  RouteView: RouteView, // 空布局，专门为了二级菜单内容区自定义
+  PageView: PageView, // 基础布局，包含了面包屑，和中间内容区 (slot)
+  UserLayout: UserLayout, // 登陆注册页面的通用布局
 
   // 你需要动态引入的页面组件
   analysis: () => import('@/views/dashboard/Analysis'),
@@ -38,22 +39,22 @@ const constantRouterComponents = {
   security: () => import('@/views/account/settings/Security'),
   custom: () => import('@/views/account/settings/Custom'),
   binding: () => import('@/views/account/settings/Binding'),
-  notification: () => import('@/views/account/settings/Notification'),
+  notification: () => import('@/views/account/settings/Notification')
   // system
-  userList: () => import('@/views/system/UserList'),
-  roleList: () => import('@/views/system/RoleList'),
-  permissionList: () => import('@/views/system/PermissionList'),
-  deptList: () => import('@/views/system/DeptList'),
-  dictList: () => import('@/views/system/DictList'),
-  distList: () => import('@/views/system/DistList'),
-  configList: () => import('@/views/system/ConfigList'),
-  ossList: () => import('@/views/system/OssList'),
+  // userList: () => import('@/views/system/UserList'),
+  // roleList: () => import('@/views/system/RoleList'),
+  // permissionList: () => import('@/views/system/PermissionList'),
+  // deptList: () => import('@/views/system/DeptList'),
+  // dictList: () => import('@/views/system/DictList'),
+  // distList: () => import('@/views/system/DistList'),
+  // configList: () => import('@/views/system/ConfigList'),
+  // ossList: () => import('@/views/system/OssList'),
   // monitor
-  operLogList: () => import('@/views/monitor/OperLogList'),
-  loginLogList: () => import('@/views/monitor/LoginLogList'),
+  // operLogList: () => import('@/views/monitor/OperLogList'),
+  // loginLogList: () => import('@/views/monitor/LoginLogList'),
   // gen
-  genList: () => import('@/views/gen/GenList'),
-  genEdit: () => import('@/views/gen/GenEdit')
+  // genList: () => import('@/views/gen/GenList'),
+  // genEdit: () => import('@/views/gen/GenEdit')
   // ...more
 }
 
@@ -92,6 +93,7 @@ export const generatorDynamicRouter = () => {
     getRouterByUser().then(res => {
       const result = buildmenu(res)
       const routers = generator(result)
+      console.log('routers', routers)
       routers.push(notFoundRouter)
       resolve(routers)
     }).catch(err => {
@@ -108,6 +110,7 @@ export const generatorDynamicRouter = () => {
  * @returns {*}
  */
 export const generator = (routerMap, parent) => {
+  console.log(routerMap)
   return routerMap.map(item => {
     const currentRouter = {
       // 路由地址 动态拼接生成如 /dashboard/workplace
@@ -117,7 +120,7 @@ export const generator = (routerMap, parent) => {
       // 隐藏菜单
       hidden: item.hidden || false,
       // 该路由对应页面的 组件
-      component: constantRouterComponents[item.component || item.key],
+      component: constantRouterComponents[item.component || item.key] || loadView(item.component),
       hideChildrenInMenu: item.hideChildrenInMenu || false,
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: { title: item.title, icon: item.icon || undefined, hiddenHeaderContent: item.hiddenHeaderContent || false }
@@ -134,7 +137,9 @@ export const generator = (routerMap, parent) => {
     return currentRouter
   })
 }
-
+export const loadView = (view) => { // 路由懒加载
+  return () => import(`@/views/${view}`)
+}
 export function buildmenu (rows) {
   const menus = [
     {
@@ -354,7 +359,7 @@ export function buildtree (list, arr, parentId) {
         key: item.menuKey,
         icon: item.icon,
         hidden: item.visible === '1',
-        component: item.menuType === 'M' ? item.menuLay : undefined,
+        component: item.component,
         children: []
       }
       buildtree(list, child.children, item.menuId)

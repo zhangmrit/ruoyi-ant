@@ -6,8 +6,6 @@
 
 <script>
 
-import { Textarea as ATextarea } from 'ant-design-vue'
-import { Input as AInput } from 'ant-design-vue'
 // 动态切换组件
 import List from '@/views/list/table/List'
 import Edit from '@/views/list/table/Edit'
@@ -15,8 +13,6 @@ import Edit from '@/views/list/table/Edit'
 export default {
   name: 'TableListWrapper',
   components: {
-    AInput,
-    ATextarea,
     List,
     Edit
   },
