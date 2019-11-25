@@ -19,7 +19,7 @@ const assetsCDN = {
     'https://cdn.jsdelivr.net/npm/moment@2.24.0/locale/zh-cn.js',
     'https://cdn.jsdelivr.net/npm/@antv/g2@3.5.7/dist/g2.min.js',
     'https://cdn.jsdelivr.net/npm/@antv/data-set@0.10.2/dist/data-set.min.js',
-    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.3.16/dist/antd-with-locales.min.js'
+    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.4.6/dist/antd-with-locales.min.js'
   ]
 }
 // webpack build externals
