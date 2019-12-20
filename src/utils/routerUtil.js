@@ -39,7 +39,8 @@ const constantRouterComponents = {
   security: () => import('@/views/account/settings/Security'),
   custom: () => import('@/views/account/settings/Custom'),
   binding: () => import('@/views/account/settings/Binding'),
-  notification: () => import('@/views/account/settings/Notification')
+  notification: () => import('@/views/account/settings/Notification'),
+  donateList: () => import('@/views/others/DonateList')
   // system
   // userList: () => import('@/views/system/UserList'),
   // roleList: () => import('@/views/system/RoleList'),
@@ -110,7 +111,6 @@ export const generatorDynamicRouter = () => {
  * @returns {*}
  */
 export const generator = (routerMap, parent) => {
-  console.log(routerMap)
   return routerMap.map(item => {
     const currentRouter = {
       // 路由地址 动态拼接生成如 /dashboard/workplace
@@ -337,6 +337,18 @@ export function buildmenu (rows) {
                   'key': 'notification'
                 }
               ]
+            }
+          ]
+        },
+        {
+          'title': '其他',
+          'key': 'others',
+          'component': 'PageView',
+          'icon': 'interation',
+          'children': [
+            {
+              'title': '捐赠记录',
+              'key': 'donateList'
             }
           ]
         }
