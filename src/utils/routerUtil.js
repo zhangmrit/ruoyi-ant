@@ -41,7 +41,8 @@ const constantRouterComponents = {
   binding: () => import('@/views/account/settings/Binding'),
   notification: () => import('@/views/account/settings/Notification'),
   donateList: () => import('@/views/others/DonateList'),
-  mifei: () => import('@/views/others/MiFei')
+  mifei: () => import('@/views/others/MiFei'),
+  gnqc: () => import('@/views/others/Gnqc')
   // system
   // userList: () => import('@/views/system/UserList'),
   // roleList: () => import('@/views/system/RoleList'),
@@ -354,6 +355,10 @@ export function buildmenu (rows) {
             {
               'title': '米菲孕婴',
               'key': 'mifei'
+            },
+            {
+              'title': '赣南脐橙',
+              'key': 'gnqc'
             }
           ]
         }
