@@ -16,7 +16,11 @@
               </a-select>
             </a-form-item>
           </a-col>
-
+          <a-col :md="6" :sm="18">
+            <a-form-item label="捐赠时间">
+              <a-range-picker v-model="range"/>
+            </a-form-item>
+          </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
@@ -38,6 +42,7 @@
       rowKey="id"
       :columns="columns"
       :data="loadData"
+      :rangPicker="range"
       defaultSort="createTime"
     >
       <span slot="serial" slot-scope="text, record, index">
@@ -70,6 +75,7 @@ export default {
   },
   data () {
     return {
+      description: '一直以来感谢众多朋友的支持，本页面还有一个自定义icon的小例子，外加表格底部自定义',
       visible: false,
       labelCol: {
         xs: { span: 24 },
@@ -125,6 +131,7 @@ export default {
       },
       selectedRowKeys: [],
       selectedRows: [],
+      range: null,
       total: 0,
       canals: [
         { value: 1, label: '支付宝', icon: 'icon-alipay' },

@@ -40,7 +40,8 @@ const constantRouterComponents = {
   custom: () => import('@/views/account/settings/Custom'),
   binding: () => import('@/views/account/settings/Binding'),
   notification: () => import('@/views/account/settings/Notification'),
-  donateList: () => import('@/views/others/DonateList')
+  donateList: () => import('@/views/others/DonateList'),
+  mifei: () => import('@/views/others/MiFei')
   // system
   // userList: () => import('@/views/system/UserList'),
   // roleList: () => import('@/views/system/RoleList'),
@@ -349,6 +350,10 @@ export function buildmenu (rows) {
             {
               'title': '捐赠记录',
               'key': 'donateList'
+            },
+            {
+              'title': '米菲孕婴',
+              'key': 'mifei'
             }
           ]
         }
