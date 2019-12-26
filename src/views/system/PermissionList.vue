@@ -119,6 +119,14 @@ export default {
           scopedSlots: { customRender: 'menuType' }
         },
         {
+          title: '链接',
+          dataIndex: 'path'
+        },
+        {
+          title: '重定向',
+          dataIndex: 'redirect'
+        },
+        {
           title: '权限标识',
           dataIndex: 'perms'
         },
