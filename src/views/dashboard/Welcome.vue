@@ -51,6 +51,21 @@
           :md="24"
           :sm="24"
           :xs="24">
+          <a-card title="阿里云活动" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
+            <h3 style="margin: 12px 26px">【阿里云双12感恩回馈，云产品冰点价】云服务器89元/年，这里有专享低价</h3>
+            <ul>
+              <li><h4>ECS突发性能型t5</h4></li>
+              <p>t5处理器：skylake，20%性能基线 1核2G 1年89 3年229</p>
+              <li><h4>ECS共享型n4-3年</h4></li>
+              <p>n4处理器：100%CPU性能 2核4G 3年799</p>
+              <li><h4>ECS突发性能t5-3年</h4></li>
+              <p>20%基准CPU计算性能，高性价比之选 2核4G 3年899</p>
+            </ul>
+            <h4 style="margin: 12px 26px"></h4>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=p88vtdla&share_source=copy_link" target="_blank">
+              <a-button type="primary" style="margin: 12px 26px">朕要瞧瞧</a-button>
+            </a>
+          </a-card>
           <a-card title="捐赠" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <h3 style="margin: 12px 26px">请作者喝杯咖啡或者建设演示服务器</h3>
             <img style="width:100%" src="http://upload.ouliu.net/i/20191021180958e1ek5.png"/>
