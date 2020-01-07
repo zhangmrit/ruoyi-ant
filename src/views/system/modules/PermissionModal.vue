@@ -86,10 +86,10 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        v-if="menuType==='M'"
+        v-if="menuType!=='F'"
         label="图标"
       >
-        <a-input v-decorator="['icon',{rules: [{ required: true, message: '请选择图标' }]}]" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
+        <a-input v-decorator="['icon',{rules: [{ required: false, message: '请选择图标' }]}]" ref="iconInput" @click="iconselect()" enterButton="选择图标" placeholder="选择图标">
           <a-icon slot="prefix" :type="icon" />
           <a-icon slot="suffix" type="close-circle" @click="emitEmpty"/>
         </a-input>
@@ -113,7 +113,7 @@
         v-if="menuType==='C'"
       >
         <span slot="label">链接地址
-          <a-tooltip title="链接地址不为空时，打开方式必须为新窗口（antd限制）">
+          <a-tooltip title="链接地址为外链时，打开方式必须为新窗口（antd限制）">
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
@@ -250,9 +250,11 @@ export default {
       })
     },
     validatePathTarget (rule, value, callback) {
-      const form = this.form
-      if (form.getFieldValue('path').length > 0 && value !== '_blank') {
-        callback(new Error('链接地址不为空时，打开方式必须为新窗口（antd限制）'))
+      // eslint-disable-next-line no-debugger
+      debugger
+      const path = this.form.getFieldValue('path')
+      if (path && path.startsWith('http') && value !== '_blank') {
+        callback(new Error('链接地址为外链时，打开方式必须为新窗口（antd限制）'))
       } else {
         callback()
       }
