@@ -250,8 +250,6 @@ export default {
       })
     },
     validatePathTarget (rule, value, callback) {
-      // eslint-disable-next-line no-debugger
-      debugger
       const path = this.form.getFieldValue('path')
       if (path && path.startsWith('http') && value !== '_blank') {
         callback(new Error('链接地址为外链时，打开方式必须为新窗口（antd限制）'))
