@@ -120,10 +120,10 @@
         <a-input
           v-decorator="['path',{
             rules: [
-              { required: false,type:'url', message: '请输入正确的网址' }
+              { required: false,type:'string', message: '请输入正确的路径' }
             ]
           }]"
-          placeholder="链接地址"
+          placeholder="路径"
         />
       </a-form-item>
 

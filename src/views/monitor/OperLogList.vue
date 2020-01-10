@@ -154,7 +154,7 @@ export default {
       loadData: parameter => {
         return getOperLogList(Object.assign(parameter, this.queryParam))
       },
-      operTypeMap: null,
+      operTypeMap,
       businessTypes: [],
       selectedRowKeys: [],
       selectedRows: []
@@ -187,7 +187,6 @@ export default {
     this.businessTypes.map(d => {
       operTypeMap[d.dictValue] = { text: d.dictLabel }
     })
-    this.operTypeMap = operTypeMap
   },
   methods: {
     onSelectChange (selectedRowKeys, selectedRows) {
