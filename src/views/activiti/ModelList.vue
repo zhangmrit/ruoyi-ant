@@ -158,11 +158,11 @@ export default {
     },
     handleAdd () {
       this.modelVisible = true
-      this.modelerUrl = 'http://127.0.0.1:8004/models/newModel?time=' + new Date().getTime()
+      this.modelerUrl = 'http://act.zmrit.com/models/newModel?time=' + new Date().getTime()
     },
     handleEdit (id) {
       this.modelVisible = true
-      this.modelerUrl = 'http://127.0.0.1:8004/modeler.html?modelId=' + id
+      this.modelerUrl = 'http://act.zmrit.com/modeler.html?modelId=' + id
     },
     handleOk () {
       this.$refs.table.refresh(true)
