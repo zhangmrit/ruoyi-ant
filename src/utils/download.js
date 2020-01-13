@@ -4,7 +4,8 @@ const downloadUrl = '/system/common/download'
 
 const mimeMap = {
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  zip: 'application/zip'
+  zip: 'application/zip',
+  xml: 'application/xml'
 }
 
 export function exportExcel (url, params) {
@@ -33,6 +34,7 @@ export function downloadXlsx (filename) {
     resolveBlob(res, mimeMap.xlsx)
   })
 }
+
 /**
  * 代码生成并下载为zip
  * @param {String} url 链接
@@ -66,5 +68,6 @@ export function resolveBlob (res, mimeType) {
   aLink.setAttribute('download', fileName) // 设置下载文件名称
   document.body.appendChild(aLink)
   aLink.click()
-  document.body.appendChild(aLink)
+  document.body.removeChild(aLink)
+  window.URL.revokeObjectURL(aLink.href)
 }

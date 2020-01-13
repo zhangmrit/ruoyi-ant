@@ -18,6 +18,14 @@ const api = {
   dist: '/system/districts',
   config: '/system/config',
   oss: '/system/oss',
-  donate: '/system/donate'
+  donate: '/system/donate',
+  models: '/act/models',
+  prof: '/act/prof',
+  process: '/act/process',
+  processIns: '/act/process/ins',
+  business: 'act/business',
+  leave: 'act/leave',
+  purchase: 'act/purchase',
+  task: 'act/task'
 }
 export default api

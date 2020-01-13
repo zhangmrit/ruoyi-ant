@@ -58,3 +58,31 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
     document.body.removeChild(document.getElementById(id))
   }, timeout)
 }
+
+export function millsToTime (mills) {
+  if (!mills) {
+    return ''
+  }
+  const s = mills / 1000
+  if (s < 60) {
+    return s.toFixed(0) + ' 秒'
+  }
+  const m = s / 60
+  if (m < 60) {
+    return m.toFixed(0) + ' 分钟'
+  }
+  const h = m / 60
+  if (h < 24) {
+    return h.toFixed(0) + ' 小时'
+  }
+  const d = h / 24
+  if (d < 30) {
+    return d.toFixed(0) + ' 天'
+  }
+  const month = d / 30
+  if (month < 12) {
+    return month.toFixed(0) + ' 个月'
+  }
+  const year = month / 12
+  return year.toFixed(0) + ' 年'
+};
