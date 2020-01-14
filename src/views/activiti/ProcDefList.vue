@@ -50,8 +50,8 @@
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a >{{ record.suspensionState===1?'挂起':'激活' }}</a>
         </a-popconfirm>
-        <!-- <a-divider v-if="editEnabel" type="vertical" />
-        <a v-if="editEnabel" @click="handleEdit(record.id)">编辑</a> -->
+        <a-divider v-if="editEnabel" type="vertical" />
+        <a v-if="editEnabel" @click="handleNode(record.id)">节点配置</a>
         <a-divider v-if="removeEnable" type="vertical" />
         <a v-if="removeEnable" @click="delByIds([record.deploymentId])">删除</a>
       </span>
@@ -124,7 +124,7 @@ export default {
         },
         {
           title: '操作',
-          width: '150px',
+          width: '200px',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' }
         }
@@ -164,13 +164,8 @@ export default {
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
-    handleAdd () {
-      this.modelVisible = true
-      this.modelerUrl = 'http://127.0.0.1:8004/models/newModel?time=' + new Date().getTime()
-    },
-    handleEdit (id) {
-      this.modelVisible = true
-      this.modelerUrl = 'http://127.0.0.1:8004/modeler.html?modelId=' + id
+    handleNode (procDefId) {
+      this.$router.push({ name: 'procDefNode', query: { procDefId: procDefId } })
     },
     handleOk () {
       this.$refs.table.refresh(true)

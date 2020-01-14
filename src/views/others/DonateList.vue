@@ -64,7 +64,7 @@ import { STable } from '@/components'
 import { getDonateList } from '@/api/donate'
 const canalMap = {}
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1574906_gf13b4kjq1u.js' // 在 iconfont.cn 上生成
+  scriptUrl: '//at.alicdn.com/t/font_1574906_mvhehmkaer.js' // 在 iconfont.cn 上生成
 })
 export default {
   name: 'TableList',

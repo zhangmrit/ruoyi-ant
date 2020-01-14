@@ -255,3 +255,27 @@ export function hightlightFlow (procInstId) {
     responseType: 'blob'
   })
 }
+
+/**
+ * 获取流程节点列表
+ * @param {String} proDefId 流程定义编号
+ */
+export function getNodeList (proDefId) {
+  return axios({
+    url: api.node + '/list/' + `${proDefId}`,
+    method: 'get'
+  })
+}
+export function getNodeInfo (nodeId) {
+  return axios({
+    url: api.node + '/get/' + `${nodeId}`,
+    method: 'get'
+  })
+}
+export function updateNodeInfo (parameter) {
+  return axios({
+    url: api.node + '/update',
+    method: 'post',
+    data: parameter
+  })
+}

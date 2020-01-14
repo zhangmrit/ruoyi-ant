@@ -26,6 +26,7 @@ const api = {
   business: 'act/business',
   leave: 'act/leave',
   purchase: 'act/purchase',
+  node: 'act/node',
   task: 'act/task'
 }
 export default api
