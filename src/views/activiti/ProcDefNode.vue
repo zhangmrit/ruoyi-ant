@@ -202,6 +202,8 @@ export default {
         })
       } else {
         this.$message.error('只能编辑任务节点')
+        this.mdl = {}
+        this.roleChecked = this.deptChecked = this.userChecked = this.deptHeader = false
       }
     },
     onChangeRole (e) {
