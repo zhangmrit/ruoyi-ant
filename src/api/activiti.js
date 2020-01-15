@@ -13,6 +13,21 @@ export const modalMap = {
   'purchase': 'purchasemodal'
 }
 
+export const statusMap = {
+  '1': '处理中',
+  '2': '结束',
+  '3': '撤销',
+  '4': '中止'
+}
+export const resultMap = {
+  '1': '处理中',
+  '2': '通过',
+  '3': '驳回',
+  '4': '撤销',
+  '5': '删除',
+  '6': '中止'
+}
+
 export function getModelList (parameter) {
   return axios({
     url: api.models + '/list',

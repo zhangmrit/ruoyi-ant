@@ -69,6 +69,10 @@ export default {
           dataIndex: 'taskName'
         },
         {
+          title: '审批人',
+          dataIndex: 'auditor'
+        },
+        {
           title: '审批结果',
           dataIndex: 'result',
           scopedSlots: { customRender: 'result' }

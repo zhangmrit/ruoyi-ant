@@ -41,14 +41,8 @@
 <script>
 import { STable } from '@/components'
 import { millsToTime } from '@/utils/util'
-import { getProfInfFinished, delHiProcessIns } from '@/api/activiti'
+import { getProfInfFinished, delHiProcessIns, resultMap } from '@/api/activiti'
 import { checkPermission } from '@/utils/permissions'
-const resultMap = {
-  '1': '处理中',
-  '2': '通过',
-  '3': '驳回',
-  '4': '撤销'
-}
 export default {
   name: 'ProfList',
   components: {
@@ -99,6 +93,10 @@ export default {
           title: '耗时',
           dataIndex: 'duration',
           customRender: (text) => millsToTime(text)
+        },
+        {
+          title: '结束原因',
+          dataIndex: 'deleteReason'
         },
         {
           title: '开始时间',
@@ -165,7 +163,9 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
-      })
+      }).finally(
+        this.selectedRowKeys = []
+      )
     }
   },
   watch: {

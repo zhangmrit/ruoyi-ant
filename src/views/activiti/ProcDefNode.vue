@@ -242,7 +242,7 @@ export default {
     handleChangeDept (value, label, extra) {
       console.log(extra)
       if (extra.selected && extra.triggerNode.$children.length > 0) {
-        this.$message.error('不能选择父节点' + `${label}`)
+        this.$message.error('不能选择父节点 ' + extra.triggerNode.title)
         value.splice(value.findIndex(item => item === extra.triggerValue), 1)
       }
     },

@@ -71,21 +71,11 @@
 
 <script>
 import { STable } from '@/components'
-import { getBusinessListMy, delProcessIns, delBusiness, modalMap } from '@/api/activiti'
+import { getBusinessListMy, delProcessIns, delBusiness, modalMap, resultMap, statusMap } from '@/api/activiti'
 import BusinessModal from './modules/BusinessModal.vue'
 import LeaveModal from './modules/LeaveModal.vue'
 import PurchaseModal from './modules/PurchaseModal.vue'
-const statusMap = {
-  '1': '处理中',
-  '2': '结束',
-  '3': '撤销'
-}
-const resultMap = {
-  '1': '处理中',
-  '2': '通过',
-  '3': '驳回',
-  '4': '撤销'
-}
+
 export default {
   name: 'TableList',
   components: {
