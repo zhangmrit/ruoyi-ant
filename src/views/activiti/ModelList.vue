@@ -65,7 +65,7 @@
 import { STable } from '@/components'
 import { getModelList, delModel, deploy } from '@/api/activiti'
 import { checkPermission } from '@/utils/permissions'
-
+const modelerBaseUrl = process.env.VUE_APP_MODEL_BASE_URL
 export default {
   name: 'ModelList',
   components: {
@@ -158,11 +158,11 @@ export default {
     },
     handleAdd () {
       this.modelVisible = true
-      this.modelerUrl = 'http://act.zmrit.com/models/newModel?time=' + new Date().getTime()
+      this.modelerUrl = modelerBaseUrl + '/models/newModel?time=' + new Date().getTime()
     },
     handleEdit (id) {
       this.modelVisible = true
-      this.modelerUrl = 'http://act.zmrit.com/modeler.html?modelId=' + id
+      this.modelerUrl = modelerBaseUrl + '/modeler.html?modelId=' + id + '&time=' + new Date().getTime()
     },
     handleOk () {
       this.$refs.table.refresh(true)
