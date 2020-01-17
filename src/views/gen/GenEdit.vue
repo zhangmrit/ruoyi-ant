@@ -279,7 +279,7 @@ export default {
       this.$message.error(this.errors[0].message || '配置错误')
     },
     rollback () {
-      this.$router.push('/tool/genList')
+      this.$router.push('/tool/gen')
     }
   }
 }
