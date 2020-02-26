@@ -150,6 +150,13 @@ export function getDeptList (parameter) {
     params: parameter
   })
 }
+export function getDeptListEnable (parameter) {
+  return axios({
+    url: api.dept + '/list/enable',
+    method: 'get',
+    params: parameter
+  })
+}
 export function getRoleDeptIds (roleId) {
   return axios({
     url: api.dept + '/role/' + `${roleId}`,

@@ -94,7 +94,7 @@
 <script>
 import { Tree } from 'ant-design-vue'
 import { STable, STree } from '@/components'
-import { getUserList, getDeptList, delUser, changUserStatus } from '@/api/system'
+import { getUserList, getDeptListEnable, delUser, changUserStatus } from '@/api/system'
 import UserModal from './modules/UserModal'
 import UserPwdModal from './modules/UserPwdModal'
 import pick from 'lodash.pick'
@@ -173,7 +173,7 @@ export default {
     }
   },
   created () {
-    getDeptList().then(res => {
+    getDeptListEnable().then(res => {
       const data = res.rows
       this.buildtree(data, this.deptTree, 0)
       this.expandedKeys = data.map(m => m.parentId)
