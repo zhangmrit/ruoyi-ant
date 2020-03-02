@@ -28,6 +28,8 @@ export const resultMap = {
   '6': '中止'
 }
 
+export const deployByFileURL = api.process + '/deployByFile'
+
 export function getModelList (parameter) {
   return axios({
     url: api.models + '/list',

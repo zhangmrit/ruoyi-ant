@@ -19,6 +19,16 @@
     </div>
     <div class="table-operator">
       <a-button v-if="removeEnable" :disabled="selectedRowKeys.length===0" type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
+      <a-upload
+        v-if="addEnable"
+        name="file"
+        :action="uploadUrl"
+        :headers="headers"
+        :showUploadList="false"
+        @change="uploadChange"
+      >
+        <a-button icon="upload">部署流程文件</a-button>
+      </a-upload>
     </div>
     <s-table
       size="default"
@@ -63,8 +73,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { STable } from '@/components'
-import { getProfList, delProf, diagram, modelXml, processState } from '@/api/activiti'
+import { getProfList, delProf, diagram, modelXml, processState, deployByFileURL } from '@/api/activiti'
 import { checkPermission } from '@/utils/permissions'
 
 export default {
@@ -135,6 +147,10 @@ export default {
       },
       previewVisible: false,
       previewImage: '',
+      uploadUrl: process.env.VUE_APP_API_BASE_URL + deployByFileURL,
+      headers: {
+        token: Vue.ls.get(ACCESS_TOKEN)
+      },
       selectedRowKeys: [],
       selectedRows: [],
       addEnable: checkPermission('activiti:prof:add'),
@@ -183,6 +199,14 @@ export default {
         this.previewImage = URL.createObjectURL(raw)
       })
       this.previewVisible = true
+    },
+    uploadChange (info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+      if (info.file.status === 'done') {
+        this.$refs.table.refresh(true)
+      }
     },
     handleModelXml (record) {
       modelXml(record.deploymentId).then(res => {
