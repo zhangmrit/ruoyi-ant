@@ -15,6 +15,7 @@ export const defaultRouterMap = [
     'icon': bxAnaalyse,
     'children': [{
       'title': '分析页',
+      'path': 'analysis/:pageNum([1-9]\\d*)?',
       'key': 'analysis',
       'icon': ''
     },
@@ -25,6 +26,7 @@ export const defaultRouterMap = [
     },
     {
       'title': '工作台',
+      'path': 'workplace',
       'key': 'workplace',
       'icon': ''
     }
