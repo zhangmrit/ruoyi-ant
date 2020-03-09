@@ -16,6 +16,7 @@ import './permission' // permission control
 import './utils/filter' // global filter
 import 'ant-design-vue/dist/antd.less'
 import i18n from './locales'
+import './components/global.less'
 
 Vue.config.productionTip = false
 
