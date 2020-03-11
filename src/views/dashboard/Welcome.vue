@@ -51,6 +51,21 @@
           :md="24"
           :sm="24"
           :xs="24">
+          <a-card title="作者录制的启动演示视频" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
+            <div style="margin:1px">
+              <iframe
+                src="//player.bilibili.com/player.html?aid=95044508&cid=162255217&page=1"
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true"
+                style="width:100%;height:400px;"
+              >
+              </iframe>
+            </div>
+
+          </a-card>
           <a-card title="阿里云活动" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <h3 style="margin: 12px 26px">【阿里云双12感恩回馈，云产品冰点价】云服务器89元/年，这里有专享低价</h3>
             <ul>
