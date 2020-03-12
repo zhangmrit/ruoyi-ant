@@ -175,6 +175,22 @@ export default {
         { item: '引用', a: 70, b: 50, c: 40 }
       ],
       changeList: [
+        { title: '1.1.0-SNAPSHOT 2020-03-12',
+          color: 'green',
+          list: [
+            '根据流程文件部署流程定义',
+            'fix:用户管理调用所有部门接口',
+            '工作流程追踪高亮连线',
+            '工作流高亮已执行环节',
+            '增加工作流activiti支持',
+            'fix:更新path等为空时无效',
+            'menu增加路径、重定向、隐藏等字段',
+            '增加捐赠内容板块',
+            'fix:代码生成调优',
+            'fix: gen bugs gitee !9',
+            '动态菜单优化'
+          ]
+        },
         { title: '1.0.2-SNAPSHOT 2019-09-30',
           color: 'green',
           list: [
