@@ -204,7 +204,7 @@ export const defaultRouterMap = [
     'title': '其他',
     'key': 'others',
     'component': 'PageView',
-    'icon': 'interation',
+    'icon': 'interaction',
     'children': [
       {
         'title': '捐赠记录',
