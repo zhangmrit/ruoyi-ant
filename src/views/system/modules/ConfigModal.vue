@@ -115,7 +115,7 @@ export default {
       this.mdl = Object.assign(record)
       this.visible = true
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'configId', 'configKey', 'configName', 'configType', 'createTime', 'remark', 'configValue'))
+        this.form.setFieldsValue(pick(this.mdl, 'configId', 'configKey', 'configName', 'configType', 'remark', 'configValue'))
       })
     },
     handleSubmit (e) {
