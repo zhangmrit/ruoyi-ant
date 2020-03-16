@@ -55,12 +55,6 @@
       <span slot="configType" slot-scope="text">
         {{ text | typeFilter }}
       </span>
-      <span slot="configValue" slot-scope="text">
-        <ellipsis :length="30" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="remark" slot-scope="text">
-        <ellipsis :length="30" tooltip>{{ text }}</ellipsis>
-      </span>
       <span slot="action" slot-scope="text, record">
         <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -118,7 +112,7 @@ export default {
         {
           title: '参数键值',
           dataIndex: 'configValue',
-          scopedSlots: { customRender: 'configValue' }
+          ellipsis: true
         },
         {
           title: '系统内置',
@@ -128,7 +122,7 @@ export default {
         {
           title: '备注',
           dataIndex: 'remark',
-          scopedSlots: { customRender: 'remark' }
+          ellipsis: true
         },
         {
           title: '创建时间',
