@@ -55,6 +55,15 @@
       <span slot="configType" slot-scope="text">
         {{ text | typeFilter }}
       </span>
+      <span slot="configValue" slot-scope="text">
+        <ellipsis :length="20" tooltip>{{ text }}</ellipsis>&nbsp;
+        <a-tooltip>
+          <template slot="title">
+            复制
+          </template>
+          <a @click="docopy(text)"><a-icon type="copy"></a-icon></a>
+        </a-tooltip>
+      </span>
       <span slot="action" slot-scope="text, record">
         <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -112,7 +121,7 @@ export default {
         {
           title: '参数键值',
           dataIndex: 'configValue',
-          ellipsis: true
+          scopedSlots: { customRender: 'configValue' }
         },
         {
           title: '系统内置',
@@ -185,6 +194,14 @@ export default {
           this.$message.error(res.msg)
         }
         this.selectedRowKeys = []
+      })
+    },
+    docopy (text) {
+      this.$copyText(text).then(message => {
+        this.$message.success('复制完毕')
+      }).catch(err => {
+        console.log('copy.err', err)
+        this.$message.error('复制失败')
       })
     }
   },
