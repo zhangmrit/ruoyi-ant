@@ -2090,10 +2090,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
-ant-design-vue@1.5.0-rc.3:
-  version "1.5.0-rc.3"
-  resolved "https://registry.npm.taobao.org/ant-design-vue/download/ant-design-vue-1.5.0-rc.3.tgz#8908e18a12c31fbc523714347dc6d7d5db5ca9a9"
-  integrity sha1-iQjhihLDH7xSNxQ0fcbX1dtcqak=
+ant-design-vue@1.5.0-rc.4:
+  version "1.5.0-rc.4"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.5.0-rc.4.tgz#01d9424c081468295cd0a588227a86c8a59d5b77"
+  integrity sha512-fHUtzW8Qtbix6s+WvQGGhYEeBkaQ1OOL+wQ5z84EKr2rvKw5QMQJxkB9TuZ1d2JRioXG4TVbrWOWPnVLp4rbpA==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@ant-design/icons-vue" "^2.0.0"
