@@ -20,6 +20,7 @@ const constantRouterComponents = {
   baseForm: () => import('@/views/form/BasicForm'),
   stepForm: () => import('@/views/form/stepForm/StepForm'),
   advancedForm: () => import('@/views/form/advancedForm/AdvancedForm.vue'),
+  editorForm: () => import('@/views/form/EditorForm'),
   tableList: () => import('@/views/list/TableList'),
   standardList: () => import('@/views/list/StandardList'),
   cardList: () => import('@/views/list/CardList'),
