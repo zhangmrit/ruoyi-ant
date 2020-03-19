@@ -19,7 +19,7 @@ const assetsCDN = {
     'https://cdn.jsdelivr.net/npm/moment@2.24.0/locale/zh-cn.js',
     'https://cdn.jsdelivr.net/npm/@antv/g2@3.5.7/dist/g2.min.js',
     'https://cdn.jsdelivr.net/npm/@antv/data-set@0.10.2/dist/data-set.min.js',
-    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.4.12/dist/antd-with-locales.js'
+    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.0-rc.3/dist/antd-with-locales.js'
   ]
 }
 // webpack build externals
@@ -80,6 +80,7 @@ const vueConfig = {
           // 'primary-color': '#F5222D',
           // 'link-color': '#F5222D',
           // 'border-radius-base': '4px'
+          'border-radius-base': '2px'
         },
         javascriptEnabled: true
       }

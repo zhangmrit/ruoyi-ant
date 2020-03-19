@@ -56,10 +56,13 @@
         {{ text | typeFilter }}
       </span>
       <span slot="configValue" slot-scope="text">
-        <ellipsis :length="30" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="remark" slot-scope="text">
-        <ellipsis :length="30" tooltip>{{ text }}</ellipsis>
+        <ellipsis :length="20" tooltip>{{ text }}</ellipsis>&nbsp;
+        <a-tooltip>
+          <template slot="title">
+            复制
+          </template>
+          <a @click="docopy(text)"><a-icon type="copy"></a-icon></a>
+        </a-tooltip>
       </span>
       <span slot="action" slot-scope="text, record">
         <a v-if="editEnabel" @click="handleEdit(record)">编辑</a>
@@ -128,7 +131,7 @@ export default {
         {
           title: '备注',
           dataIndex: 'remark',
-          scopedSlots: { customRender: 'remark' }
+          ellipsis: true
         },
         {
           title: '创建时间',
@@ -191,6 +194,14 @@ export default {
           this.$message.error(res.msg)
         }
         this.selectedRowKeys = []
+      })
+    },
+    docopy (text) {
+      this.$copyText(text).then(message => {
+        this.$message.success('复制完毕')
+      }).catch(err => {
+        console.log('copy.err', err)
+        this.$message.error('复制失败')
       })
     }
   },
