@@ -14,8 +14,11 @@
         :labelCol="{lg: {span: 3}, sm: {span: 3}}"
         :wrapperCol="{lg: {span: 14}, sm: {span: 21} }"
       >
-        <!-- <a-textarea rows="4" placeholder="You are not alone."/> -->
-        <tinymce></tinymce>
+        <!--
+          给editor加key是因为给tinymce keep-alive以后组件切换时tinymce编辑器会显示异常，
+          在activated钩子里改变key的值可以让编辑器重新创建
+        -->
+        <tinymce :key="tinymceFlag"></tinymce>
       </a-form-item>
     </a-form>
   </a-card>
@@ -33,8 +36,12 @@ export default {
   data () {
     return {
       description: '富文本编辑器演示，QuillEditor不能图片缩放，如果对图片没什么操作的用户，推荐使用,上传为公共API，比较慢',
-      value: 1
+      value: 1,
+      tinymceFlag: 1
     }
+  },
+  activated () {
+    this.tinymceFlag++
   }
 }
 </script>

@@ -184,13 +184,15 @@ export default {
       })
     },
     destroyTinymce () {
-      const tinymce = window.tinymce.get(this.tinymceId)
-      if (this.fullscreen) {
-        tinymce.execCommand('mceFullScreen')
-      }
+      if (window.tinymce) {
+        const tinymce = window.tinymce.get(this.tinymceId)
+        if (this.fullscreen) {
+          tinymce.execCommand('mceFullScreen')
+        }
 
-      if (tinymce) {
-        tinymce.destroy()
+        if (tinymce) {
+          tinymce.destroy()
+        }
       }
     },
     setContent (value) {
