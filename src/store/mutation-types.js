@@ -10,6 +10,10 @@ export const DEFAULT_FIXED_HEADER_HIDDEN = 'DEFAULT_FIXED_HEADER_HIDDEN'
 export const DEFAULT_CONTENT_WIDTH_TYPE = 'DEFAULT_CONTENT_WIDTH_TYPE'
 export const DEFAULT_MULTI_TAB = 'DEFAULT_MULTI_TAB'
 
+export const DEFAULT_MULTI_MENU = 'DEFAULT_MULTI_MENU' // 复合菜单新增
+export const MULTI_MENU_KEY = 'MULTI_MENU_KEY' // 复合菜单新增
+export const MULTI_MENU_MAP = 'MULTI_MENU_MAP' // 复合菜单新增
+
 export const CONTENT_WIDTH_TYPE = {
   Fluid: 'Fluid',
   Fixed: 'Fixed'

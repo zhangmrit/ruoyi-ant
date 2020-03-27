@@ -11,7 +11,9 @@ import {
   DEFAULT_FIXED_HEADER_HIDDEN,
   DEFAULT_FIXED_SIDEMENU,
   DEFAULT_CONTENT_WIDTH_TYPE,
-  DEFAULT_MULTI_TAB
+  DEFAULT_MULTI_TAB,
+  DEFAULT_MULTI_MENU, // 复合菜单新增
+  MULTI_MENU_KEY // 复合菜单新增
 } from '@/store/mutation-types'
 import config from '@/config/defaultSettings'
 
@@ -29,6 +31,10 @@ export default function Initializer () {
   store.commit('TOGGLE_COLOR', Vue.ls.get(DEFAULT_COLOR, config.primaryColor))
   store.commit('TOGGLE_MULTI_TAB', Vue.ls.get(DEFAULT_MULTI_TAB, config.multiTab))
   store.commit('SET_TOKEN', Vue.ls.get(ACCESS_TOKEN))
+
+  // 复合菜单新增 初始化侧栏顶栏复合菜单模式
+  store.commit('TOGGLE_MULTI_MENU', Vue.ls.get(DEFAULT_MULTI_MENU, config.multiMenu)) // 是否开启复合菜单模式
+  store.commit('SET_MENU_KEY', Vue.ls.get(MULTI_MENU_KEY, 'dashboard')) // 默认复合菜单key
 
   // last step
 }

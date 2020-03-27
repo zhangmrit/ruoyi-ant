@@ -93,7 +93,8 @@ export default {
   computed: {
     ...mapState({
       // 动态主路由
-      mainMenu: state => state.permission.addRouters
+      mainMenu: state => state.permission.addRouters,
+      menuMap: state => state.menu.menuMap // 复合菜单新增
     }),
     contentPaddingLeft () {
       if (!this.fixSidebar || this.isMobile()) {
@@ -113,6 +114,10 @@ export default {
   created () {
     const routes = convertRoutes(this.mainMenu.find(item => item.path === '/'))
     this.menus = (routes && routes.children) || []
+    this.menus.forEach(item => { // 复合菜单新增
+      this.menuMap.set(item.name, item.children)
+    })
+    // console.log('menuMap', this.menuMap)
     this.collapsed = !this.sidebarOpened
   },
   mounted () {

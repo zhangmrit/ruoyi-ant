@@ -6,9 +6,12 @@
         :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
         :style="{ padding: '0' }">
         <div v-if="mode === 'sidemenu'" class="header">
-          <a-icon v-if="device==='mobile'" class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle"/>
-          <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle"/>
+          <div style="float: left; height: 100%">
+            <a-icon v-if="device==='mobile'" class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle"/>
+            <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle"/>
+          </div>
           <user-menu></user-menu>
+          <side-top-menu v-if="multiMenu" :menus="menus"></side-top-menu>
         </div>
         <div v-else :class="['top-nav-header-index', theme]">
           <div class="header-index-wide">
@@ -30,11 +33,13 @@ import UserMenu from '../tools/UserMenu'
 import SMenu from '../Menu/'
 import Logo from '../tools/Logo'
 import { mixin } from '@/utils/mixin'
+import SideTopMenu from '../tools/SideTopMenu'
 
 export default {
   name: 'GlobalHeader',
   components: {
     UserMenu,
+    SideTopMenu, // 复合菜单新增
     SMenu,
     Logo
   },
