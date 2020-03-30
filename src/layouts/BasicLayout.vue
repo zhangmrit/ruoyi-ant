@@ -34,6 +34,7 @@
         :mode="layoutMode"
         :menus="menus"
         :theme="navTheme"
+        :groups="groups"
         :collapsed="collapsed"
         :device="device"
         @toggle="toggle"
@@ -87,6 +88,26 @@ export default {
     return {
       production: config.production,
       collapsed: false,
+      groups: [
+        {
+          id: 0,
+          icon: 'table',
+          title: '全部',
+          menus: []
+        },
+        {
+          id: 1,
+          icon: 'table',
+          title: '分组二',
+          menus: []
+        },
+        {
+          id: 2,
+          icon: 'table',
+          title: '分组三',
+          menus: []
+        }
+      ],
       menus: []
     }
   },
@@ -114,10 +135,17 @@ export default {
   created () {
     const routes = convertRoutes(this.mainMenu.find(item => item.path === '/'))
     this.menus = (routes && routes.children) || []
-    this.menus.forEach(item => { // 复合菜单新增
-      this.menuMap.set(item.name, item.children)
+    this.menus.forEach((item, i) => {
+      this.groups[0].menus.push(item)
+      if (i < 4) {
+        this.groups[1].menus.push(item)
+      } else {
+        this.groups[2].menus.push(item)
+      }
     })
-    // console.log('menuMap', this.menuMap)
+    this.groups.forEach(item => {
+      this.menuMap.set(item.id, item.menus)
+    })
     this.collapsed = !this.sidebarOpened
   },
   mounted () {

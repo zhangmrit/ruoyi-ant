@@ -124,10 +124,7 @@
               <a-list-item>
                 <a-switch slot="actions" size="small" :disabled="(layoutMode === 'topmenu')" :defaultChecked="menuGroup" @change="handleMenuGroup" />
                 <a-list-item-meta>
-                  <a-tooltip slot="title" placement="left">
-                    <template slot="title">该设定仅 [侧边栏导航] 时有效</template>
-                    <div>侧栏顶部菜单</div>
-                  </a-tooltip>
+                  <div slot="title" :style="{ textDecoration: layoutMode === 'topmenu' ? 'line-through' : 'unset' }">菜单分组</div>
                 </a-list-item-meta>
               </a-list-item>
             </a-list>

@@ -7,7 +7,7 @@
         :defaultSelectedKeys="defaultSelectedKeys"
         :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item v-for="item in menus" :value="item.path" :key="item.name"><a-icon :type="item.meta.icon" /><span>{{ item.meta.title }}</span></a-menu-item>
+        <a-menu-item v-for="item in groups" :value="item.id" :key="item.id"><a-icon :type="item.icon" /><span>{{ item.title }}</span></a-menu-item>
       </a-menu>
     </div>
   </div>
@@ -19,14 +19,14 @@ import { mapActions, mapState } from 'vuex'
 export default {
   name: 'SideTopMenu',
   props: {
-    menus: {
+    groups: {
       type: Array,
       required: true
     }
   },
   data () {
     return {
-      defaultSelectedKeys: ['dashboard']
+      defaultSelectedKeys: []
     }
   },
   components: {
@@ -39,12 +39,11 @@ export default {
   watch: {
   },
   created () {
-    this.defaultSelectedKeys[0] = this.menuKey
+    this.defaultSelectedKeys = [this.menuKey]
   },
   methods: {
     ...mapActions(['setMenuKey']),
     handleMenuClick (val) {
-      console.log(val)
       this.setMenuKey(val.key)
     }
   }

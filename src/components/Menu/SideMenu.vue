@@ -73,12 +73,12 @@ export default {
       this.$emit('menuSelect', obj)
     },
     genMenus (menuGroup, key) { // 复合菜单新增
-      // console.log(this.menuMap)
       if (menuGroup) {
         this.currentMenus = this.menuMap.get(key)
       } else {
         this.currentMenus = this.menus
       }
+      // console.log(menuGroup, this.currentMenus)
       //   this.menus.forEach(item => {
       //   if (item.name === key) {
       //     this.currentMenus = item.children
