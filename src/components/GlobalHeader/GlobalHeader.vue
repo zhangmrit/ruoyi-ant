@@ -11,7 +11,7 @@
             <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle"/>
           </div>
           <user-menu></user-menu>
-          <side-top-menu v-if="multiMenu" :menus="menus"></side-top-menu>
+          <side-top-menu v-if="menuGroup" :menus="menus"></side-top-menu>
         </div>
         <div v-else :class="['top-nav-header-index', theme]">
           <div class="header-index-wide">

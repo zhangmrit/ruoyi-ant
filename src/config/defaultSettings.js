@@ -23,7 +23,7 @@ export default {
   autoHideHeader: false, //  auto hide header
   colorWeak: false,
   multiTab: false,
-  multiMenu: true, // sticky multiMenu  // 复合菜单新增
+  menuGroup: true, // sticky menuGroup  // 复合菜单新增
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
   // vue-ls options
   storageOptions: {

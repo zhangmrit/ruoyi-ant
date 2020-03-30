@@ -62,19 +62,19 @@ export default {
     ...mapState({ // 复合菜单新增
       menuKey: state => state.menu.menuKey,
       menuMap: state => state.menu.menuMap,
-      multiMenu: state => state.app.multiMenu
+      menuGroup: state => state.app.menuGroup
     })
   },
   created () {
-    this.genMenus(this.multiMenu, this.menuKey) // 复合菜单新增
+    this.genMenus(this.menuGroup, this.menuKey) // 复合菜单新增
   },
   methods: {
     onSelect (obj) {
       this.$emit('menuSelect', obj)
     },
-    genMenus (multiMenu, key) { // 复合菜单新增
+    genMenus (menuGroup, key) { // 复合菜单新增
       // console.log(this.menuMap)
-      if (multiMenu) {
+      if (menuGroup) {
         this.currentMenus = this.menuMap.get(key)
       } else {
         this.currentMenus = this.menus
@@ -89,9 +89,9 @@ export default {
   watch: {
     menuKey: function (key) { // 复合菜单新增
       // console.log('^^^^^^', key)
-      this.genMenus(this.multiMenu, key)
+      this.genMenus(this.menuGroup, key)
     },
-    multiMenu: function (checked) { // 复合菜单新增
+    menuGroup: function (checked) { // 复合菜单新增
       this.genMenus(checked, this.menuKey)
     }
   }

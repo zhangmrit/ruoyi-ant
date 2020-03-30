@@ -19,7 +19,7 @@ const mixin = {
       autoHideHeader: state => state.app.autoHideHeader,
       sidebarOpened: state => state.app.sidebar,
       multiTab: state => state.app.multiTab,
-      multiMenu: state => state.app.multiMenu // 复合菜单新增
+      menuGroup: state => state.app.menuGroup // 复合菜单新增
     })
   },
   methods: {

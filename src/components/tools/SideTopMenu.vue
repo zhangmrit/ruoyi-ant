@@ -7,7 +7,7 @@
         :defaultSelectedKeys="defaultSelectedKeys"
         :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item v-for="item in menus" v-if="!item.hidden" :value="item.path" :key="item.name"><a-icon :type="item.meta.icon" /><span>{{ item.meta.title }}</span></a-menu-item>
+        <a-menu-item v-for="item in menus" :value="item.path" :key="item.name"><a-icon :type="item.meta.icon" /><span>{{ item.meta.title }}</span></a-menu-item>
       </a-menu>
     </div>
   </div>

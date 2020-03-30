@@ -122,7 +122,7 @@
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-switch slot="actions" size="small" :disabled="(layoutMode === 'topmenu')"  :defaultChecked="multiMenu" @change="handleMultiMenu" />
+                <a-switch slot="actions" size="small" :disabled="(layoutMode === 'topmenu')" :defaultChecked="menuGroup" @change="handleMenuGroup" />
                 <a-list-item-meta>
                   <a-tooltip slot="title" placement="left">
                     <template slot="title">该设定仅 [侧边栏导航] 时有效</template>
@@ -241,7 +241,7 @@ export default {
   autoHideHeader: ${this.autoHideHeader}, //  auto hide header
   colorWeak: ${this.colorWeak},
   multiTab: ${this.multiTab},
-  multiMenu: ${this.multiMenu}, // sticky multiMenu // 复合菜单新增
+  menuGroup: ${this.menuGroup}, // sticky menuGroup // 复合菜单新增
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
   // vue-ls options
   storageOptions: {
@@ -285,8 +285,8 @@ export default {
       }
       this.$store.dispatch('ToggleFixSiderbar', fixed)
     },
-    handleMultiMenu (checked) { // 复合菜单新增
-      this.$store.dispatch('ToggleMultiMenu', checked)
+    handleMenuGroup (checked) { // 复合菜单新增
+      this.$store.dispatch('ToggleMenuGroup', checked)
     }
   }
 }

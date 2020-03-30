@@ -10,7 +10,7 @@ import {
   DEFAULT_FIXED_HEADER_HIDDEN,
   DEFAULT_CONTENT_WIDTH_TYPE,
   DEFAULT_MULTI_TAB,
-  DEFAULT_MULTI_MENU // 复合菜单新增
+  DEFAULT_MENU_GROUP // 复合菜单新增
 } from '@/store/mutation-types'
 
 const app = {
@@ -26,7 +26,7 @@ const app = {
     color: null,
     weak: false,
     multiTab: true,
-    multiMenu: true // 复合菜单新增
+    menuGroup: true // 复合菜单新增
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -77,9 +77,9 @@ const app = {
       Vue.ls.set(DEFAULT_MULTI_TAB, bool)
       state.multiTab = bool
     },
-    TOGGLE_MULTI_MENU: (state, bool) => { // 复合菜单新增
-      Vue.ls.set(DEFAULT_MULTI_MENU, bool)
-      state.multiMenu = bool
+    TOGGLE_MENU_GROUP: (state, bool) => { // 复合菜单新增
+      Vue.ls.set(DEFAULT_MENU_GROUP, bool)
+      state.menuGroup = bool
     }
   },
   actions: {
@@ -122,8 +122,8 @@ const app = {
     ToggleMultiTab ({ commit }, bool) {
       commit('TOGGLE_MULTI_TAB', bool)
     },
-    ToggleMultiMenu ({ commit }, bool) { // 复合菜单新增
-      commit('TOGGLE_MULTI_MENU', bool)
+    ToggleMenuGroup ({ commit }, bool) { // 复合菜单新增
+      commit('TOGGLE_MENU_GROUP', bool)
     }
   }
 }
