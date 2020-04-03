@@ -49,10 +49,10 @@ const toolbarOptions = [
   ['clean'] // 清除文本格式
 ]
 function getBase64 (img, callback) {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => callback(reader.result))
-    reader.readAsDataURL(img)
-  }
+  const reader = new FileReader()
+  reader.addEventListener('load', () => callback(reader.result))
+  reader.readAsDataURL(img)
+}
 export default {
   name: 'QuillEditor',
   components: {
