@@ -21,14 +21,11 @@
 - [Gitee](https://gitee.com/zhangmrit/ruoyi-ant)
 
 
-Overview
+分支效果
 ----
 
-![工作台-多标签模式](https://static-2.loacg.com/open/static/github/20190224163345.jpg)
+![菜单分组](http://upload.ouliu.net/i/20200407103825idpqn.gif)
 
-![工作台+设置菜单](https://static-2.loacg.com/open/static/github/20181126112124.png)
-
-![个人设置](https://static-2.loacg.com/open/static/github/20180916-134251.png)
 
 
 项目下载和运行
@@ -62,6 +59,6 @@ yarn run lint
 
 ##  请作者喝杯咖啡或者建设演示服务器
 
-###### 微信 or 支付宝
-<img src="https://gitee.com/zhangmrit/img/raw/master/contribute/wechat.png"/>
-<img src="https://gitee.com/zhangmrit/img/raw/master/contribute/alipay.png"/>
+[捐赠记录](http://ruoyi.ant.zmrit.com/others/donateList)
+
+<img src="http://upload.ouliu.net/i/20191021180958e1ek5.png"/>
