@@ -144,7 +144,8 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       resultMap,
-      statusMap
+      statusMap,
+      firstActed: true
     }
   },
   computed: {
@@ -170,6 +171,13 @@ export default {
     }
   },
   created () {
+  },
+  activated () {
+    if (this.firstActed) {
+      this.firstActed = false
+    } else {
+      this.handleOk()
+    }
   },
   methods: {
     onSelectChange (selectedRowKeys, selectedRows) {
