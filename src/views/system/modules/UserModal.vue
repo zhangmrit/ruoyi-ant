@@ -149,7 +149,6 @@ export default {
     loadRoleAll () {
       getRoleAll().then(res => {
         this.roleAll = res.rows
-        console.log('roleALl', this.roleAll)
       })
     },
     handleSubmit (e) {

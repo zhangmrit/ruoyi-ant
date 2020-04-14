@@ -2,26 +2,14 @@
   <a-card :bordered="false">
     <a-row :gutter="8">
       <a-col :span="5">
-        <a-input style="margin-bottom: 8px" placeholder="搜索部门" v-model="searchValue" @change="handleChange" ref="searchInput" >
-          <a-icon slot="prefix" type="search" />
-          <a-icon v-if="searchValue" slot="suffix" type="close-circle" @click="emitEmpty" />
-        </a-input>
-        <a-tree
-          v-if="deptTree.length>0"
+        <search-tree
           :treeData="deptTree"
-          @expand="onExpand"
+          :dataList="dataList"
           :expandedKeys="expandedKeys"
-          :autoExpandParent="autoExpandParent"
-          @select="handleSelect">
-          <template slot="title" slot-scope="{title}">
-            <span v-if="title.indexOf(searchValue) > -1">
-              {{ title.substr(0, title.indexOf(searchValue)) }}
-              <span style="color: red">{{ searchValue }}</span>
-              {{ title.substr(title.indexOf(searchValue) + searchValue.length) }}
-            </span>
-            <span v-else>{{ title }}</span>
-          </template>
-        </a-tree>
+          :holderText="holderText"
+          @select="handleSelect"
+        >
+        </search-tree>
       </a-col>
       <a-col :span="19">
         <div class="table-page-search-wrapper">
@@ -92,18 +80,16 @@
 </template>
 
 <script>
-import { Tree } from 'ant-design-vue'
-import { STable, STree } from '@/components'
+import { STable, SearchTree } from '@/components'
 import { getUserList, getDeptListEnable, delUser, changUserStatus } from '@/api/system'
 import UserModal from './modules/UserModal'
 import UserPwdModal from './modules/UserPwdModal'
 import pick from 'lodash.pick'
 import { checkPermission } from '@/utils/permissions'
 export default {
-  name: 'TableList',
+  name: 'UserList',
   components: {
-    Tree,
-    STree,
+    SearchTree,
     STable,
     UserModal,
     UserPwdModal
@@ -154,16 +140,11 @@ export default {
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getUserList(Object.assign(parameter, this.queryParam))
-          .then(res => {
-            console.log('getUserList', res)
-            return res
-          })
       },
-      searchValue: '',
       deptTree: [],
       expandedKeys: [],
       dataList: [],
-      autoExpandParent: true,
+      holderText: '搜索部门',
       selectedRowKeys: [],
       selectedRows: [],
       addEnable: checkPermission('system:user:add'),
@@ -242,46 +223,6 @@ export default {
       })
     },
     // 下面是树相关方法
-    onExpand  (expandedKeys) {
-      this.expandedKeys = expandedKeys
-      this.autoExpandParent = false
-    },
-    emitEmpty () {
-      this.$refs.searchInput.focus()
-      this.searchValue = ''
-      this.searchDept()
-    },
-    getParentKey (key, tree) {
-      let parentKey
-      for (let i = 0; i < tree.length; i++) {
-        const node = tree[i]
-        if (node.children) {
-          if (node.children.some(item => item.key === key)) {
-            parentKey = node.key
-          } else if (this.getParentKey(key, node.children)) {
-            parentKey = this.getParentKey(key, node.children)
-          }
-        }
-      }
-      return parentKey
-    },
-    handleChange (e) {
-      this.searchDept()
-    },
-    searchDept () {
-      const value = this.searchValue
-      const expandedKeys = this.dataList.map((item) => {
-        if (item.title.indexOf(value) > -1) {
-          const parentKey = this.getParentKey(item.key, this.deptTree)
-          return parentKey
-        }
-        return null
-      }).filter((item, i, self) => item && self.indexOf(item) === i)
-      Object.assign(this, {
-        expandedKeys,
-        autoExpandParent: true
-      })
-    },
     handleSelect (selectedKeys, info) {
       this.queryParam = {
         deptId: selectedKeys[0]
