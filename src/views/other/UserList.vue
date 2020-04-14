@@ -28,9 +28,12 @@
     </div>
 
     <s-table
+      row-key="id"
       size="default"
       :columns="columns"
       :data="loadData"
+      :expandedRowKeys="expandedRowKeys"
+      @expand="handleExpand"
     >
       <div
         slot="expandedRowRender"
@@ -39,17 +42,19 @@
         <a-row
           :gutter="24"
           :style="{ marginBottom: '12px' }">
-          <a-col :span="12" v-for="(role, index) in record.permissions" :key="index" :style="{ marginBottom: '12px' }">
+          <a-col :span="12" v-for="(role, index) in record.permissions" :key="index" :style="{ marginBottom: '12px', height: '23px' }">
             <a-col :lg="4" :md="24">
               <span>{{ role.permissionName }}：</span>
             </a-col>
-            <a-col :lg="20" :md="24" v-if="role.actionEntitySet.length > 0">
-              <a-tag color="cyan" v-for="(action, k) in role.actionEntitySet" :key="k">{{ action.describe }}</a-tag>
+            <a-col :lg="20" :md="24" v-if="role.actionList && role.actionList.length > 0">
+              <a-tag color="cyan" v-for="action in role.actionList" :key="action">{{ action | permissionFilter }}</a-tag>
             </a-col>
             <a-col :span="20" v-else>-</a-col>
           </a-col>
         </a-row>
       </div>
+      <a-tag color="blue" slot="status" slot-scope="text">{{ text | statusFilter }}</a-tag>
+      <span slot="createTime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -79,7 +84,7 @@
       v-model="visible"
       @ok="handleOk"
     >
-      <a-form :autoFormCreate="(form)=>{this.form = form}">
+      <a-form class="permission-form" :form="form">
 
         <a-form-item
           :labelCol="labelCol"
@@ -88,7 +93,11 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input placeholder="唯一识别码" v-model="mdl.id" id="no" disabled="disabled" />
+          <a-input
+            placeholder="唯一识别码"
+            disabled="disabled"
+            v-decorator="['id']"
+          />
         </a-form-item>
 
         <a-form-item
@@ -98,7 +107,10 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input placeholder="起一个名字" v-model="mdl.name" id="role_name" />
+          <a-input
+            placeholder="起一个名字"
+            v-decorator="['name']"
+          />
         </a-form-item>
 
         <a-form-item
@@ -108,9 +120,9 @@
           hasFeedback
           validateStatus="warning"
         >
-          <a-select v-model="mdl.status">
-            <a-select-option value="1">正常</a-select-option>
-            <a-select-option value="2">禁用</a-select-option>
+          <a-select v-decorator="['status', { initialValue: 1 }]">
+            <a-select-option :value="1">正常</a-select-option>
+            <a-select-option :value="2">禁用</a-select-option>
           </a-select>
         </a-form-item>
 
@@ -120,27 +132,28 @@
           label="描述"
           hasFeedback
         >
-          <a-textarea :rows="5" v-model="mdl.describe" placeholder="..." id="describe"/>
+          <a-textarea
+            :rows="5"
+            placeholder="..."
+            id="describe"
+            v-decorator="['describe']"
+          />
         </a-form-item>
 
-        <a-divider />
-
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="拥有权限"
-          hasFeedback
-        >
-          <a-row :gutter="16" v-for="(permission, index) in mdl.permissions" :key="index">
-            <a-col :span="4">
-              {{ permission.permissionName }}：
-            </a-col>
-            <a-col :span="20">
-              <a-checkbox-group :options="permission.actionsOptions"/>
-            </a-col>
-          </a-row>
-
-        </a-form-item>
+        <a-divider>拥有权限</a-divider>
+        <template v-for="permission in permissions">
+          <a-form-item
+            class="permission-group"
+            v-if="permission.actionsOptions && permission.actionsOptions.length > 0"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            :key="permission.permissionId"
+            :label="permission.permissionName"
+          >
+            <a-checkbox>全选</a-checkbox>
+            <a-checkbox-group v-decorator="[`permissions.${permission.permissionId}`]" :options="permission.actionsOptions"/>
+          </a-form-item>
+        </template>
 
       </a-form>
     </a-modal>
@@ -149,8 +162,42 @@
 </template>
 
 <script>
+import pick from 'lodash.pick'
 import { STable } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
+import { PERMISSION_ENUM } from '@/utils/helper/permission'
+
+const STATUS = {
+  1: '启用',
+  2: '禁用'
+}
+
+const columns = [
+  {
+    title: '唯一识别码',
+    dataIndex: 'id'
+  },
+  {
+    title: '角色名称',
+    dataIndex: 'name'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' }
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    scopedSlots: { customRender: 'createTime' },
+    sorter: true
+  }, {
+    title: '操作',
+    width: '150px',
+    dataIndex: 'action',
+    scopedSlots: { customRender: 'action' }
+  }
+]
 
 export default {
   name: 'TableList',
@@ -170,49 +217,38 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
-      form: null,
-      mdl: {},
+      form: this.$form.createForm(this),
+      permissions: [],
 
       // 高级搜索 展开/关闭
       advanced: false,
       // 查询参数
       queryParam: {},
       // 表头
-      columns: [
-        {
-          title: '唯一识别码',
-          dataIndex: 'id'
-        },
-        {
-          title: '角色名称',
-          dataIndex: 'name'
-        },
-        {
-          title: '状态',
-          dataIndex: 'status'
-        },
-        {
-          title: '创建时间',
-          dataIndex: 'createTime',
-          sorter: true
-        }, {
-          title: '操作',
-          width: '150px',
-          dataIndex: 'action',
-          scopedSlots: { customRender: 'action' }
-        }
-      ],
+      columns,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getRoleList(parameter)
           .then(res => {
             console.log('getRoleList', res)
+            // 展开全部行
+            this.expandedRowKeys = res.result.data.map(item => item.id)
             return res.result
           })
       },
 
+      expandedRowKeys: [],
       selectedRowKeys: [],
       selectedRows: []
+    }
+  },
+  filters: {
+    statusFilter (key) {
+      return STATUS[key]
+    },
+    permissionFilter (key) {
+      const permission = PERMISSION_ENUM[key]
+      return permission && permission.label
     }
   },
   created () {
@@ -226,22 +262,51 @@ export default {
   },
   methods: {
     handleEdit (record) {
-      this.mdl = Object.assign({}, record)
+      this.visible = true
+      console.log('record', record)
 
-      this.mdl.permissions.forEach(permission => {
-        permission.actionsOptions = permission.actionEntitySet.map(action => {
-          return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
+      const checkboxGroup = {}
+      this.permissions = record.permissions.map(permission => {
+        const groupKey = `permissions.${permission.permissionId}`
+        checkboxGroup[groupKey] = permission.actionList
+        const actionsOptions = permission.actionEntitySet.map(action => {
+          return {
+            label: action.describe,
+            value: action.action,
+            defaultCheck: action.defaultCheck
+          }
         })
+        return {
+          ...permission,
+          actionsOptions
+        }
       })
 
-      this.visible = true
-    },
-    handleOk () {
+      this.$nextTick(() => {
+        console.log('permissions', this.permissions)
+        console.log('checkboxGroup', checkboxGroup)
 
+        this.form.setFieldsValue(pick(record, ['id', 'status', 'describe', 'name']))
+        this.form.setFieldsValue(checkboxGroup)
+      })
+    },
+    handleOk (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        console.log(err, values)
+      })
     },
     onChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
+    },
+    handleExpand (expanded, record) {
+      console.log('expanded', expanded, record)
+      if (expanded) {
+        this.expandedRowKeys.push(record.id)
+      } else {
+        this.expandedRowKeys = this.expandedRowKeys.filter(item => record.id !== item)
+      }
     },
     toggleAdvanced () {
       this.advanced = !this.advanced
@@ -263,3 +328,13 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.permission-form {
+  /deep/ .permission-group {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+</style>

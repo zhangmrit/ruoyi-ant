@@ -1,4 +1,5 @@
 // chart
+
 export { default as Bar } from '@/components/Charts/Bar'
 export { default as ChartCard } from '@/components/Charts/ChartCard'
 export { default as Liquid } from '@/components/Charts/Liquid'
@@ -29,3 +30,4 @@ export { default as TagSelect } from '@/components/TagSelect'
 export { default as ExceptionPage } from '@/components/Exception'
 export { default as StandardFormRow } from '@/components/StandardFormRow'
 export { default as ArticleListContent } from '@/components/ArticleListContent'
+export { default as Dialog } from '@/components/Dialog'

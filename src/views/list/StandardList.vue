@@ -20,10 +20,10 @@
       title="标准列表">
 
       <div slot="extra">
-        <a-radio-group>
-          <a-radio-button>全部</a-radio-button>
-          <a-radio-button>进行中</a-radio-button>
-          <a-radio-button>等待中</a-radio-button>
+        <a-radio-group v-model="status">
+          <a-radio-button value="all">全部</a-radio-button>
+          <a-radio-button value="processing">进行中</a-radio-button>
+          <a-radio-button value="waiting">等待中</a-radio-button>
         </a-radio-group>
         <a-input-search style="margin-left: 16px; width: 272px;" />
       </div>
@@ -39,7 +39,7 @@
             <a slot="title">{{ item.title }}</a>
           </a-list-item-meta>
           <div slot="actions">
-            <a>编辑</a>
+            <a @click="edit(item)">编辑</a>
           </div>
           <div slot="actions">
             <a-dropdown>
@@ -65,8 +65,6 @@
           </div>
         </a-list-item>
       </a-list>
-
-      <task-form ref="taskForm" />
     </a-card>
   </div>
 </template>
@@ -136,7 +134,28 @@ export default {
   },
   data () {
     return {
-      data
+      data,
+      status: 'all'
+    }
+  },
+  methods: {
+    edit (record) {
+      console.log('record', record)
+      // mockdata
+      record.taskName = '测试'
+      // mockend
+      this.$dialog(TaskForm,
+        // component props
+        {
+          record
+        },
+        // modal props
+        {
+          title: '操作',
+          width: 700,
+          centered: true,
+          maskClosable: false
+        })
     }
   }
 }

@@ -6,6 +6,8 @@
       @close="onClose"
       :closable="false"
       :visible="visible"
+      :drawer-style="{ position: 'absolute' }"
+      style="position: absolute"
     >
       <div class="setting-drawer-index-content">
 

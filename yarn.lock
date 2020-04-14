@@ -2095,10 +2095,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
-ant-design-vue@1.5.0-rc.4:
-  version "1.5.0-rc.4"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.5.0-rc.4.tgz#01d9424c081468295cd0a588227a86c8a59d5b77"
-  integrity sha512-fHUtzW8Qtbix6s+WvQGGhYEeBkaQ1OOL+wQ5z84EKr2rvKw5QMQJxkB9TuZ1d2JRioXG4TVbrWOWPnVLp4rbpA==
+ant-design-vue@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.5.3.tgz#777a43a76dd233efc72abe9704103dbb2a95c558"
+  integrity sha512-wphTfLb5AzdUVSxgYr19BH9cPegZvaHBHayrIp8JVTYCnCpzu8R9Qzvdobflq7XkU1W/W8uep8uIElG5bdHa1Q==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@ant-design/icons-vue" "^2.0.0"
@@ -2127,7 +2127,7 @@ ant-design-vue@1.5.0-rc.4:
     resize-observer-polyfill "^1.5.1"
     shallow-equal "^1.0.0"
     shallowequal "^1.0.2"
-    vue-ref "^1.0.4"
+    vue-ref "^2.0.0"
     warning "^4.0.0"
 
 any-promise@^1.0.0:
@@ -11455,10 +11455,10 @@ vue-quill-editor@^3.0.6:
     object-assign "^4.1.1"
     quill "^1.3.4"
 
-vue-ref@^1.0.4:
-  version "1.0.6"
-  resolved "https://registry.npm.taobao.org/vue-ref/download/vue-ref-1.0.6.tgz#b9b3d7d0e290ee2fd3d50d5d7bdac520806cb265"
-  integrity sha1-ubPX0OKQ7i/T1Q1de9rFIIBssmU=
+vue-ref@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-ref/-/vue-ref-2.0.0.tgz#483084d732abed11da796778a8266a3af0ea1a9c"
+  integrity sha512-uKNKpFOVeWNqS2mrBZqnpLyXJo5Q+vnkex6JvpENvhXHFNBW/SJTP8vJywLuVT3DpxwXcF9N0dyIiZ4/NpTexQ==
 
 vue-router@^3.1.2:
   version "3.1.2"
