@@ -16,15 +16,20 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="18">
+          <a-col :md="5" :sm="15">
             <a-form-item label="捐赠时间">
               <a-range-picker v-model="range"/>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="5" :sm="15">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
+            </span>
+          </a-col>
+          <a-col :md="4" :sm="12">
+            <span class="table-page-search-submitButtons">
+              <a-button type="primary" @click="handlePreview">朕要扶贫</a-button>
             </span>
           </a-col>
         </a-row>
@@ -55,6 +60,9 @@
         当前金额合计： <a style="font-weight: 600">{{ '￥'+total }}</a>
       </div>
     </s-table>
+    <a-modal :visible="previewVisible" :footer="null" @cancel="previewCancel">
+      <img style="width: 100%" :src="previewImage" />
+    </a-modal>
   </a-card>
 </template>
 
@@ -132,6 +140,8 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       range: null,
+      previewVisible: false,
+      previewImage: 'http://upload.ouliu.net/i/20191021180958e1ek5.png',
       total: 0,
       canals: [
         { value: 1, label: '支付宝', icon: 'icon-alipay' },
@@ -154,6 +164,12 @@ export default {
     })
   },
   methods: {
+    previewCancel () {
+      this.previewVisible = false
+    },
+    handlePreview () {
+      this.previewVisible = true
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
