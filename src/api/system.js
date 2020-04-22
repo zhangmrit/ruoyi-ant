@@ -22,6 +22,13 @@ export function getUserList (parameter) {
     params: parameter
   })
 }
+
+export function getUser (userId) {
+  return axios({
+    url: api.user + '/get/' + `${userId}`,
+    method: 'get'
+  })
+}
 export function saveUser (parameter) {
   return axios({
     url: api.user + (parameter.userId > 0 ? '/update' : '/save'),
