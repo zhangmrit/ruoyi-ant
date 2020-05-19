@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import storage from 'store'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
@@ -46,7 +46,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response
-          Vue.ls.set(ACCESS_TOKEN, result.token, 12 * 60 * 60 * 1000)
+          storage.set(ACCESS_TOKEN, result.token, 12 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve(response)
         }).catch(error => {
@@ -89,7 +89,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_INFO', {})
-          Vue.ls.remove(ACCESS_TOKEN)
+          storage.remove(ACCESS_TOKEN)
         })
       })
     }

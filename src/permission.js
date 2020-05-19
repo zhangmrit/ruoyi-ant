@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import router from './router'
 import store from './store'
-
+import storage from 'store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { notification } from 'ant-design-vue'
@@ -14,7 +13,7 @@ const whiteList = ['login', 'register', 'registerResult'] // no redirect whiteli
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
 
-  if (Vue.ls.get(ACCESS_TOKEN)) {
+  if (storage.get(ACCESS_TOKEN)) {
     /* has token */
     if (to.path === '/user/login') {
       next({ path: '/dashboard/workplace' })
