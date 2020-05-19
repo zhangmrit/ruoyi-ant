@@ -1,5 +1,8 @@
 <template>
   <div :class="wrpCls">
+    <a href="http://doc.rycloud.zmrit.com/#/quick-start" target="_blank" :class="actionClassName">
+      <a-icon type="question-circle-o"></a-icon>
+    </a>
     <select-lang :class="actionClassName" />
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="actionClassName" />
   </div>

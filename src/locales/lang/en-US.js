@@ -34,7 +34,17 @@ const locale = {
   'app.setting.copy': 'Copy Setting',
   'app.setting.loading': 'Loading theme',
   'app.setting.copyinfo': 'copy success，please replace defaultSettings in src/models/setting.js',
-  'app.setting.production.hint': 'Setting panel shows in development environment only, please manually modify'
+  'app.setting.production.hint': 'Setting panel shows in development environment only, please manually modify',
+
+  'app.setting.themecolor.daybreak': 'daybreak',
+  'app.setting.themecolor.dust': 'dust',
+  'app.setting.themecolor.volcano': 'volcano',
+  'app.setting.themecolor.sunset': 'sunset',
+  'app.setting.themecolor.cyan': 'cyan',
+  'app.setting.themecolor.green': 'green',
+  'app.setting.themecolor.geekblue': 'geekblue',
+  'app.setting.themecolor.purple': 'purple'
+
 }
 
 export default {

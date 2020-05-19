@@ -70,7 +70,7 @@ const notFoundRouter = {
 
 // 根级菜单
 const rootRouter = {
-  'title': '首页',
+  'title': 'menu.home',
   'key': '',
   'name': 'index',
   'component': 'BasicLayout',

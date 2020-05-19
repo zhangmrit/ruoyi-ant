@@ -1,7 +1,7 @@
 /* eslint-disable */
 export const printANSI = () => {
   // console.clear()
-  console.log('[Antd Pro] created()')
+  console.log('[RuoYi Ant] created()')
   // ASCII - ANSI Shadow
   let text = `
   ██████╗ ██╗   ██╗ ██████╗ ██╗   ██╗██╗     █████╗ ███╗   ██╗████████╗

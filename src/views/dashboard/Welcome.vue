@@ -1,22 +1,31 @@
 <template>
-  <page-view :avatar="avatar" :title="false">
-    <div slot="headerContent">
-      <div class="title">{{ timeFix }}，{{ user.userName }}<span class="welcome-text">，{{ welcome }}</span></div>
-      <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
-    </div>
-    <div slot="extra">
-      <a-row class="more-info">
-        <a-col :span="8">
-          <head-info :title="$t('dashboard.workplace.project')" content="56" :center="false" :bordered="false"/>
-        </a-col>
-        <a-col :span="8">
-          <head-info :title="$t('dashboard.workplace.teamRank')" content="8/24" :center="false" :bordered="false"/>
-        </a-col>
-        <a-col :span="8">
-          <head-info :title="$t('dashboard.workplace.views')" content="2,223" :center="false" />
-        </a-col>
-      </a-row>
-    </div>
+  <page-header-wrapper>
+    <template v-slot:content>
+      <div class="page-header-content">
+        <div class="avatar">
+          <a-avatar size="large" :src="currentUser.avatar"/>
+        </div>
+        <div class="content">
+          <div class="content-title">
+            {{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome }}</span>
+          </div>
+          <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
+        </div>
+      </div>
+    </template>
+    <template v-slot:extraContent>
+      <div class="extra-content">
+        <div class="stat-item">
+          <a-statistic title="项目数" :value="56" />
+        </div>
+        <div class="stat-item">
+          <a-statistic title="团队内排名" :value="8" suffix="/ 24" />
+        </div>
+        <div class="stat-item">
+          <a-statistic title="项目访问" :value="2223" />
+        </div>
+      </div>
+    </template>
 
     <div>
       <a-row :gutter="24">
@@ -101,24 +110,21 @@
         </a-col>
       </a-row>
     </div>
-  </page-view>
+  </page-header-wrapper>
 </template>
 
 <script>
 import { timeFix } from '@/utils/util'
 import { mapState } from 'vuex'
-import { PageView } from '@/layouts'
+import { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import { getRoleList, getServiceList } from '@/api/manage'
 import { Radar } from '@/components'
-import { Timeline } from 'ant-design-vue'
-const TimelineItem = Timeline.Item
 const DataSet = require('@antv/data-set')
 
 export default {
   name: 'Workplace',
   components: {
-    PageView,
-    TimelineItem,
+    PageHeaderWrapper,
     Radar
   },
   data () {
@@ -237,6 +243,12 @@ export default {
       nickname: (state) => state.user.nickname,
       welcome: (state) => state.user.welcome
     }),
+    currentUser () {
+      return {
+        name: '若依',
+        avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+      }
+    },
     userInfo () {
       return this.$store.getters.userInfo
     }
@@ -287,6 +299,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+ @import "./Workplace.less";
 .changList{
   margin-top: -14px;
 }

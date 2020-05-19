@@ -24,4 +24,4 @@ Vue.use(VueClipboard)
 Vue.use(PermissionHelper)
 Vue.use(VueCropper)
 
-process.env.NODE_ENV !== 'production' && console.warn('[antd-pro] WARNING: Antd now use fulled imported.')
+process.env.NODE_ENV !== 'production' && console.warn('[ruoyi-ant] WARNING: Antd now use fulled imported.')
