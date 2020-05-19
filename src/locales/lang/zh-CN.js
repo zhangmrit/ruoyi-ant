@@ -19,7 +19,7 @@ const locale = {
   'app.setting.pagestyle': '整体风格设置',
   'app.setting.pagestyle.light': '亮色菜单风格',
   'app.setting.pagestyle.dark': '暗色菜单风格',
-  'app.setting.pagestyle.realdark': '纯黑',
+  'app.setting.pagestyle.realdark': '暗黑菜单风格',
   'app.setting.themecolor': '主题色',
   'app.setting.navigationmode': '导航模式',
   'app.setting.content-width': '内容区域宽度',

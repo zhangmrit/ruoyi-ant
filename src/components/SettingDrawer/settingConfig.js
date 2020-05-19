@@ -7,6 +7,9 @@ import Vue from 'vue'
 
 const colorList = [
   {
+    key: '拂晓蓝（默认）', color: '#1890ff'
+  },
+  {
     key: '薄暮', color: '#F5222D'
   },
   {
@@ -20,9 +23,6 @@ const colorList = [
   },
   {
     key: '极光绿', color: '#52C41A'
-  },
-  {
-    key: '拂晓蓝（默认）', color: '#1890FF'
   },
   {
     key: '极客蓝', color: '#2F54EB'

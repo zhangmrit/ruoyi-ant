@@ -26,8 +26,9 @@
 import { SettingDrawer } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
-import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
-
+import storage from 'store'
+import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
+import { updateTheme } from '@/components/SettingDrawer/settingConfig'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import LogoSvg from '../assets/logo.svg?inline'
@@ -53,7 +54,7 @@ export default {
         // 主题 'dark' | 'light'
         theme: 'dark',
         // 主色调
-        primaryColor: '#1890ff',
+        primaryColor: storage.get(TOGGLE_COLOR) || '#1890ff',
         fixedHeader: false,
         fixSiderbar: false,
         colorWeak: false,
@@ -95,6 +96,7 @@ export default {
         }, 16)
       })
     }
+    updateTheme(this.settings.primaryColor)
   },
   methods: {
     i18nRender,
@@ -128,6 +130,12 @@ export default {
             this.settings.fixSiderbar = false
             this.settings.contentWidth = true
           }
+          break
+        case 'primaryColor':
+          this.$store.commit(TOGGLE_COLOR, value)
+          break
+        case 'theme':
+          this.$store.commit(TOGGLE_NAV_THEME, value)
           break
       }
     },
