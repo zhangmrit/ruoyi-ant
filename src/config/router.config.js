@@ -1,31 +1,30 @@
 // eslint-disable-next-line
-import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
+import { UserLayout, BlankLayout } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
-
 /**
  * 这里不再保留原来默认的菜单asyncRouterMap
  * https://github.com/sendya/ant-design-pro-vue/blob/master/src/router/generator-routers.js
  */
 export const defaultRouterMap = [
   {
-    'title': '仪表盘',
+    'title': 'menu.dashboard',
     'key': 'dashboard',
     'component': 'RouteView',
     'redirect': '/dashboard/weclome',
     'icon': bxAnaalyse,
     'children': [{
-      'title': '分析页',
+      'title': 'menu.dashboard.analysis',
       'path': 'analysis/:pageNum([1-9]\\d*)?',
       'key': 'analysis',
       'icon': ''
     },
     {
-      'title': '欢迎页',
+      'title': 'menu.dashboard.weclome',
       'key': 'weclome',
       'icon': ''
     },
     {
-      'title': '工作台',
+      'title': 'menu.dashboard.workplace',
       'path': 'workplace',
       'key': 'workplace',
       'icon': ''
@@ -35,7 +34,7 @@ export const defaultRouterMap = [
   {
     'title': '表单页',
     'key': 'form',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'form',
     'children': [
       {
@@ -63,7 +62,7 @@ export const defaultRouterMap = [
   {
     'title': '列表页',
     'key': 'list',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'table',
     'children': [{
       'title': '查询表格',
@@ -121,7 +120,7 @@ export const defaultRouterMap = [
   {
     'title': '结果页',
     'key': 'result',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'check-circle-o',
     'children': [{
       'hiddenHeaderContent': true,
@@ -140,7 +139,7 @@ export const defaultRouterMap = [
   {
     'title': '异常页',
     'key': 'exception',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'warning',
     'children': [
       {
@@ -163,7 +162,7 @@ export const defaultRouterMap = [
   {
     'title': '个人页',
     'key': 'account',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'user',
     'children': [
       {
@@ -209,7 +208,7 @@ export const defaultRouterMap = [
   {
     'title': '其他',
     'key': 'others',
-    'component': 'PageView',
+    'component': 'RouteView',
     'icon': 'interaction',
     'children': [
       {
@@ -253,18 +252,6 @@ export const constantRouterMap = [
         path: 'register-result',
         name: 'registerResult',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
-      }
-    ]
-  },
-  {
-    path: '/test',
-    component: BlankLayout,
-    redirect: '/test/home',
-    children: [
-      {
-        path: 'home',
-        name: 'TestHome',
-        component: () => import('@/views/Home')
       }
     ]
   },

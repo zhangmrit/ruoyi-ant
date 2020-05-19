@@ -1,69 +1,71 @@
 <template>
-  <a-card :bordered="false">
-    <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="5" :sm="15">
-            <a-form-item label="昵称">
-              <a-input placeholder="请输入" v-model="queryParam.nick"/>
-            </a-form-item>
-          </a-col>
-          <a-col :md="5" :sm="15">
-            <a-form-item label="渠道">
-              <a-select placeholder="请选择" v-model="queryParam.canal">
-                <a-select-option :value="''">所有</a-select-option>
-                <a-select-option v-for="(c, index) in canals" :key="index" :value="c.value">{{ c.label }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="5" :sm="15">
-            <a-form-item label="捐赠时间">
-              <a-range-picker v-model="range"/>
-            </a-form-item>
-          </a-col>
-          <a-col :md="5" :sm="15">
-            <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
-            </span>
-          </a-col>
-          <a-col :md="4" :sm="12">
-            <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="handlePreview">朕要扶贫</a-button>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <div class="table-operator">
-      <a-button v-if="addEnable" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
-      <a-dropdown v-if="removeEnable&&selectedRowKeys.length > 0">
-        <a-button type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
-      </a-dropdown>
-    </div>
-    <s-table
-      size="default"
-      ref="table"
-      rowKey="id"
-      :columns="columns"
-      :data="loadData"
-      :rangPicker="range"
-      defaultSort="createTime"
-    >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-      <span slot="canal" slot-scope="text">
-        <my-icon :type="text | canalIconFilter" /> {{ text | canalFilter }}
-      </span>
-      <div slot="footer" style="text-align: center;">
-        当前金额合计： <a style="font-weight: 600">{{ '￥'+total }}</a>
+  <page-header-wrapper content="一直以来感谢众多朋友的支持，本页面还有一个自定义icon的小例子，外加表格底部自定义">
+    <a-card :bordered="false">
+      <div class="table-page-search-wrapper">
+        <a-form layout="inline">
+          <a-row :gutter="48">
+            <a-col :md="5" :sm="15">
+              <a-form-item label="昵称">
+                <a-input placeholder="请输入" v-model="queryParam.nick"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="5" :sm="15">
+              <a-form-item label="渠道">
+                <a-select placeholder="请选择" v-model="queryParam.canal">
+                  <a-select-option :value="''">所有</a-select-option>
+                  <a-select-option v-for="(c, index) in canals" :key="index" :value="c.value">{{ c.label }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="5" :sm="15">
+              <a-form-item label="捐赠时间">
+                <a-range-picker v-model="range"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="5" :sm="15">
+              <span class="table-page-search-submitButtons">
+                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
+              </span>
+            </a-col>
+            <a-col :md="4" :sm="12">
+              <span class="table-page-search-submitButtons">
+                <a-button type="primary" @click="handlePreview">朕要扶贫</a-button>
+              </span>
+            </a-col>
+          </a-row>
+        </a-form>
       </div>
-    </s-table>
-    <a-modal :visible="previewVisible" :footer="null" @cancel="previewCancel">
-      <img style="width: 100%" :src="previewImage" />
-    </a-modal>
-  </a-card>
+      <div class="table-operator">
+        <a-button v-if="addEnable" type="primary" icon="plus" @click="$refs.modal.add()">新建</a-button>
+        <a-dropdown v-if="removeEnable&&selectedRowKeys.length > 0">
+          <a-button type="danger" icon="delete" @click="delByIds(selectedRowKeys)">删除</a-button>
+        </a-dropdown>
+      </div>
+      <s-table
+        size="default"
+        ref="table"
+        rowKey="id"
+        :columns="columns"
+        :data="loadData"
+        :rangPicker="range"
+        defaultSort="createTime"
+      >
+        <span slot="serial" slot-scope="text, record, index">
+          {{ index + 1 }}
+        </span>
+        <span slot="canal" slot-scope="text">
+          <my-icon :type="text | canalIconFilter" /> {{ text | canalFilter }}
+        </span>
+        <div slot="footer" style="text-align: center;">
+          当前金额合计： <a style="font-weight: 600">{{ '￥'+total }}</a>
+        </div>
+      </s-table>
+      <a-modal :visible="previewVisible" :footer="null" @cancel="previewCancel">
+        <img style="width: 100%" :src="previewImage" />
+      </a-modal>
+    </a-card>
+  </page-header-wrapper>
 </template>
 
 <script>
@@ -83,7 +85,6 @@ export default {
   },
   data () {
     return {
-      description: '一直以来感谢众多朋友的支持，本页面还有一个自定义icon的小例子，外加表格底部自定义',
       visible: false,
       labelCol: {
         xs: { span: 24 },

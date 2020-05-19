@@ -8,11 +8,10 @@
     "report": "vue-cli-service build --report",
     "build:preview": "vue-cli-service build --mode preview",
     "lint": "vue-cli-service lint",
-    "lint:nofix": "vue-cli-service lint --no-fix",
-    "test:unit": "vue-cli-service test:unit",
-    "postinstall": "opencollective-postinstall"
+    "lint:nofix": "vue-cli-service lint --no-fix"
   },
   "dependencies": {
+    "@ant-design-vue/pro-layout": "^0.2.9",
     "@antv/data-set": "^0.10.2",
     "@tinymce/tinymce-vue": "^3.2.0",
     "ant-design-vue": "1.6.0",
@@ -33,7 +32,7 @@
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.2.1",
     "vue-cropper": "0.4.9",
-    "vue-i18n": "^8.14.0",
+    "vue-i18n": "^8.17.4",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.1.2",
     "vue-svg-component-runtime": "^1.0.1",
@@ -56,6 +55,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-vue": "^5.2.3",
+    "git-revision-webpack-plugin": "^3.0.6",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "opencollective": "^1.0.3",

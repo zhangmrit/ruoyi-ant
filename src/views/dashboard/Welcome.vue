@@ -108,21 +108,16 @@
 import { timeFix } from '@/utils/util'
 import { mapState } from 'vuex'
 import { PageView } from '@/layouts'
-import HeadInfo from '@/components/tools/HeadInfo'
-import DetailList from '@/components/tools/DetailList'
 import { getRoleList, getServiceList } from '@/api/manage'
 import { Radar } from '@/components'
 import { Timeline } from 'ant-design-vue'
 const TimelineItem = Timeline.Item
-const DetailListItem = DetailList.Item
 const DataSet = require('@antv/data-set')
 
 export default {
   name: 'Workplace',
   components: {
     PageView,
-    HeadInfo,
-    DetailListItem,
     TimelineItem,
     Radar
   },

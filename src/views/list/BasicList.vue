@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <page-header-wrapper>
     <a-card :bordered="false">
       <a-row>
         <a-col :sm="8" :xs="24">
-          <head-info title="我的待办" content="8个任务" :bordered="true"/>
+          <info title="我的待办" value="8个任务" :bordered="true" />
         </a-col>
         <a-col :sm="8" :xs="24">
-          <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true"/>
+          <info title="本周任务平均处理时间" value="32分钟" :bordered="true" />
         </a-col>
         <a-col :sm="8" :xs="24">
-          <head-info title="本周完成任务数" content="24个"/>
+          <info title="本周完成任务数" value="24个" />
         </a-col>
       </a-row>
     </a-card>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="operate">
-        <a-button type="dashed" style="width: 100%" icon="plus" @click="$refs.taskForm.add()">添加</a-button>
+        <a-button type="dashed" style="width: 100%" icon="plus" @click="add">添加</a-button>
       </div>
 
       <a-list size="large" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
@@ -66,12 +66,13 @@
         </a-list-item>
       </a-list>
     </a-card>
-  </div>
+  </page-header-wrapper>
 </template>
 
 <script>
-import HeadInfo from '@/components/tools/HeadInfo'
+// 演示如何使用 this.$dialog 封装 modal 组件
 import TaskForm from './modules/TaskForm'
+import Info from './components/Info'
 
 const data = []
 data.push({
@@ -129,8 +130,8 @@ data.push({
 export default {
   name: 'StandardList',
   components: {
-    HeadInfo,
-    TaskForm
+    TaskForm,
+    Info
   },
   data () {
     return {
@@ -139,15 +140,48 @@ export default {
     }
   },
   methods: {
-    edit (record) {
-      console.log('record', record)
-      // mockdata
-      record.taskName = '测试'
-      // mockend
+    add () {
       this.$dialog(TaskForm,
         // component props
         {
-          record
+          record: {},
+          on: {
+            ok () {
+              console.log('ok 回调')
+            },
+            cancel () {
+              console.log('cancel 回调')
+            },
+            close () {
+              console.log('modal close 回调')
+            }
+          }
+        },
+        // modal props
+        {
+          title: '新增',
+          width: 700,
+          centered: true,
+          maskClosable: false
+        })
+    },
+    edit (record) {
+      console.log('record', record)
+      this.$dialog(TaskForm,
+        // component props
+        {
+          record,
+          on: {
+            ok () {
+              console.log('ok 回调')
+            },
+            cancel () {
+              console.log('cancel 回调')
+            },
+            close () {
+              console.log('modal close 回调')
+            }
+          }
         },
         // modal props
         {
@@ -162,25 +196,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .ant-avatar-lg {
-        width: 48px;
-        height: 48px;
-        line-height: 48px;
-    }
+.ant-avatar-lg {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
 
-    .list-content-item {
-        color: rgba(0, 0, 0, .45);
-        display: inline-block;
-        vertical-align: middle;
-        font-size: 14px;
-        margin-left: 40px;
-        span {
-            line-height: 20px;
-        }
-        p {
-            margin-top: 4px;
-            margin-bottom: 0;
-            line-height: 22px;
-        }
+.list-content-item {
+    color: rgba(0, 0, 0, .45);
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    margin-left: 40px;
+    span {
+        line-height: 20px;
     }
+    p {
+        margin-top: 4px;
+        margin-bottom: 0;
+        line-height: 22px;
+    }
+}
 </style>

@@ -8,20 +8,21 @@
 
 <script>
 // import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { AppDeviceEnquire } from '@/utils/mixin'
 // 引用cdn还可以这么写
-import { locales } from 'ant-design-vue'
-const zhCN = locales.zh_CN
+// import { locales } from 'ant-design-vue'
+// const zhCN = locales.zh_CN
+import { domTitle, setDocumentTitle } from '@/utils/domUtil'
+import { i18nRender } from '@/locales'
 
 export default {
-  mixins: [AppDeviceEnquire],
   data () {
     return {
-      locale: zhCN
+      locale () {
+        const { title } = this.$route.meta
+        title && (setDocumentTitle(`${i18nRender(title)} - ${domTitle}`))
+        return this.$i18n.getLocaleMessage(this.$store.getters.lang).antLocale
+      }
     }
-  },
-  mounted () {
-
   }
 }
 </script>

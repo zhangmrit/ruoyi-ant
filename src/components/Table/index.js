@@ -98,6 +98,10 @@ export default {
           pageNo: val
         })
       })
+      // change pagination, reset total data
+      this.needTotalList = this.initTotalList(this.columns)
+      this.selectedRowKeys = []
+      this.selectedRows = []
     },
     pageNum (val) {
       Object.assign(this.localPagination, {
@@ -296,7 +300,7 @@ export default {
       if (k === 'rowSelection') {
         if (showAlert && this.rowSelection) {
           // 如果需要使用alert，则重新绑定 rowSelection 事件
-          console.log('this.rowSelection', this.rowSelection)
+          // console.log('this.rowSelection', this.rowSelection)
           props[k] = {
             ...this.rowSelection,
             selectedRows: this.selectedRows,

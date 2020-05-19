@@ -72,6 +72,8 @@ const installer = {
   }
 }
 
+export default request
+
 export {
   installer as VueAxios,
   request as axios

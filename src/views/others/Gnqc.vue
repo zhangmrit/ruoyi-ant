@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <page-header-wrapper content="表姐家的赣南脐橙，果园直发，我自己每年吃10几箱大的，已下市，敬请期待">
     <a-card :bordered="false">
 
       <a-carousel arrows autoplay dotsClass="slick-dots slick-thumb">
@@ -20,7 +20,7 @@
       <h2 style="margin: 12px 26px">价格：10斤装/78 20斤装/128</h2>
       <h3 style="margin: 12px 26px"><a-icon type="qq" />QQ群：<a href="https://jq.qq.com/?_wv=1027&k=5JGXHPD" target="_blank"><a-button type="primary" size="small">755109875</a-button></a> 点击按钮入群，备注橙子</h3>
     </a-card>
-  </div>
+  </page-header-wrapper>
 </template>
 
 <script>
@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-      description: '表姐家的赣南脐橙，果园直发，我自己每年吃10几箱大的，即将下市，要吃抓紧了',
+      description: '',
       visible: false,
       labelCol: {
         xs: { span: 24 },

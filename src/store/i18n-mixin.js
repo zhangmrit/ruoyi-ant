@@ -1,6 +1,6 @@
 import { mapState } from 'vuex'
 
-const mixin = {
+const i18nMixin = {
   computed: {
     ...mapState({
       currentLang: state => state.app.lang
@@ -8,9 +8,9 @@ const mixin = {
   },
   methods: {
     setLang (lang) {
-      this.$store.dispatch('SetLang', lang)
+      this.$store.dispatch('setLang', lang)
     }
   }
 }
 
-export { mixin }
+export default i18nMixin
