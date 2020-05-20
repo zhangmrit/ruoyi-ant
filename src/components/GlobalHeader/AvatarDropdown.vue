@@ -1,8 +1,8 @@
 <template>
   <a-dropdown v-if="currentUser && currentUser.name" placement="bottomRight">
     <span class="ant-pro-account-avatar">
-      <a-avatar size="small" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" class="antd-pro-global-header-index-avatar" />
-      <span>{{ currentUser.name }}</span>
+      <a-avatar size="small" :src="avatar" class="antd-pro-global-header-index-avatar" />
+      <span>{{ nickname }}</span>
     </span>
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
@@ -29,7 +29,7 @@
 
 <script>
 import { Modal } from 'ant-design-vue'
-
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'AvatarDropdown',
   props: {
@@ -42,7 +42,11 @@ export default {
       default: true
     }
   },
+  computed: {
+    ...mapGetters(['nickname', 'avatar'])
+  },
   methods: {
+    ...mapActions(['Logout']),
     handleToCenter () {
       this.$router.push({ path: '/account/center' })
     },
@@ -54,9 +58,16 @@ export default {
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
         onOk: () => {
-          return new Promise((resolve, reject) => {
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
-          }).catch(() => console.log('Oops errors!'))
+          return this.Logout({}).then(() => {
+            setTimeout(() => {
+              window.location.reload()
+            }, 16)
+          }).catch(err => {
+            this.$message.error({
+              title: '错误',
+              description: err.message
+            })
+          })
         },
         onCancel () {}
       })

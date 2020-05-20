@@ -16,6 +16,9 @@ const locale = {
   'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',
 
+  'layouts.usermenu.dialog.title': '提示',
+  'layouts.usermenu.dialog.content': '你真的要离开了嘛',
+
   'app.setting.pagestyle': '整体风格设置',
   'app.setting.pagestyle.light': '亮色菜单风格',
   'app.setting.pagestyle.dark': '暗色菜单风格',
