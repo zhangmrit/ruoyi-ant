@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import storage from 'store'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { STable } from '@/components'
 import { getProfList, delProf, diagram, modelXml, processState, deployByFileURL } from '@/api/activiti'
@@ -149,7 +149,7 @@ export default {
       previewImage: '',
       uploadUrl: process.env.VUE_APP_API_BASE_URL + deployByFileURL,
       headers: {
-        token: Vue.ls.get(ACCESS_TOKEN)
+        token: storage.get(ACCESS_TOKEN)
       },
       selectedRowKeys: [],
       selectedRows: [],
