@@ -60,6 +60,7 @@
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
           :columns="columns"
           :data="loadData"
+          defaultSort="createTime"
         >
           <span slot="status" slot-scope="text,record">
             <a-switch :checked="record.status=='0'" @change="onChangeStatus(record)"/>

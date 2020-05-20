@@ -43,6 +43,7 @@
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
       :data="loadData"
+      defaultSort="createTime"
     >
       <span slot="deep" slot-scope="text">
         {{ text | deepFilter }}

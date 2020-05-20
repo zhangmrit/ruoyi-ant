@@ -48,6 +48,7 @@
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
       :data="loadData"
+      defaultSort="createTime"
     >
       <!-- <div
         slot="expandedRowRender"
