@@ -7,7 +7,7 @@
       <a href="https://gitee.com/zhangmrit/ruoyi-ant">RuoYi Ant</a>
     </template>
     <template v-slot:copyright>
-      <a href="https://gitee.com/zhangmrit/ruoyi-ant" target="_blank">RuoYi</a>
+      <a href="https://gitee.com/zhangmrit" target="_blank">wind</a>
     </template>
   </global-footer>
 </template>
