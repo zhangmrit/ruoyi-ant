@@ -12,34 +12,34 @@
           >
             <a-menu-item key="/account/settings/base">
               <router-link :to="{ name: 'base' }">
-                基本设置
+                {{ i18nRender('menu.account.settings.base') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/security">
               <router-link :to="{ name: 'security' }">
-                安全设置
+                {{ i18nRender('menu.account.settings.security') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/custom">
               <router-link :to="{ name: 'custom' }">
-                个性化
+                {{ i18nRender('menu.account.settings.custom') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/binding">
               <router-link :to="{ name: 'binding' }">
-                账户绑定
+                {{ i18nRender('menu.account.settings.binding') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/notification">
               <router-link :to="{ name: 'notification' }">
-                新消息通知
+                {{ i18nRender('menu.account.settings.notification') }}
               </router-link>
             </a-menu-item>
           </a-menu>
         </div>
         <div class="account-settings-info-right">
           <div class="account-settings-info-title">
-            <span>{{ $route.meta.title }}</span>
+            <span>{{ i18nRender($route.meta.title) }}</span>
           </div>
           <route-view></route-view>
         </div>
@@ -51,10 +51,12 @@
 <script>
 import { RouteView } from '@/layouts'
 import { baseMixin } from '@/store/app-mixin'
+import { i18nRender } from '@/locales'
 
 export default {
   components: {
-    RouteView
+    RouteView,
+    i18nRender
   },
   mixins: [baseMixin],
   data () {
@@ -83,7 +85,8 @@ export default {
         fixedNumber: [1, 1]
       },
 
-      pageTitle: ''
+      pageTitle: '',
+      base: 'base'
     }
   },
   mounted () {
@@ -97,6 +100,9 @@ export default {
       const routes = this.$route.matched.concat()
       this.selectedKeys = [ routes.pop().path ]
       // console.log('selectedKeys', this.selectedKeys)
+    },
+    i18nRender (key) {
+      return i18nRender(key)
     }
   },
   watch: {

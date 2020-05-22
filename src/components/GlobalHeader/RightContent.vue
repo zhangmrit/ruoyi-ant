@@ -1,10 +1,15 @@
 <template>
   <div :class="wrpCls">
-    <a href="http://doc.rycloud.zmrit.com/#/quick-start" target="_blank" :class="prefixCls">
-      <a-icon type="question-circle-o"></a-icon>
-    </a>
-    <select-lang :class="prefixCls" />
+    <a-tooltip placement="bottom">
+      <template slot="title">
+        <span>文档</span>
+      </template>
+      <a href="http://doc.rycloud.zmrit.com/#/quick-start" target="_blank" :class="prefixCls">
+        <a-icon type="question-circle-o"></a-icon>
+      </a>
+    </a-tooltip>
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
+    <select-lang :class="prefixCls" />
   </div>
 </template>
 

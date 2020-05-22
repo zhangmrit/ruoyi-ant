@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ant-design-vue/pro-layout@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-0.2.10.tgz#f27c958480997d7cc780c051e887bd33008d97fa"
-  integrity sha512-Pc/4phTZhHcacrmSv8lQBpTO0SqAvqt3MJH5uYw3Elm69O5e/TMVoBL3snukgNtufpWN0IEF3TjlGn6aMCdsEw==
+"@ant-design-vue/pro-layout@^0.2.11-0":
+  version "0.2.11-0"
+  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-0.2.11-0.tgz#945cbbc6b24e888f2cc8315e7e31ebff1250bf05"
+  integrity sha512-BzEg/QJKtpMQWiOFSONkfsG+OIx01IRwDQl5lfv2WzM5TRXxQFAZ8z1Dl22skMce2dCq9TzoEcLC0utqg789NA==
   dependencies:
     ant-design-vue "^1.5.3"
     classnames "^2.2.6"
@@ -14,7 +14,7 @@
     omit.js "^1.0.2"
     umi-request "^1.2.11"
     vue-container-query "^0.1.0"
-    vue-copy-to-clipboard "1.0.0"
+    vue-copy-to-clipboard "^1.0.1"
 
 "@ant-design/colors@^3.1.0", "@ant-design/colors@^3.2.1":
   version "3.2.2"
@@ -11491,10 +11491,10 @@ vue-container-query@^0.1.0:
     resize-observer-lite "^0.2.3"
     vue "^2.5.17"
 
-vue-copy-to-clipboard@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vue-copy-to-clipboard/-/vue-copy-to-clipboard-1.0.0.tgz#1d1aa57a342827cfe094846c6aa2c604340c07a4"
-  integrity sha512-Fh1jeqklkkXzQ7vKekRehMTuBVWbk1pFd4hKFkQTxCAE4I5WKGulQb97sfVpWFcjsgpa6d0H0C6xwpy/5DxEyw==
+vue-copy-to-clipboard@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-copy-to-clipboard/-/vue-copy-to-clipboard-1.0.1.tgz#eb2af3f2be73f519d93e41af75e604d964a5d05a"
+  integrity sha512-7N3y5zrwsbczGUlV1MHf3qHLpHdq4GS6zOFG5nHgVdNLL4VPpf97DuaS2Cjv2iZ4GMGzuX15vWUHjhReOkgseA==
   dependencies:
     copy-to-clipboard "^3.3.1"
 
