@@ -98,7 +98,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 import CardInfo from './components/CardInfo'
 const TagSelectOption = TagSelect.Option
@@ -122,9 +121,6 @@ export default {
     }
   },
   filters: {
-    fromNow (date) {
-      return moment(date).fromNow()
-    }
   },
   mounted () {
     this.getList()

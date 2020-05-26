@@ -79,7 +79,6 @@
 
 <script>
 import { STable } from '@/components'
-import moment from 'moment'
 // import { getOperLogList, delOperLog, cleanOperLog, operLogExport } from '@/api/monitor'
 import { getOperLogList, operLogExport } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
@@ -176,9 +175,6 @@ export default {
         '0': '成功'
       }
       return statusMap[status]
-    },
-    fromNow (date) {
-      return moment(date).fromNow()
     }
   },
   beforeCreate () {
