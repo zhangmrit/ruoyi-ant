@@ -42,7 +42,9 @@ export function loadLanguageAsync (lang = defaultLang) {
           const locale = msg.default
           i18n.setLocaleMessage(lang, locale)
           loadedLanguages.push(lang)
-          moment.updateLocale(locale.momentName, locale.momentLocale)
+          // 这里用的是cdn的方法，下面为非cdn方式
+          moment.locale(locale.momentName)
+          // moment.updateLocale(locale.momentName, locale.momentLocale)
           return setI18nLanguage(lang)
         })
       }

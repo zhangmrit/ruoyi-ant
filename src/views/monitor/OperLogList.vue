@@ -66,6 +66,9 @@
       <span slot="status" slot-scope="text">
         {{ text | statusFilter }}
       </span>
+      <span slot="operTime" slot-scope="text">
+        {{ text | fromNow }}
+      </span>
       <span slot="action" slot-scope="text, record">
         <a @click="handleDetail(record)">详细</a>
       </span>
@@ -76,6 +79,7 @@
 
 <script>
 import { STable } from '@/components'
+import moment from 'moment'
 // import { getOperLogList, delOperLog, cleanOperLog, operLogExport } from '@/api/monitor'
 import { getOperLogList, operLogExport } from '@/api/monitor'
 import OperLogModal from './modules/OperLogModal.vue'
@@ -141,7 +145,8 @@ export default {
         {
           title: '操作时间',
           dataIndex: 'operTime',
-          sorter: true
+          sorter: true,
+          scopedSlots: { customRender: 'operTime' }
         }, {
           title: '操作',
           width: '150px',
@@ -171,6 +176,9 @@ export default {
         '0': '成功'
       }
       return statusMap[status]
+    },
+    fromNow (date) {
+      return moment(date).fromNow()
     }
   },
   beforeCreate () {

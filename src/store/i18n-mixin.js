@@ -1,5 +1,5 @@
 import { mapState } from 'vuex'
-
+import { loadLanguageAsync } from '@/locales'
 const i18nMixin = {
   computed: {
     ...mapState({
@@ -9,6 +9,7 @@ const i18nMixin = {
   methods: {
     setLang (lang) {
       this.$store.dispatch('setLang', lang)
+      loadLanguageAsync(lang)
     }
   }
 }
