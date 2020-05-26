@@ -76,6 +76,7 @@
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { STable } from '@/components'
+// eslint-disable-next-line no-unused-vars
 import { getProfList, delProf, diagram, modelXml, processState, deployByFileURL } from '@/api/activiti'
 import { checkPermission } from '@/utils/permissions'
 
@@ -230,15 +231,16 @@ export default {
       })
     },
     delByIds (ids) {
-      delProf({ ids: ids.join(',') }).then(res => {
-        if (res.code === 0) {
-          this.$message.success(`删除成功`)
-          this.handleOk()
-          this.selectedRowKeys = []
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+      this.$message.error('演示环境无法操作')
+      // delProf({ ids: ids.join(',') }).then(res => {
+      //   if (res.code === 0) {
+      //     this.$message.success(`删除成功`)
+      //     this.handleOk()
+      //     this.selectedRowKeys = []
+      //   } else {
+      //     this.$message.error(res.msg)
+      //   }
+      // })
     }
   },
   watch: {
