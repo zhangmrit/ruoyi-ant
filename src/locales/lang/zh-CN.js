@@ -9,6 +9,7 @@ const components = {
 
 const locale = {
   'message': '-',
+  'logout': '退出登录',
   'menu.home': '首页',
   'menu.dashboard': '仪表盘',
   'menu.dashboard.analysis': '分析页',

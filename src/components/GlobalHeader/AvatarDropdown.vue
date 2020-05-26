@@ -7,17 +7,14 @@
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
         <a-menu-item v-if="menu" key="center" @click="handleToCenter">
-          <a-icon type="user" />
-          个人中心
+          <a-icon type="user" />{{ i18nRender('menu.account.center') }}
         </a-menu-item>
         <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
-          <a-icon type="setting" />
-          个人设置
+          <a-icon type="setting" />{{ i18nRender('menu.account.center') }}
         </a-menu-item>
         <a-menu-divider v-if="menu" />
         <a-menu-item key="logout" @click="handleLogout">
-          <a-icon type="logout" />
-          退出登录
+          <a-icon type="logout" />{{ i18nRender('logout') }}
         </a-menu-item>
       </a-menu>
     </template>
@@ -30,6 +27,7 @@
 <script>
 import { Modal } from 'ant-design-vue'
 import { mapActions, mapGetters } from 'vuex'
+import { i18nRender } from '@/locales'
 export default {
   name: 'AvatarDropdown',
   props: {
@@ -58,19 +56,24 @@ export default {
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
         onOk: () => {
-          return this.Logout({}).then(() => {
-            setTimeout(() => {
-              window.location.reload()
-            }, 16)
-          }).catch(err => {
-            this.$message.error({
-              title: '错误',
-              description: err.message
+          return this.Logout({})
+            .then(() => {
+              setTimeout(() => {
+                window.location.reload()
+              }, 16)
             })
-          })
+            .catch(err => {
+              this.$message.error({
+                title: '错误',
+                description: err.message
+              })
+            })
         },
         onCancel () {}
       })
+    },
+    i18nRender (key) {
+      return i18nRender(key)
     }
   }
 }
