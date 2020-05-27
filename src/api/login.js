@@ -68,3 +68,21 @@ export function get2step (parameter) {
     data: parameter
   })
 }
+
+// 获取验证图片  以及token
+export function getCaptcha (data) {
+  return axios({
+    url: '/auth/captcha/get',
+    method: 'post',
+    data
+  })
+}
+
+// 滑动或者点选验证
+export function captchaCheck (data) {
+  return axios({
+    url: '/auth/captcha/check',
+    method: 'post',
+    data
+  })
+}

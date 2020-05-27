@@ -42,18 +42,6 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
-          <a-row :gutter="16">
-            <a-col class="gutter-row" :span="16">
-              <a-form-item>
-                <a-input size="large" type="text" placeholder="验证码" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
-                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col class="gutter-row" :span="8">
-              <img class="getCaptcha" :src="codesrc" @click="getImgCode">
-            </a-col>
-          </a-row>
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
@@ -124,26 +112,35 @@
       @success="stepCaptchaSuccess"
       @cancel="stepCaptchaCancel"
     ></two-step-captcha>
+    <Verify
+      @success="capctchaCheckSucc"
+      :mode="'pop'"
+      :captchaType="'blockPuzzle'"
+      :imgSize="{ width: '330px', height: '155px' }"
+      ref="verify"
+    ></Verify>
   </div>
 </template>
 
 <script>
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
+import Verify from '@/components/verifition/Verify'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 // eslint-disable-next-line no-unused-vars
 import md5 from 'md5'
 // eslint-disable-next-line no-unused-vars
-import { getSmsCaptcha, get2step, imgcode } from '@/api/login'
+import { getSmsCaptcha, get2step } from '@/api/login'
 
 export default {
   components: {
-    TwoStepCaptcha
+    TwoStepCaptcha,
+    Verify
   },
   data () {
     return {
-      codesrc: null,
-      randomStr: null,
+      capctchaCheck: false,
+      verify: '',
       customActiveKey: 'tab1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
@@ -171,7 +168,6 @@ export default {
     //     this.requiredTwoStepCaptcha = false
     //   })
     // this.requiredTwoStepCaptcha = true
-    this.getImgCode()
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
@@ -190,8 +186,16 @@ export default {
       this.customActiveKey = key
       // this.form.resetFields()
     },
+    capctchaCheckSucc (data) {
+      this.capctchaCheck = true
+      this.verify = data.captchaVerification
+    },
     handleSubmit (e) {
       e.preventDefault()
+      if (!this.capctchaCheck) {
+        this.$refs.verify.show()
+        return false
+      }
       const {
         form: { validateFields },
         state,
@@ -210,12 +214,13 @@ export default {
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           // loginParams.password = md5(values.password)
-          loginParams.randomStr = this.randomStr
+          loginParams.verify = this.verify
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false
+              this.capctchaCheck = false
             })
         } else {
           setTimeout(() => {
@@ -267,14 +272,6 @@ export default {
         this.stepCaptchaVisible = false
       })
     },
-    async getImgCode () {
-      await imgcode().then(res => {
-        const raw = res.data
-        const { randomstr } = res.headers
-        this.randomStr = randomstr
-        this.codesrc = URL.createObjectURL(raw)
-      })
-    },
     loginSuccess (res) {
       if (res.code === 0) {
         this.$router.push({ name: 'dashboard' }, () => {
@@ -290,7 +287,6 @@ export default {
     },
     requestFailed (err) {
       this.isLoginError = true
-      this.getImgCode()
       this.errorMsg = ((err.response || {}).data || {}).msg || err.msg || '请求出现错误，请稍后再试'
       this.$notification['error']({
         message: '错误',

@@ -17,6 +17,7 @@
     "ant-design-vue": "1.6.0",
     "axios": "^0.19.0",
     "core-js": "^3.6.4",
+    "crypto-js": "^4.0.0",
     "enquire.js": "^2.1.6",
     "js-cookie": "^2.2.0",
     "lodash.clonedeep": "^4.5.0",
