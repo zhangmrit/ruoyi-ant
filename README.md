@@ -16,7 +16,7 @@
 
 
 
-运行项目需要启动后端ruoyi-cloud，[传送门](https://github.com/zhangmrit/ruoyi-cloud)
+运行项目需要启动后端ruoyi-cloud，[传送门](https://gitee.com/zhangmrit/ruoyi-cloud)
 
 源码地址:
 - [Github](https://github.com/zhangmrit/ruoyi-ant)
@@ -38,7 +38,7 @@ Overview
 
 - 拉取项目代码
 ```bash
-git clone https://github.com/zhangmrit/ruoyi-ant.git
+git clone https://gitee.com/zhangmrit/ruoyi-ant.git
 cd ruoyi-ant
 ```
 
