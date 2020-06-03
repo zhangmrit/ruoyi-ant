@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ant-design-vue/pro-layout@^0.2.11-0":
-  version "0.2.11-0"
-  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-0.2.11-0.tgz#945cbbc6b24e888f2cc8315e7e31ebff1250bf05"
-  integrity sha512-BzEg/QJKtpMQWiOFSONkfsG+OIx01IRwDQl5lfv2WzM5TRXxQFAZ8z1Dl22skMce2dCq9TzoEcLC0utqg789NA==
+"@ant-design-vue/pro-layout@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-0.3.0.tgz#dbf170ded4a21765593bf22d2792ed8fe21d07b4"
+  integrity sha512-bUZplitxxz0uJTcmhs+UEtLr5J0fdFxzwypjZKkzXbUM7bdo4r7MrCZYHAvM9Y4yuzHIqtS+dSY+cMNqrSga2g==
   dependencies:
     ant-design-vue "^1.5.3"
     classnames "^2.2.6"
@@ -11791,6 +11791,14 @@ webpack-merge@^4.2.2:
   dependencies:
     lodash "^4.17.15"
 
+webpack-sources@*, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.npm.taobao.org/webpack-sources/download/webpack-sources-1.4.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-sources%2Fdownload%2Fwebpack-sources-1.4.3.tgz#eedd8ec0b928fbf1cbfe994e22d2d890f330a933"
+  integrity sha1-7t2OwLko+/HL/plOItLYkPMwqTM=
+  dependencies:
+    source-list-map "^2.0.0"
+    source-map "~0.6.1"
+
 webpack-sources@^1.1.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.3.0.tgz#2a28dcb9f1f45fe960d8f1493252b5ee6530fa85"
@@ -11799,18 +11807,12 @@ webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.npm.taobao.org/webpack-sources/download/webpack-sources-1.4.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-sources%2Fdownload%2Fwebpack-sources-1.4.3.tgz#eedd8ec0b928fbf1cbfe994e22d2d890f330a933"
-  integrity sha1-7t2OwLko+/HL/plOItLYkPMwqTM=
+webpack-theme-color-replacer@^1.3.12:
+  version "1.3.12"
+  resolved "https://registry.yarnpkg.com/webpack-theme-color-replacer/-/webpack-theme-color-replacer-1.3.12.tgz#0593a3149310c0e5b6b85afeccd61925b1b8e86b"
+  integrity sha512-NZ0CuiSiJXz9LOWhAEQEKyEL7EZpwT0XBqc/bxXgdrIWUa0P5qDqarZTmHAldstjWTM1A0gScnoUnpU2R/De8w==
   dependencies:
-    source-list-map "^2.0.0"
-    source-map "~0.6.1"
-
-webpack-theme-color-replacer@^1.2.17:
-  version "1.2.17"
-  resolved "https://registry.npm.taobao.org/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.2.17.tgz#f3dc5b5ab60dcb05e15e6840e76d17bd00118b9b"
-  integrity sha1-89xbWrYNywXhXmhA520XvQARi5s=
+    webpack-sources "*"
 
 webpack@^4.0.0:
   version "4.39.3"

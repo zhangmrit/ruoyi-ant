@@ -35,6 +35,7 @@ export const defaultRouterMap = [
     'title': 'menu.form',
     'key': 'form',
     'component': 'RouteView',
+    'redirect': '/form/baseForm',
     'icon': 'form',
     'children': [
       {
@@ -63,6 +64,7 @@ export const defaultRouterMap = [
     'title': 'menu.list',
     'key': 'list',
     'component': 'RouteView',
+    'redirect': '/list/tableList',
     'icon': 'table',
     'children': [{
       'title': 'menu.list.table',
@@ -104,6 +106,7 @@ export const defaultRouterMap = [
     'title': 'menu.profile',
     'key': 'profile',
     'component': 'RouteView',
+    'redirect': '/profile/profileBasic',
     'icon': 'profile',
     'children': [{
       'title': 'menu.profile.basic',
