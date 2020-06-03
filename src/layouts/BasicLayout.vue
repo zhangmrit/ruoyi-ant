@@ -1,6 +1,6 @@
 <template>
   <pro-layout
-    title="RuoYi Ant"
+    :title="title"
     :menus="menus"
     :collapsed="collapsed"
     :mediaQuery="query"
@@ -13,7 +13,7 @@
   >
     <setting-drawer :settings="settings" @change="handleSettingChange" />
     <template v-slot:rightContentRender>
-      <right-content :top-menu="settings.layout === 'topmenu'" :theme="settings.theme" />
+      <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
     </template>
     <template v-slot:footerRender>
       <global-footer />
@@ -23,12 +23,11 @@
 </template>
 
 <script>
-import { SettingDrawer } from '@ant-design-vue/pro-layout'
+import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
-import storage from 'store'
 import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
-import { updateTheme } from '@/components/SettingDrawer/settingConfig'
+import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import LogoSvg from '../assets/logo.svg?inline'
@@ -46,18 +45,19 @@ export default {
       menus: [],
       // 侧栏收起状态
       collapsed: false,
+      title: defaultSettings.title,
       settings: {
         // 布局类型
-        layout: 'sidemenu', // 'sidemenu', 'topmenu'
+        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
         // 定宽: true / 流式: false
-        contentWidth: false,
+        contentWidth: defaultSettings.layout === 'sidemenu' ? false : defaultSettings.contentWidth === 'Fixed',
         // 主题 'dark' | 'light'
-        theme: 'dark',
+        theme: defaultSettings.navTheme,
         // 主色调
-        primaryColor: storage.get(TOGGLE_COLOR) || '#1890ff',
-        fixedHeader: false,
-        fixSiderbar: false,
-        colorWeak: false,
+        primaryColor: defaultSettings.primaryColor,
+        fixedHeader: defaultSettings.fixedHeader,
+        fixSiderbar: defaultSettings.fixSiderbar,
+        colorWeak: defaultSettings.colorWeak,
 
         hideHintAlert: false,
         hideCopyButton: false
@@ -96,6 +96,7 @@ export default {
         }, 16)
       })
     }
+    // first update color
     updateTheme(this.settings.primaryColor)
   },
   methods: {
