@@ -83,7 +83,7 @@
           </a-card>
           <a-card title="捐赠" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <h3 style="margin: 12px 26px">请作者喝杯咖啡或者建设演示服务器</h3>
-            <img style="width:100%" src="http://upload.ouliu.net/i/20191021180958e1ek5.png"/>
+            <img style="width:100%" src="http://doc.rycloud.zmrit.com/images/donate.png"/>
           </a-card>
           <!-- <a-card title="更新日志" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <a-collapse defaultActiveKey="0" accordion :bordered="false">
