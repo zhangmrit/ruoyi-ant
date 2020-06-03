@@ -26,6 +26,7 @@
 import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
+import storage from 'store'
 import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
@@ -54,7 +55,7 @@ export default {
         // 主题 'dark' | 'light'
         theme: defaultSettings.navTheme,
         // 主色调
-        primaryColor: defaultSettings.primaryColor,
+        primaryColor: storage.get(TOGGLE_COLOR) || defaultSettings.primaryColor,
         fixedHeader: defaultSettings.fixedHeader,
         fixSiderbar: defaultSettings.fixSiderbar,
         colorWeak: defaultSettings.colorWeak,
