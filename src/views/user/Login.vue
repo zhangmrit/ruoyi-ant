@@ -307,6 +307,7 @@ export default {
         })
         this.isLoginError = false
       } else {
+        this.$refs.verify.refresh()
         this.requestFailed(res)
       }
     },
