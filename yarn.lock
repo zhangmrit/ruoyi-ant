@@ -3036,42 +3036,7 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
-ant-design-vue@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.6.0.tgz#673e09e3ac56feb14154a711e52357fb7518cc32"
-  integrity sha512-Mbm2woWBGUWdKEj9VHVI025BX5dMquL+9WCFyMjOBP2lAt0/kn0yA5ouuTk9NxgbHCo//Yuny7p6h3KpCHSEMw==
-  dependencies:
-    "@ant-design/icons" "^2.1.1"
-    "@ant-design/icons-vue" "^2.0.0"
-    add-dom-event-listener "^1.0.2"
-    array-tree-filter "^2.1.0"
-    async-validator "^3.0.3"
-    babel-helper-vue-jsx-merge-props "^2.0.3"
-    babel-runtime "6.x"
-    classnames "^2.2.5"
-    component-classes "^1.2.6"
-    dom-align "^1.10.4"
-    dom-closest "^0.2.0"
-    dom-scroll-into-view "^2.0.0"
-    enquire.js "^2.1.6"
-    intersperse "^1.0.0"
-    is-mobile "^2.2.1"
-    is-negative-zero "^2.0.0"
-    ismobilejs "^1.0.0"
-    json2mq "^0.2.0"
-    lodash "^4.17.5"
-    moment "^2.21.0"
-    mutationobserver-shim "^0.3.2"
-    node-emoji "^1.10.0"
-    omit.js "^1.0.0"
-    raf "^3.4.0"
-    resize-observer-polyfill "^1.5.1"
-    shallow-equal "^1.0.0"
-    shallowequal "^1.0.2"
-    vue-ref "^2.0.0"
-    warning "^4.0.0"
-
-ant-design-vue@^1.5.3:
+ant-design-vue@1.6.2, ant-design-vue@^1.5.3:
   version "1.6.2"
   resolved "https://registry.npm.taobao.org/ant-design-vue/download/ant-design-vue-1.6.2.tgz#983634caac9cdaca0b3a095b540105b4f76da29f"
   integrity sha1-mDY0yqyc2soLOglbVAEFtPdtop8=
