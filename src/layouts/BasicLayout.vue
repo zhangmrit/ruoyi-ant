@@ -11,6 +11,15 @@
     :i18nRender="i18nRender"
     v-bind="settings"
   >
+
+    <!-- Ads begin
+      广告代码 真实项目中请移除
+      production remove this Ads
+    -->
+    <!-- <ads v-if="isProPreviewSite&&!collapsed"/> -->
+    <ads v-if="!collapsed"/>
+    <!-- Ads end -->
+
     <setting-drawer :settings="settings" @change="handleSettingChange" />
     <template v-slot:rightContentRender>
       <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
@@ -31,6 +40,7 @@ import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
+import Ads from '@/components/Other/CarbonAds'
 import LogoSvg from '../assets/logo.svg?inline'
 
 export default {
@@ -38,7 +48,8 @@ export default {
   components: {
     SettingDrawer,
     RightContent,
-    GlobalFooter
+    GlobalFooter,
+    Ads
   },
   data () {
     return {
