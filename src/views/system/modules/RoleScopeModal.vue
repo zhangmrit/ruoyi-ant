@@ -65,6 +65,7 @@
           v-if="deptTree.length>0"
           v-model="checkedKeys"
           :treeData="deptTree"
+          @check="onCheck"
         >
         </a-tree>
       </a-form-item>
@@ -98,12 +99,21 @@ export default {
       // 是否显示部门树
       dataScope: false,
       autoExpandParent: true,
-      checkedKeys: []
+      treeCheck: false,
+      pidSet: [],
+      checkedKeys: [],
+      halfCheckedKeys: []
     }
   },
   created () {
     getDeptList().then(res => {
-      this.buildtree(res.rows, this.deptTree, 0)
+      const data = res.rows
+      if (data.length > 0) {
+        const pids = data.map(m => m.parentId)
+        this.buildtree(data, this.deptTree, Math.min(...pids))
+        const pidSet = new Set(pids.map(m => m + ''))
+        this.pidSet = pidSet
+      }
     })
   },
   methods: {
@@ -112,7 +122,10 @@ export default {
       this.edit({ })
     },
     edit (record) {
-      getRoleDeptIds(record.roleId).then(res => { this.checkedKeys = res || [] })
+      getRoleDeptIds(record.roleId).then(res => {
+        // 因为antd 树插件勾选父节点会导致所有子节点选中,所以过滤所有父节点
+        this.checkedKeys = res.filter(id => !this.pidSet.has(id))
+      })
       this.mdl = Object.assign({}, record)
       this.dataScope = this.mdl.dataScope === '2'
       this.visible = true
@@ -143,15 +156,21 @@ export default {
     scopeChange (value) {
       this.dataScope = value === '2'
     },
+    onCheck (checkedKeys, info) {
+      console.log('onCheck', info)
+      if (!this.treeCheck) this.treeCheck = true
+      this.checkedKeys = checkedKeys
+      this.halfCheckedKeys = info.halfCheckedKeys
+    },
     handleOk (e) {
       const _this = this
+      // 如果没有check过，半选节点是拿不到的，只能通过预先设置的pidSet获取
+      const checkedAll = this.treeCheck ? _this.checkedKeys.concat(_this.halfCheckedKeys) : _this.checkedKeys.concat(Array.from(_this.pidSet))
       // 触发表单验证
       this.form.validateFields((err, values) => {
         // 验证表单没错误
         if (!err) {
-          console.log(this.checkedKeys)
-
-          values.deptIds = this.dataScope ? this.checkedKeys : []
+          values.deptIds = this.dataScope ? checkedAll : []
           _this.confirmLoading = true
           authDataScope(Object.assign(values)).then(res => {
             console.log(res)

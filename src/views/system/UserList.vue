@@ -157,11 +157,15 @@ export default {
   created () {
     getDeptListEnable().then(res => {
       const data = res.rows
-      this.buildtree(data, this.deptTree, 0)
-      this.expandedKeys = data.map(m => m.parentId)
-      this.dataList = data.map(m => {
-        return { key: m.deptId, title: m.deptName }
-      })
+      if (data.length > 0) {
+        const min = Math.min(...data.map(m => m.parentId))
+        this.buildtree(data, this.deptTree, min)
+        console.log(this.deptTree)
+        this.expandedKeys = data.map(m => m.parentId)
+        this.dataList = data.map(m => {
+          return { key: m.deptId, title: m.deptName }
+        })
+      }
     })
   },
   methods: {
