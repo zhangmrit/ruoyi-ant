@@ -36,7 +36,7 @@ import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
 import storage from 'store'
-import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
+import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
@@ -62,7 +62,7 @@ export default {
         // 布局类型
         layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
         // 定宽: true / 流式: false
-        contentWidth: defaultSettings.layout === 'sidemenu' ? false : defaultSettings.contentWidth === 'Fixed',
+        contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
         // 主题 'dark' | 'light'
         theme: defaultSettings.navTheme,
         // 主色调
@@ -109,7 +109,10 @@ export default {
       })
     }
     // first update color
+    // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
+    // if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
     updateTheme(this.settings.primaryColor)
+    // }
   },
   methods: {
     i18nRender,
@@ -122,7 +125,7 @@ export default {
       if (!this.isMobile && val['screen-xs']) {
         this.isMobile = true
         this.collapsed = false
-        this.settings.contentWidth = false
+        this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
         // this.settings.fixSiderbar = false
       }
     },
@@ -134,14 +137,14 @@ export default {
       type && (this.settings[type] = value)
       switch (type) {
         case 'contentWidth':
-          this.settings[type] = value === 'Fixed'
+          this.settings[type] = value
           break
         case 'layout':
           if (value === 'sidemenu') {
-            this.settings.contentWidth = false
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
           } else {
             this.settings.fixSiderbar = false
-            this.settings.contentWidth = true
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fixed
           }
           break
         case 'primaryColor':

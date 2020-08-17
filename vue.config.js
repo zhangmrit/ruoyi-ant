@@ -9,6 +9,14 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
+// check Git
+function getGitHash () {
+  try {
+    return GitRevision.version()
+  } catch (e) {}
+  return 'unknown'
+}
+
 const assetsCDN = {
   // main.js里引入了对应的less以使 webpack-theme-color-replacer工作
   // https://cdn.jsdelivr.net/npm/ant-design-vue@1.3.9/dist/antd.min.css
@@ -49,7 +57,7 @@ const vueConfig = {
       new webpack.IgnorePlugin(/moment\//),
       new webpack.DefinePlugin({
         APP_VERSION: `"${require('./package.json').version}"`,
-        GIT_HASH: JSON.stringify(GitRevision.version()),
+        GIT_HASH: JSON.stringify(getGitHash()),
         BUILD_DATE: buildDate
       })
     ]
