@@ -17,12 +17,12 @@ const constantRouterComponents = {
   workplace: () => import('@/views/dashboard/Workplace'),
   weclome: () => import('@/views/dashboard/Welcome'),
   monitor: () => import('@/views/dashboard/Monitor'),
-  baseForm: () => import('@/views/form/BasicForm'),
+  baseForm: () => import('@/views/form/basicForm/index'),
   stepForm: () => import('@/views/form/stepForm/StepForm'),
   advancedForm: () => import('@/views/form/advancedForm/AdvancedForm.vue'),
   editorForm: () => import('@/views/form/EditorForm'),
   tableList: () => import('@/views/list/TableList'),
-  standardList: () => import('@/views/list/StandardList'),
+  standardList: () => import('@/views/list/BasicList'),
   cardList: () => import('@/views/list/CardList'),
   search: () => import('@/views/list/search/SearchLayout'),
   article: () => import('@/views/list/search/Article'),
@@ -70,7 +70,7 @@ const notFoundRouter = {
 
 // 根级菜单
 const rootRouter = {
-  'title': '首页',
+  'title': 'menu.home',
   'key': '',
   'name': 'index',
   'component': 'BasicLayout',

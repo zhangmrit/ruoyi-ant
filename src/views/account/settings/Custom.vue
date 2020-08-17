@@ -1,56 +1,54 @@
 <template>
-
   <a-list itemLayout="horizontal">
     <a-list-item>
       <a-list-item-meta>
-        <a slot="title">风格配色</a>
-        <span slot="description">
-          整体风格配色设置
-        </span>
+        <template v-slot:title>
+          <a>风格配色</a>
+        </template>
+        <template v-slot:description>
+          <span>
+            整体风格配色设置
+          </span>
+        </template>
       </a-list-item-meta>
-      <div slot="actions">
-        <a-switch checkedChildren="暗色" unCheckedChildren="白色" :defaultChecked="navTheme=== 'dark'" @change="onChange" />
-      </div>
+      <template v-slot:actions>
+        <a-switch checkedChildren="暗色" unCheckedChildren="白色" :defaultChecked="navTheme === 'dark' && true || false" @change="onChange" />
+      </template>
     </a-list-item>
     <a-list-item>
       <a-list-item-meta>
         <a slot="title">主题色</a>
         <span slot="description">
-          页面风格配色： <a>{{ this.colorFilter(this.primaryColor) }}</a>
+          页面风格配色： <a>{{ colorFilter(this.primaryColor) }}</a>
         </span>
       </a-list-item-meta>
-      <div style="height: 20px">
-        <a-tooltip class="setting-drawer-theme-color-colorBlock" v-for="(item, index) in colorList" :key="index">
-          <template slot="title">
-            {{ item.key }}
-          </template>
-          <a-tag :color="item.color" @click="changeColor(item.color)">
-            <a-icon type="check" v-if="item.color === primaryColor"></a-icon>
-          </a-tag>
-        </a-tooltip>
-      </div>
-
+      <template v-slot:actions>
+        <div style="height: 20px">
+          <a-tooltip class="setting-drawer-theme-color-colorBlock" v-for="(item, index) in colorList" :key="index">
+            <template slot="title">
+              {{ item.key }}
+            </template>
+            <a-tag :color="item.color" @click="changeColor(item.color)">
+              <a-icon type="check" v-if="item.color === primaryColor"></a-icon>
+            </a-tag>
+          </a-tooltip>
+        </div>
+      </template>
     </a-list-item>
   </a-list>
-
 </template>
-
 <script>
 import { updateTheme, colorList } from '@/components/SettingDrawer/settingConfig'
-import { Switch as ASwitch, List as AList } from 'ant-design-vue'
-import { mixin } from '@/utils/mixin'
+import { baseMixin } from '@/store/app-mixin'
+import { NAV_THEME, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
 
-const AListItem = AList.Item
-const Meta = AListItem.Meta
+const themeMap = {
+  'dark': '暗色',
+  'light': '白色'
+}
 
 export default {
-  components: {
-    AListItem,
-    AList,
-    ASwitch,
-    Meta
-  },
-  mixins: [mixin],
+  mixins: [baseMixin],
   data () {
     return {
       colorList
@@ -58,12 +56,10 @@ export default {
   },
   filters: {
     themeFilter (theme) {
-      const themeMap = {
-        'dark': '暗色',
-        'light': '白色'
-      }
       return themeMap[theme]
     }
+  },
+  created () {
   },
   methods: {
     colorFilter (color) {
@@ -73,23 +69,21 @@ export default {
 
     onChange (checked) {
       if (checked) {
-        this.$store.dispatch('ToggleTheme', 'dark')
+        this.$store.commit(TOGGLE_NAV_THEME, NAV_THEME.DARK)
       } else {
-        this.$store.dispatch('ToggleTheme', 'light')
+        this.$store.commit(TOGGLE_NAV_THEME, NAV_THEME.LIGHT)
       }
     },
     changeColor (color) {
       if (this.primaryColor !== color) {
-        this.$store.dispatch('ToggleColor', color)
+        this.$store.commit(TOGGLE_COLOR, color)
         updateTheme(color)
       }
     }
   }
 }
 </script>
-
 <style lang="less" scoped>
-
     .setting-drawer-theme-color-colorBlock {
       width: 20px;
       height: 20px;

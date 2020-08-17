@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <page-header-wrapper content="家里宝宝降生以后接触了米菲，刚好朋友是米王，给了我一个米妃的代理帐号，自用省多了，由于米菲的价格保护措施，均以原价代购（米妃价），不赚差价，纯属福利（否则不按原价卖要被投诉的哈哈哈）">
     <a-card :bordered="false">
 
       <a-carousel arrows autoplay dotsClass="slick-dots slick-thumb">
@@ -17,7 +17,7 @@
       <h2 style="text-align:center;">我这里最常用的就是纸尿裤和小猪佩奇的抽纸，其他产品有需要自己了解吧,下面是大全</h2>
       <img src="http://upload.ouliu.net/i/20191223143536spdmx.jpeg"/>
     </a-card>
-  </div>
+  </page-header-wrapper>
 </template>
 
 <script>
@@ -37,7 +37,6 @@ export default {
   },
   data () {
     return {
-      description: '家里宝宝降生以后接触了米菲，刚好朋友是米王，给了我一个米妃的代理帐号，自用省多了，由于米菲的价格保护措施，均以原价代购（米妃价），不赚差价，纯属福利（否则不按原价卖要被投诉的哈哈哈）',
       visible: false,
       labelCol: {
         xs: { span: 24 },

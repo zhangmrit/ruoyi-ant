@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 const TagSelectOption = TagSelect.Option
 const AvatarListItem = AvatarList.AvatarItem
@@ -52,9 +51,6 @@ export default {
     }
   },
   filters: {
-    fromNow (date) {
-      return moment(date).fromNow()
-    }
   },
   mounted () {
     this.getList()

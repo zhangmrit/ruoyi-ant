@@ -13,7 +13,13 @@
         @change="handleTabClick"
       >
         <a-tab-pane key="tab1" tab="账号密码登录">
-          <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" :message="errorMsg" />
+          <a-alert
+            v-if="isLoginError"
+            type="error"
+            showIcon
+            style="margin-bottom: 24px;"
+            :message="errorMsg"
+          />
           <a-form-item>
             <a-input
               size="large"
@@ -24,49 +30,45 @@
                 {initialValue:'admin',rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
               ]"
             >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
 
           <a-form-item>
-            <a-input
+            <a-input-password
               size="large"
-              type="password"
-              autocomplete="false"
               placeholder="密码: admin123"
               v-decorator="[
                 'password',
                 { initialValue:'admin123',rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
               ]"
             >
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
+              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
+            </a-input-password>
           </a-form-item>
-          <a-row :gutter="16">
-            <a-col class="gutter-row" :span="16">
-              <a-form-item>
-                <a-input size="large" type="text" placeholder="验证码" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
-                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col class="gutter-row" :span="8">
-              <img class="getCaptcha" :src="codesrc" @click="getImgCode">
-            </a-col>
-          </a-row>
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
-            <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
-              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+            <a-input
+              size="large"
+              type="text"
+              placeholder="手机号"
+              v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]"
+            >
+              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
 
           <a-row :gutter="16">
             <a-col class="gutter-row" :span="16">
               <a-form-item>
-                <a-input size="large" type="text" placeholder="验证码" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
-                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                <a-input
+                  size="large"
+                  type="text"
+                  placeholder="验证码"
+                  v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]"
+                >
+                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
                 </a-input>
               </a-form-item>
             </a-col>
@@ -124,26 +126,35 @@
       @success="stepCaptchaSuccess"
       @cancel="stepCaptchaCancel"
     ></two-step-captcha>
+    <Verify
+      @success="capctchaCheckSucc"
+      :mode="'pop'"
+      :captchaType="'blockPuzzle'"
+      :imgSize="{ width: '330px', height: '155px' }"
+      ref="verify"
+    ></Verify>
   </div>
 </template>
 
 <script>
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
+import Verify from '@/components/verifition/Verify'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 // eslint-disable-next-line no-unused-vars
 import md5 from 'md5'
 // eslint-disable-next-line no-unused-vars
-import { getSmsCaptcha, get2step, imgcode } from '@/api/login'
+import { getSmsCaptcha, get2step } from '@/api/login'
 
 export default {
   components: {
-    TwoStepCaptcha
+    TwoStepCaptcha,
+    Verify
   },
   data () {
     return {
-      codesrc: null,
-      randomStr: null,
+      capctchaCheck: false,
+      verify: '',
       customActiveKey: 'tab1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
@@ -171,7 +182,6 @@ export default {
     //     this.requiredTwoStepCaptcha = false
     //   })
     // this.requiredTwoStepCaptcha = true
-    this.getImgCode()
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
@@ -190,8 +200,20 @@ export default {
       this.customActiveKey = key
       // this.form.resetFields()
     },
+    capctchaCheckSucc (data) {
+      this.capctchaCheck = true
+      this.verify = data.captchaVerification
+      this.loginForm()
+    },
     handleSubmit (e) {
       e.preventDefault()
+      this.loginForm()
+    },
+    loginForm () {
+      if (!this.capctchaCheck) {
+        this.$refs.verify.show()
+        return false
+      }
       const {
         form: { validateFields },
         state,
@@ -210,12 +232,14 @@ export default {
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           // loginParams.password = md5(values.password)
-          loginParams.randomStr = this.randomStr
+          const captchaVO = { captchaVerification: this.verify }
+          loginParams.captchaVO = captchaVO
           Login(loginParams)
-            .then((res) => this.loginSuccess(res))
+            .then(res => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false
+              this.capctchaCheck = false
             })
         } else {
           setTimeout(() => {
@@ -226,7 +250,10 @@ export default {
     },
     getCaptcha (e) {
       e.preventDefault()
-      const { form: { validateFields }, state } = this
+      const {
+        form: { validateFields },
+        state
+      } = this
 
       validateFields(['mobile'], { force: true }, (err, values) => {
         if (!err) {
@@ -241,20 +268,22 @@ export default {
           }, 1000)
 
           const hide = this.$message.loading('验证码发送中..', 0)
-          getSmsCaptcha({ mobile: values.mobile }).then(res => {
-            setTimeout(hide, 2500)
-            this.$notification['success']({
-              message: '提示',
-              description: '验证码获取成功，您的验证码为：' + res.result.captcha,
-              duration: 8
+          getSmsCaptcha({ mobile: values.mobile })
+            .then(res => {
+              setTimeout(hide, 2500)
+              this.$notification['success']({
+                message: '提示',
+                description: '验证码获取成功，您的验证码为：' + res.result.captcha,
+                duration: 8
+              })
             })
-          }).catch(err => {
-            setTimeout(hide, 1)
-            clearInterval(interval)
-            state.time = 60
-            state.smsSendBtn = false
-            this.requestFailed(err)
-          })
+            .catch(err => {
+              setTimeout(hide, 1)
+              clearInterval(interval)
+              state.time = 60
+              state.smsSendBtn = false
+              this.requestFailed(err)
+            })
         }
       })
     },
@@ -267,14 +296,6 @@ export default {
         this.stepCaptchaVisible = false
       })
     },
-    async getImgCode () {
-      await imgcode().then(res => {
-        const raw = res.data
-        const { randomstr } = res.headers
-        this.randomStr = randomstr
-        this.codesrc = URL.createObjectURL(raw)
-      })
-    },
     loginSuccess (res) {
       if (res.code === 0) {
         this.$router.push({ name: 'dashboard' }, () => {
@@ -285,12 +306,12 @@ export default {
         })
         this.isLoginError = false
       } else {
+        this.$refs.verify.refresh()
         this.requestFailed(res)
       }
     },
     requestFailed (err) {
       this.isLoginError = true
-      this.getImgCode()
       this.errorMsg = ((err.response || {}).data || {}).msg || err.msg || '请求出现错误，请稍后再试'
       this.$notification['error']({
         message: '错误',

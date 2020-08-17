@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import storage from 'store'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { STable, Ellipsis } from '@/components'
 import { getOssList, delOss, saveOss } from '@/api/system'
@@ -179,7 +179,7 @@ export default {
       previewVisible: false,
       uploadUrl: process.env.VUE_APP_API_BASE_URL + '/system/oss/upload',
       headers: {
-        token: Vue.ls.get(ACCESS_TOKEN)
+        token: storage.get(ACCESS_TOKEN)
       },
       addEnable: checkPermission('system:oss:add'),
       editEnabel: checkPermission('system:oss:edit'),

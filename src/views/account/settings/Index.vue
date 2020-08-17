@@ -1,45 +1,45 @@
 <template>
   <div class="page-header-index-wide">
     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
-      <div class="account-settings-info-main" :class="device">
+      <div class="account-settings-info-main" :class="{ 'mobile': isMobile }">
         <div class="account-settings-info-left">
           <a-menu
-            :mode="device == 'mobile' ? 'horizontal' : 'inline'"
-            :style="{ border: '0', width: device == 'mobile' ? '560px' : 'auto'}"
+            :mode="isMobile ? 'horizontal' : 'inline'"
+            :style="{ border: '0', width: isMobile ? '560px' : 'auto'}"
             :selectedKeys="selectedKeys"
             type="inner"
             @openChange="onOpenChange"
           >
             <a-menu-item key="/account/settings/base">
               <router-link :to="{ name: 'base' }">
-                基本设置
+                {{ i18nRender('menu.account.settings.base') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/security">
               <router-link :to="{ name: 'security' }">
-                安全设置
+                {{ i18nRender('menu.account.settings.security') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/custom">
               <router-link :to="{ name: 'custom' }">
-                个性化
+                {{ i18nRender('menu.account.settings.custom') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/binding">
               <router-link :to="{ name: 'binding' }">
-                账户绑定
+                {{ i18nRender('menu.account.settings.binding') }}
               </router-link>
             </a-menu-item>
             <a-menu-item key="/account/settings/notification">
               <router-link :to="{ name: 'notification' }">
-                新消息通知
+                {{ i18nRender('menu.account.settings.notification') }}
               </router-link>
             </a-menu-item>
           </a-menu>
         </div>
         <div class="account-settings-info-right">
           <div class="account-settings-info-title">
-            <span>{{ $route.meta.title }}</span>
+            <span>{{ i18nRender($route.meta.title) }}</span>
           </div>
           <route-view></route-view>
         </div>
@@ -49,15 +49,16 @@
 </template>
 
 <script>
-import { PageView, RouteView } from '@/layouts'
-import { mixinDevice } from '@/utils/mixin.js'
+import { RouteView } from '@/layouts'
+import { baseMixin } from '@/store/app-mixin'
+import { i18nRender } from '@/locales'
 
 export default {
   components: {
     RouteView,
-    PageView
+    i18nRender
   },
-  mixins: [mixinDevice],
+  mixins: [baseMixin],
   data () {
     return {
       // horizontal  inline
@@ -84,7 +85,8 @@ export default {
         fixedNumber: [1, 1]
       },
 
-      pageTitle: ''
+      pageTitle: '',
+      base: 'base'
     }
   },
   mounted () {
@@ -98,6 +100,9 @@ export default {
       const routes = this.$route.matched.concat()
       this.selectedKeys = [ routes.pop().path ]
       // console.log('selectedKeys', this.selectedKeys)
+    },
+    i18nRender (key) {
+      return i18nRender(key)
     }
   },
   watch: {
@@ -108,6 +113,52 @@ export default {
 }
 </script>
 
+<style lang="less" scoped>
+  .account-settings-info-main {
+    width: 100%;
+    display: flex;
+    height: 100%;
+    overflow: auto;
+
+    &.mobile {
+      display: block;
+
+      .account-settings-info-left {
+        border-right: unset;
+        border-bottom: 1px solid #e8e8e8;
+        width: 100%;
+        height: 50px;
+        overflow-x: auto;
+        overflow-y: scroll;
+      }
+      .account-settings-info-right {
+        padding: 20px 40px;
+      }
+    }
+
+    .account-settings-info-left {
+      border-right: 1px solid #e8e8e8;
+      width: 224px;
+    }
+
+    .account-settings-info-right {
+      flex: 1 1;
+      padding: 8px 40px;
+
+      .account-settings-info-title {
+        color: rgba(0,0,0,.85);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
+        margin-bottom: 12px;
+      }
+      .account-settings-info-view {
+        padding-top: 12px;
+      }
+    }
+  }
+
+</style>
 <style lang="less" scoped>
   .account-settings-info-main {
     width: 100%;

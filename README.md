@@ -3,7 +3,6 @@
 文档：http://doc.rycloud.zmrit.com
 
 - 预览: http://ruoyi.ant.zmrit.com
-- v3测试版: http://v3.ant.zmrit.com
 - 独有的字典用法
 - 独有的自定义默认排序
 - 监控类外链不宜对外暴露，可以设置白名单，故不在演示系统展示，可以参看 [ruoyi-ant redi监控](http://redis.ant.zmrit.com/)
@@ -15,7 +14,7 @@
 
 
 
-运行项目需要启动后端ruoyi-cloud，[传送门](https://github.com/zhangmrit/ruoyi-cloud)
+运行项目需要启动后端ruoyi-cloud，[传送门](https://gitee.com/zhangmrit/ruoyi-cloud)
 
 源码地址:
 - [Github](https://github.com/zhangmrit/ruoyi-ant)
@@ -37,7 +36,7 @@ Overview
 
 - 拉取项目代码
 ```bash
-git clone https://github.com/zhangmrit/ruoyi-ant.git
+git clone https://gitee.com/zhangmrit/ruoyi-ant.git
 cd ruoyi-ant
 ```
 

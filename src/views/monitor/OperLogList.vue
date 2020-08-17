@@ -66,6 +66,9 @@
       <span slot="status" slot-scope="text">
         {{ text | statusFilter }}
       </span>
+      <span slot="operTime" slot-scope="text">
+        {{ text | fromNow }}
+      </span>
       <span slot="action" slot-scope="text, record">
         <a @click="handleDetail(record)">详细</a>
       </span>
@@ -141,7 +144,8 @@ export default {
         {
           title: '操作时间',
           dataIndex: 'operTime',
-          sorter: true
+          sorter: true,
+          scopedSlots: { customRender: 'operTime' }
         }, {
           title: '操作',
           width: '150px',

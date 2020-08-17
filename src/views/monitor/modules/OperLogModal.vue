@@ -31,14 +31,10 @@
 </template>
 
 <script>
-import DetailList from '@/components/tools/DetailList'
-const DetailListItem = DetailList.Item
 
 export default {
   name: 'OperLogModal',
   components: {
-    DetailList,
-    DetailListItem
   },
   props: {
     operTypeMap: {
