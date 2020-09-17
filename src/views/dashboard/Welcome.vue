@@ -51,10 +51,6 @@
               <li>
                 <h3>一次性赞助</h3>
               </li>
-              <p>
-                捐赠者信息将会在文档捐赠页展示
-                <router-link to="/others/donateList">捐赠名单</router-link>
-              </p>
               <li>
                 <h3>周期性赞助</h3>
               </li>

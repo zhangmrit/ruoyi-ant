@@ -207,26 +207,6 @@ export const defaultRouterMap = [
         ]
       }
     ]
-  },
-  {
-    'title': '其他',
-    'key': 'others',
-    'component': 'RouteView',
-    'icon': 'interaction',
-    'children': [
-      {
-        'title': '捐赠记录',
-        'key': 'donateList'
-      },
-      {
-        'title': '米菲孕婴',
-        'key': 'mifei'
-      },
-      {
-        'title': '赣南脐橙',
-        'key': 'gnqc'
-      }
-    ]
   }
 ]
 

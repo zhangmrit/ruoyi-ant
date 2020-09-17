@@ -41,10 +41,8 @@ const constantRouterComponents = {
   security: () => import('@/views/account/settings/Security'),
   custom: () => import('@/views/account/settings/Custom'),
   binding: () => import('@/views/account/settings/Binding'),
-  notification: () => import('@/views/account/settings/Notification'),
-  donateList: () => import('@/views/others/DonateList'),
-  mifei: () => import('@/views/others/MiFei'),
-  gnqc: () => import('@/views/others/Gnqc')
+  notification: () => import('@/views/account/settings/Notification')
+
   // system
   // userList: () => import('@/views/system/UserList'),
   // roleList: () => import('@/views/system/RoleList'),
