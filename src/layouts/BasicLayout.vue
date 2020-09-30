@@ -1,24 +1,29 @@
 <template>
   <pro-layout
-    :title="title"
     :menus="menus"
     :collapsed="collapsed"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
-    :logo="logoRender"
     :i18nRender="i18nRender"
     v-bind="settings"
   >
-
     <!-- Ads begin
       广告代码 真实项目中请移除
       production remove this Ads
     -->
     <!-- <ads v-if="isProPreviewSite&&!collapsed"/> -->
-    <ads v-if="!collapsed"/>
+    <ads v-if="!collapsed" />
     <!-- Ads end -->
+
+    <!-- 1.0.0+ 版本 pro-layout 提供 API，我们推荐使用这种方式进行 LOGO 和 title 自定义 -->
+    <template v-slot:menuHeaderRender>
+      <div>
+        <logo-svg />
+        <h1>{{ title }}</h1>
+      </div>
+    </template>
 
     <setting-drawer :settings="settings" @change="handleSettingChange" />
     <template v-slot:rightContentRender>
@@ -36,12 +41,18 @@ import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
 import storage from 'store'
-import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_COLOR } from '@/store/mutation-types'
+import {
+  CONTENT_WIDTH_TYPE,
+  SIDEBAR_TYPE,
+  TOGGLE_MOBILE_TYPE,
+  TOGGLE_NAV_THEME,
+  TOGGLE_COLOR
+} from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
-import LogoSvg from '../assets/logo.svg?inline'
+import LogoSvg from '@/assets/logo.svg?inline'
 
 export default {
   name: 'BasicLayout',
@@ -49,7 +60,8 @@ export default {
     SettingDrawer,
     RightContent,
     GlobalFooter,
-    Ads
+    Ads,
+    LogoSvg
   },
   data () {
     return {
@@ -84,11 +96,11 @@ export default {
   computed: {
     ...mapState({
       // 动态主路由
-      mainMenu: state => state.permission.addRouters
+      mainMenu: (state) => state.permission.addRouters
     })
   },
   created () {
-    const routes = this.mainMenu.find(item => item.path === '/')
+    const routes = this.mainMenu.find((item) => item.path === '/')
     this.menus = (routes && routes.children) || []
     // 处理侧栏收起状态
     this.$watch('collapsed', () => {
@@ -163,5 +175,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "./BasicLayout.less";
+@import './BasicLayout.less';
 </style>
